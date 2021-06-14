@@ -1,0 +1,36 @@
+{
+  "name": "sb-slash",
+  "version": "1.0.0",
+  "description": "sponsorblock from slash commands",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mchangrh/sb-slash.git"
+  },
+  "keywords": [
+    "discord.js",
+    "discord",
+    "discord-slash-commands",
+    "discord-interactions",
+    "cloudflare-workers",
+    "sponsorblock"
+  ],
+  "author": "Michael Chang",
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/mchangrh/sb-slash/issues"
+  },
+  "homepage": "https://github.com/mchangrh/sb-slash#readme",
+  "dependencies": {
+    "discord-interactions": "^2.0.2",
+    "slash-commands": "^1.4.0"
+  },
+  "devDependencies": {
+    "deep-equal": "^2.0.5",
+    "dotenv": "10.0.0",
+    "webpack": "^5.28.0"
+  }
+}

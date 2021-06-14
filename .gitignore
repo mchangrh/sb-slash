@@ -1,0 +1,5 @@
+node_modules/
+src/build/data
+worker/
+dist/
+.env
