@@ -1,15 +1,24 @@
 const { InteractionResponseType, InteractionResponseFlags } = require('discord-interactions');
 const { ApplicationCommandOptionType } = require('slash-commands');
 const BASEURL = "https://sponsor.ajay.app/api"
-const { isValidUserUUID } = require('../util/sbc-util.js')
-const { format } = require("../util/formatUserInfo.js")
+const sbcutil = require('../util/sbc-util.js')
 const invalidUUIDResponse = {
   type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
   data: {
-    content: "Sorry, that doesn't appear to be a valid Public User ID",
+    content: "Sorry, that doesn't appear to be a valid public User ID",
     flags: InteractionResponseFlags.EPHEMERAL
   }
 }
+
+const userName = (result) => result.vip ? `[VIP] ${result.userName}` : result.userName
+const format = (result) => 
+ `${userName(result)}
+  **Submitted:** ${result.segmentCount}
+  **Warnings:** ${result.warnings}
+  **Reputation:** ${result.reputation}
+  **Segment Views:** ${result.viewCount}
+  **Time Saved:** ${sbcutil.minutesReadable(result.minutesSaved)}
+  `
 
 module.exports = {
   name: 'userinfo',
@@ -26,7 +35,7 @@ module.exports = {
     // get params from discord
     const publicid = ((interaction.data.options.find(opt => opt.name === 'publicid') || {}).value || '').trim()
     // check for invalid publicID
-    if (!isValidUserUUID(publicid)) return response(invalidUUIDResponse)
+    if (!sbcutil.isValidUserUUID(publicid)) return response(invalidUUIDResponse)
     // construct url
     const url = `${BASEURL}/userInfo?publicUserID=${publicid}`
     // fetch

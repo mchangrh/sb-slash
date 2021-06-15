@@ -13,7 +13,7 @@ const minutesReadable = (minutes, useLong = false) => {
   return str.trim();
 };
 
-const isValidUserUUID = (str) => { /^[a-f0-9]{64}/.test(str); }
+const isValidUserUUID = (str) => str.match(/^[a-f0-9]{64}/)
 
 module.exports = {
   minutesReadable,
