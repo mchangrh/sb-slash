@@ -89,12 +89,19 @@ const handleRequest = async ({ request, wait }) => {
       },
     });
   if (url.pathname === '/invite')
-  return new Response(null, {
-    status: 301,
-    headers: {
-      'Location': `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&scope=applications.commands`,
-    }
-  });
+    return new Response(null, {
+      status: 301,
+      headers: {
+        'Location': `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&scope=applications.commands`,
+      }
+    });
+  if (url.pathname === '/')
+    return new Response(null, {
+      status: 301,
+      headers: {
+        'Location': `https://github.com/mchangrh/sb-slash#readme`,
+      }
+    });
   return new Response(null, { status: 404 });
 };
 
