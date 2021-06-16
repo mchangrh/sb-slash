@@ -32,7 +32,7 @@ module.exports = {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
         content: parsed,
-        components: userComponents(publicid)
+        components: userComponents(publicid, false)
       },
     });
   }

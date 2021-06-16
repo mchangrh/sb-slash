@@ -67,7 +67,6 @@ const handleInteraction = async ({ request, wait }) => {
   if (body.type == InteractionType.MESSAGE_COMPONENT) {
     // Locate the command data
     const buttonName = body.data.custom_id;
-    console.log(`buttonname: ${buttonName}`)
     if (!buttons.find(e => e === buttonName))
       return new Response(null, { status: 404 });
     try {
@@ -77,9 +76,8 @@ const handleInteraction = async ({ request, wait }) => {
       return await button.execute({ interaction: body, response: jsonResponse, wait });
     } catch (err) {
       // Catch & log any errors
-      console.log(`error: ${err}`)
-      //console.log(body);
-      //console.error(err);
+      console.log(body);
+      console.error(err);
 
       // Send an ephemeral message to the user
       return jsonResponse({

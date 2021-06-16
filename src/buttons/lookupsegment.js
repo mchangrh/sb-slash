@@ -1,4 +1,4 @@
-const { InteractionResponseType } = require('discord-interactions');
+const { InteractionResponseType, InteractionResponseFlags } = require('discord-interactions');
 const BASEURL = "https://sponsor.ajay.app/api"
 const sbcutil = require('../util/sbc-util.js')
 const { formatSegment } = require('../util/formatResponse.js')
@@ -9,7 +9,6 @@ module.exports = {
   name: 'lookupsegment',
   execute: async ({ interaction, response }) => {
     const segmentid = interaction.message.content.match(/(?:\*\*Last Submission:\*\*) `([a-f0-9]{64})/)[1]
-    console.log(`segmentid: ${segmentid}`)
     if (!sbcutil.isValidSegmentUUID(segmentid)) return response(invalidSegment)
     // construct url
     const url = `${BASEURL}/segmentInfo?UUID=${segmentid}`
@@ -21,7 +20,8 @@ module.exports = {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
         content: formatSegment(parsed),
-        components: segmentComponents(parsed.videoID)
+        components: segmentComponents(parsed.videoID, true),
+        flags: InteractionResponseFlags.EPHEMERAL
       },
     });
   }

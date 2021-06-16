@@ -32,7 +32,7 @@ module.exports = {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
         content: formatSegment(parsed),
-        components: segmentComponents(parsed.videoID)
+        components: segmentComponents(parsed.videoID, false)
       },
     });
   }
