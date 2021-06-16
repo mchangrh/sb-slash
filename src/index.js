@@ -10,6 +10,15 @@ const jsonResponse = obj => new Response(JSON.stringify(obj), {
   },
 });
 
+const textResponse = (str) => new Response(str, {
+  headers: {
+    'Content-Type': 'text/plain',
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+    'Expires': '0',
+    'Surrogate-Control': 'no-store',
+  }
+})
+
 // Util to verify a Discord interaction is legitimate
 const handleInteractionVerification = (request, bodyBuffer) => {
   const timestamp = request.headers.get('X-Signature-Timestamp') || '';
@@ -21,7 +30,7 @@ const handleInteractionVerification = (request, bodyBuffer) => {
 const handleInteraction = async ({ request, wait }) => {
   // Get the body as a buffer and as text
   const bodyBuffer = await request.arrayBuffer();
-  const bodyText = (new TextDecoder('utf-8')).decode(bodyBuffer);
+  const bodyText = (new TextDecoder("utf-8")).decode(bodyBuffer);
 
   // Verify a legitimate request
   if (!handleInteractionVerification(request, bodyBuffer))
@@ -35,61 +44,43 @@ const handleInteraction = async ({ request, wait }) => {
     return jsonResponse({
       type: InteractionResponseType.PONG,
     });
-
-  // handle commands
-  if (body.type == InteractionType.APPLICATION_COMMAND) {
-    // Locate the command data
-    const commandName = body.data.name;
-    if (!commands.find(e => e === commandName))
-      return new Response(null, { status: 404 });
-
-    try {
-      // Load in the command
+  // handle commands or buttons
+  try {
+    if (body.type == InteractionType.APPLICATION_COMMAND) {
+      // locate command data
+      const commandName = body.data.name;
+      if (!commands.find(e => e === commandName))
+        return new Response(null, { status: 404 });
+      // Load command
       const command = require(`./commands/${commandName}.js`);
       // Execute
       return await command.execute({ interaction: body, response: jsonResponse, wait });
-    } catch (err) {
-      // Catch & log any errors
-      console.log(body);
-      console.error(err);
-
-      // Send an ephemeral message to the user
-      return jsonResponse({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          content: 'An unexpected error occurred when executing the command.',
-          flags: InteractionResponseFlags.EPHEMERAL,
-        },
-      });
-    }
-  }
-  // handle buttons
-  if (body.type == InteractionType.MESSAGE_COMPONENT) {
-    // Locate the command data
-    const buttonName = body.data.custom_id;
-    if (!buttons.find(e => e === buttonName))
-      return new Response(null, { status: 404 });
-    try {
-      // Load in the command
+    } else if (body.type == InteractionType.MESSAGE_COMPONENT) {
+      // Locate button data
+      const buttonName = body.data.custom_id;
+      if (!buttons.find(e => e === buttonName))
+        return new Response(null, { status: 404 });
+      // Load button
       const button = require(`./buttons/${buttonName}.js`);
       // Execute
       return await button.execute({ interaction: body, response: jsonResponse, wait });
-    } catch (err) {
-      // Catch & log any errors
-      console.log(body);
-      console.error(err);
-
-      // Send an ephemeral message to the user
-      return jsonResponse({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          content: 'An unexpected error occurred when executing the command.',
-          flags: InteractionResponseFlags.EPHEMERAL,
-        },
-      });
+    } else { // if not ping, button or message send 501
+      return new Response(null, { status: 501 });
     }
+  } catch (err) {
+    // Catch & log any errors
+    console.log(body);
+    console.error(err);
+
+    // Send an ephemeral message to the user
+    return jsonResponse({
+      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      data: {
+        content: 'An unexpected error occurred when executing the command.',
+        flags: InteractionResponseFlags.EPHEMERAL,
+      },
+    });
   }
-  return new Response(null, { status: 501 });
 };
 
 // Process all requests to the worker
@@ -99,23 +90,9 @@ const handleRequest = async ({ request, wait }) => {
   if (request.method === 'POST' && url.pathname === '/interactions')
     return await handleInteraction({ request, wait });
   if (url.pathname === '/ping')
-    return new Response('pong', {
-      headers: {
-        'Content-Type': 'text/plain',
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        'Expires': '0',
-        'Surrogate-Control': 'no-store',
-      },
-    });
+    return textResponse('pong');
   if (url.pathname === '/version')
-    return new Response(VERSION.substring(0,7), {
-      headers: {
-        'Content-Type': 'text/plain',
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        'Expires': '0',
-        'Surrogate-Control': 'no-store',
-      },
-    });
+    return textResponse(VERSION.substring(0,7))
   if (url.pathname === '/invite')
     return new Response(null, {
       status: 301,

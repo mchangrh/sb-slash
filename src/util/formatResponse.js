@@ -14,7 +14,12 @@ const formatVote = (result) => {
   return votes
 }
 
-const intEmoji = (int) => int ? '-' : '❌'
+const hidden = (result) => {
+  if (result.votes <= -2) return `❌ Downvoted` // if votes <=2
+  if (result.hidden) return `❌ Hidden` // if hidden
+  if (result.shadowHidden) return `❌ Shadowhidden` // if shadowHidden
+  return "Not Hidden"
+}
 
 const formatUser = (result) => 
  `${userName(result)}
@@ -37,7 +42,7 @@ const formatSegment = (result) =>
   **Votes:** ${formatVote(result)}
   **Views:** ${result.views}
   **Category:** ${result.category}
-  **Hidden/ Shadow Hidden:** ${intEmoji(result.hidden)} / ${intEmoji(result.shadowHidden)}
+  **Hidden:** ${hidden(result)}
   **User ID:** ${result.userID}
   `
 
