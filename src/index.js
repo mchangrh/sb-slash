@@ -1,5 +1,7 @@
 const { InteractionType, InteractionResponseType, InteractionResponseFlags, verifyKey } = require('discord-interactions');
-const commands = ["userinfo", "skipsegments"];
+const commands = ["userinfo", "skipsegments", "showoff", "segmentinfo"];
+const buttons = ["lookupuser", "lookupsegment"];
+
 
 // Util to send a JSON response
 const jsonResponse = obj => new Response(JSON.stringify(obj), {
@@ -34,34 +36,62 @@ const handleInteraction = async ({ request, wait }) => {
       type: InteractionResponseType.PONG,
     });
 
-  // Otherwise, we only care for commands
-  if (body.type !== InteractionType.APPLICATION_COMMAND)
-    return new Response(null, { status: 501 });
+  // handle commands
+  if (body.type == InteractionType.APPLICATION_COMMAND) {
+    // Locate the command data
+    const commandName = body.data.name;
+    if (!commands.find(e => e === commandName))
+      return new Response(null, { status: 404 });
 
-  // Locate the command data
-  const commandName = body.data.name;
-  if (!commands.find(e => e === commandName))
-    return new Response(null, { status: 404 });
+    try {
+      // Load in the command
+      const command = require(`./commands/${commandName}.js`);
+      // Execute
+      return await command.execute({ interaction: body, response: jsonResponse, wait });
+    } catch (err) {
+      // Catch & log any errors
+      console.log(body);
+      console.error(err);
 
-  try {
-    // Load in the command
-    const command = require(`./commands/${commandName}.js`);
-    // Execute
-    return await command.execute({ interaction: body, response: jsonResponse, wait });
-  } catch (err) {
-    // Catch & log any errors
-    console.log(body);
-    console.error(err);
-
-    // Send an ephemeral message to the user
-    return jsonResponse({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      data: {
-        content: 'An unexpected error occurred when executing the command.',
-        flags: InteractionResponseFlags.EPHEMERAL,
-      },
-    });
+      // Send an ephemeral message to the user
+      return jsonResponse({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: 'An unexpected error occurred when executing the command.',
+          flags: InteractionResponseFlags.EPHEMERAL,
+        },
+      });
+    }
   }
+  // handle buttons
+  if (body.type == InteractionType.MESSAGE_COMPONENT) {
+    // Locate the command data
+    const buttonName = body.data.custom_id;
+    console.log(`buttonname: ${buttonName}`)
+    if (!buttons.find(e => e === buttonName))
+      return new Response(null, { status: 404 });
+    try {
+      // Load in the command
+      const button = require(`./buttons/${buttonName}.js`);
+      // Execute
+      return await button.execute({ interaction: body, response: jsonResponse, wait });
+    } catch (err) {
+      // Catch & log any errors
+      console.log(`error: ${err}`)
+      //console.log(body);
+      //console.error(err);
+
+      // Send an ephemeral message to the user
+      return jsonResponse({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: 'An unexpected error occurred when executing the command.',
+          flags: InteractionResponseFlags.EPHEMERAL,
+        },
+      });
+    }
+  }
+  return new Response(null, { status: 501 });
 };
 
 // Process all requests to the worker

@@ -2,13 +2,13 @@ lockfileVersion: 5.3
 
 specifiers:
   deep-equal: ^2.0.5
-  discord-interactions: ^2.0.2
+  discord-interactions: ^2.3.0
   dotenv: 10.0.0
   slash-commands: ^1.4.0
   webpack: ^5.28.0
 
 dependencies:
-  discord-interactions: 2.0.2
+  discord-interactions: 2.3.0
   slash-commands: 1.4.0
 
 devDependencies:
@@ -265,8 +265,8 @@ packages:
       object-keys: 1.1.1
     dev: true
 
-  /discord-interactions/2.0.2:
-    resolution: {integrity: sha512-zKQB63xWLYbOZMyU+EcLrXnUCMuWkU8/SoH7jFvc99Y1amHqli3oPEkgoLWUmYckL+HCPuA7LXpNyXaFvoqIww==}
+  /discord-interactions/2.3.0:
+    resolution: {integrity: sha512-PboDGXOUYVKfVvFo5nMr1FbGJGeYOvC3ZB1UllQmLHLoifc5kmY7PHM5hm6QeYOkdoot+/eKcwXxfki3Mh+IHg==}
     dependencies:
       tweetnacl: 1.0.3
     dev: false
