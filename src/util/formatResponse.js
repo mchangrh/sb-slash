@@ -1,28 +1,28 @@
-const sbcutil = require('./sbc-util')
+const sbcutil = require("./sbc-util");
 
-const userName = (result) => result.vip ? `[VIP] ${result.userName}` : result.userName
+const userName = (result) => result.vip ? `[VIP] ${result.userName}` : result.userName;
 
 const formatDate = (date) => {
-  const dateObj = new Date(date)
-  return dateObj.toISOString().replace(/T/, ' ').replace(/\..+/, '')
-}
+  const dateObj = new Date(date);
+  return dateObj.toISOString().replace(/T/, " ").replace(/\..+/, "");
+};
 
 const formatVote = (result) => {
-  let votes = result.votes
-  if (result.votes <= -2) votes += ' ❌' // hidden
-  if (result.locked) votes += ' 👑' // locked
-  return votes
-}
+  let votes = result.votes;
+  if (result.votes <= -2) votes += " ❌"; // hidden
+  if (result.locked) votes += " 👑"; // locked
+  return votes;
+};
 
 const hidden = (result) => {
-  if (result.votes <= -2) return `❌ Downvoted` // if votes <=2
-  if (result.hidden) return `❌ Hidden` // if hidden
-  if (result.shadowHidden) return `❌ Shadowhidden` // if shadowHidden
-  return "Not Hidden"
-}
+  if (result.votes <= -2) return "❌ Downvoted"; // if votes <=2
+  if (result.hidden) return "❌ Hidden"; // if hidden
+  if (result.shadowHidden) return "❌ Shadowhidden"; // if shadowHidden
+  return "Not Hidden";
+};
 
 const formatUser = (result) => 
- `${userName(result)}
+  `${userName(result)}
   **Submitted:** ${result.segmentCount}
   **Reputation:** ${result.reputation.toFixed(2)}
   **Segment Views:** ${result.viewCount}
@@ -31,7 +31,7 @@ const formatUser = (result) =>
   **Ignored Submissions:** ${result.ignoredSegmentCount}
   **Ignored Views:** ${result.ignoredViewCount}
   **Last Submission:** \`${result.lastSegmentID}\`
-  `
+  `;
 
 const formatSegment = (result) =>
   `**Submitted:** ${formatDate(result.timeSubmitted)}
@@ -44,9 +44,9 @@ const formatSegment = (result) =>
   **Category:** ${result.category}
   **Hidden:** ${hidden(result)}
   **User ID:** ${result.userID}
-  `
+  `;
 
 module.exports = {
   formatUser,
   formatSegment
-}
+};
