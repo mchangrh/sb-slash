@@ -13,8 +13,8 @@ const invalidUUIDResponse = {
 const userName = (result) => result.vip ? `[VIP] ${result.userName}` : result.userName;
 const format = (result) => 
   `${userName(result)}
- **Submissions:** ${result.segmentCount}
-  You"ve saved people from **${result.viewCount}** segments
+ **Submissions:** ${result.segmentCount.toLocaleString("en-US")}
+  You"ve saved people from **${result.viewCount.toLocaleString("en-US")}** segments
   (**${sbcutil.minutesReadable(result.minutesSaved)}** of their lives)
   `;
 
