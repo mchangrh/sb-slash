@@ -2,6 +2,14 @@ const sbcutil = require("./sbc-util");
 
 const userName = (result) => result.vip ? `[VIP] ${result.userName}` : result.userName;
 
+const durationFormat = (duration) => {
+  // split ms
+  const ms = (duration+"").split(".")[1];
+  // convert seconds
+  const hms = new Date(duration * 1000).toISOString().substr(11,8);
+  return `${hms}.${ms}`;
+};
+
 const formatDate = (date) => {
   const dateObj = new Date(date);
   return dateObj.toISOString().replace(/T/, " ").replace(/\..+/, "");
@@ -27,7 +35,7 @@ const formatUser = (result) =>
   **Reputation:** ${result.reputation.toFixed(2)}
   **Segment Views:** ${result.viewCount.toLocaleString("en-US")}
   **Time Saved:** ${sbcutil.minutesReadable(result.minutesSaved)}
-  **Warnings:** ${result.warnings}
+  **Current Warnings:** ${result.warnings}
   **Ignored Submissions:** ${result.ignoredSegmentCount}
   **Ignored Views:** ${result.ignoredViewCount.toLocaleString("en-US")}
   **Last Submission:** \`${result.lastSegmentID}\`
@@ -36,17 +44,25 @@ const formatUser = (result) =>
 const formatSegment = (result) =>
   `**Submitted:** ${formatDate(result.timeSubmitted)}
   **Video ID:** ${result.videoID}
-  **Start:** ${result.startTime}
-  **End:** ${result.endTime}
-  **Length:** ${(result.endTime - result.startTime).toFixed(2)}
+  **Start:** ${durationFormat(result.startTime)}
+  **End:** ${durationFormat(result.endTime)}
+  **Length:** ${durationFormat((result.endTime - result.startTime).toFixed(2))}
   **Votes:** ${formatVote(result)}
   **Views:** ${result.views.toLocaleString("en-US")}
   **Category:** ${result.category}
   **Hidden:** ${hidden(result)}
-  **User ID:** ${result.userID}
+  **User ID:** \`${result.userID}\`
+  `;
+
+const formatShowoff = (result) => 
+  `${userName(result)}
+ **Submissions:** ${result.segmentCount.toLocaleString("en-US")}
+  You"ve saved people from **${result.viewCount.toLocaleString("en-US")}** segments
+  (**${sbcutil.minutesReadable(result.minutesSaved)}** of their lives)
   `;
 
 module.exports = {
   formatUser,
-  formatSegment
+  formatSegment,
+  formatShowoff
 };
