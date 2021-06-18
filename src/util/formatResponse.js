@@ -29,7 +29,7 @@ const hidden = (result) => {
   return "Not Hidden";
 };
 
-const formatUser = (result) => 
+const formatUser = (result, submitted) => 
   `${userName(result)}
   **Submitted:** ${result.segmentCount.toLocaleString("en-US")}
   **Reputation:** ${result.reputation.toFixed(2)}
@@ -39,6 +39,7 @@ const formatUser = (result) =>
   **Ignored Submissions:** ${result.ignoredSegmentCount}
   **Ignored Views:** ${result.ignoredViewCount.toLocaleString("en-US")}
   **Last Submission:** \`${result.lastSegmentID}\`
+  **Last Submittion Time:** ${formatDate(submitted)}
   `;
 
 const formatSegment = (result) =>

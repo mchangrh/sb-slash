@@ -1,9 +1,8 @@
 const { InteractionResponseType } = require("discord-interactions");
 const { ApplicationCommandOptionType } = require("slash-commands");
-const BASEURL = "https://sponsor.ajay.app/api";
 const CATEGORIES = ["all", "sponsor", "intro", "outro", "selfpromo", "interaction", "music_offtopic", "preview"];
-// eslint-disable-next-line quotes
 const ALLCATEGORIES = `["${CATEGORIES.slice(1).join("\",\"")}"]`;
+const { getSkipSegments } = require("../util/min-api.js");
 
 module.exports = {
   name: "skipsegments",
@@ -39,10 +38,8 @@ module.exports = {
     const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
     // construct URL
     const categoryParam = (category === "all") ? `categories=${ALLCATEGORIES}` : `category=${category}`;
-    const url = `${BASEURL}/skipSegments?videoID=${videoID}&${categoryParam}`;
     // fetch
-    let res = await fetch(url);
-    let body = await res.text();
+    const body = await getSkipSegments(videoID, categoryParam);
     const stringified = (body === "Not Found" ? body : JSON.stringify(JSON.parse(body), null, 4));
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

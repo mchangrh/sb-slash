@@ -1,10 +1,10 @@
 const { InteractionResponseType } = require("discord-interactions");
 const { ApplicationCommandOptionType } = require("slash-commands");
 const sbcutil = require("../util/sbc-util.js");
-const BASEURL = "https://sponsor.ajay.app/api";
 const { formatSegment } = require("../util/formatResponse.js");
 const { segmentComponents } = require("../util/components.js");
-const { invalidSegment } = require("../util/invalidResponse.js");
+const { invalidSegment, segmentNotFound } = require("../util/invalidResponse.js");
+const { getSegmentInfo } = require("../util/min-api.js");
 
 module.exports = {
   name: "segmentinfo",
@@ -29,12 +29,10 @@ module.exports = {
     const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
     // check for invalid segmentid
     if (!sbcutil.isValidSegmentUUID(segmentid)) return response(invalidSegment);
-    // construct url
-    const url = `${BASEURL}/segmentInfo?UUID=${segmentid}`;
     // fetch
-    let res = await fetch(url);
-    let body = await res.text();
-    const parsed = JSON.parse(body)[0];
+    const parsed = await getSegmentInfo(segmentid)
+      .then((res) => JSON.parse(res)[0]);
+    if (parsed === null) return response(segmentNotFound);
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
