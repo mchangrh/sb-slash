@@ -8,7 +8,7 @@ const { invalidPublicID } = require("../util/invalidResponse.js");
 module.exports = {
   name: "lookupuser",
   execute: async ({ interaction, response }) => {
-    const publicid = interaction.message.content.match(/(?:\*\*User ID:\*\*) ([a-f0-9]{64})/)[1];
+    const publicid = interaction.message.content.match(/(?:\*\*User ID:\*\*) `([a-f0-9]{64})`/)[1];
     if (!sbcutil.isValidUserUUID(publicid)) return response(invalidPublicID);
     // construct url
     const url = `${BASEURL}/userInfo?publicUserID=${publicid}`;
