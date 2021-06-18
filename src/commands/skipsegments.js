@@ -1,9 +1,9 @@
 const { InteractionResponseType } = require("discord-interactions");
 const { ApplicationCommandOptionType } = require("slash-commands");
 const BASEURL = "https://sponsor.ajay.app/api";
-const CATEGORIES = ["all", "sponsor", "intro", "outro", "selfpromo", "interaction", "music_offtopic"];
+const CATEGORIES = ["all", "sponsor", "intro", "outro", "selfpromo", "interaction", "music_offtopic", "preview"];
 // eslint-disable-next-line quotes
-const ALLCATEGORIES = '["sponsor","intro","outro","selfpromo","interaction","music_offtopic"]';
+const ALLCATEGORIES = `["${CATEGORIES.slice(1).join("\",\"")}"]`;
 
 module.exports = {
   name: "skipsegments",
