@@ -7,7 +7,7 @@ const durationFormat = (duration) => {
   const ms = (duration+"").split(".")[1];
   // convert seconds
   const hms = new Date(duration * 1000).toISOString().substr(11,8);
-  return `${hms}.${ms}`;
+  return `${hms}${ms ? "."+ms : ""}`;
 };
 
 const formatDate = (date) => {

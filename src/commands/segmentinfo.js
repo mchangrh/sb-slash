@@ -15,11 +15,18 @@ module.exports = {
       description: "UUID of segment to look up",
       type: ApplicationCommandOptionType.STRING,
       required: true
+    },
+    {
+      name: "hide",
+      description: "Only you can see the response",
+      type: ApplicationCommandOptionType.BOOLEAN,
+      required: false
     }
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
     const segmentid = ((interaction.data.options.find((opt) => opt.name === "segmentid") || {}).value || "").trim();
+    const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
     // check for invalid segmentid
     if (!sbcutil.isValidSegmentUUID(segmentid)) return response(invalidSegment);
     // construct url
@@ -32,7 +39,8 @@ module.exports = {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
         content: formatSegment(parsed),
-        components: segmentComponents(parsed.videoID, false)
+        components: segmentComponents(parsed.videoID, false),
+        flags: (hide ? 64 : 0)
       }
     });
   }
