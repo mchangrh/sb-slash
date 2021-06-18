@@ -1,6 +1,6 @@
 const { InteractionResponseType } = require("discord-interactions");
 const { ApplicationCommandOptionType } = require("slash-commands");
-const sbcutil = require("../util/sbc-util.js");
+const { isValidUserUUID } = require("../util/sbc-util.js");
 const { formatUser } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
 const { invalidPublicID } = require("../util/invalidResponse.js");
@@ -28,7 +28,7 @@ module.exports = {
     const publicid = ((interaction.data.options.find((opt) => opt.name === "publicid") || {}).value || "").trim();
     const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
     // check for invalid publicID
-    if (!sbcutil.isValidUserUUID(publicid)) return response(invalidPublicID);
+    if (!isValidUserUUID(publicid)) return response(invalidPublicID);
     // fetch
     const parsedUser = await getUserInfo(publicid)
       .then((res) => JSON.parse(res));

@@ -1,5 +1,5 @@
 // https://github.com/MRuy/sponsorBlockControl/blob/61f0585c9bff9c46f6fde06bb613aadeffb7e189/src/utils.js
-const minutesReadable = (minutes, useLong = false) => {
+exports.minutesReadable = (minutes, useLong = false) => {
   const years = Math.floor(minutes / 60 / 24 / 365);
   const days = Math.floor(minutes / 60 / 24) % 365;
   const hours = Math.floor(minutes / 60) % 24;
@@ -12,11 +12,5 @@ const minutesReadable = (minutes, useLong = false) => {
   }
   return str.trim();
 };
-const isValidUserUUID = (str) => /^[a-f0-9]{64}/.test(str);
-const isValidSegmentUUID = (str) =>  /^([a-f0-9]{64}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/.test(str);
-
-module.exports = {
-  minutesReadable,
-  isValidUserUUID,
-  isValidSegmentUUID
-};
+exports.isValidUserUUID = (str) => /^[a-f0-9]{64}/.test(str);
+exports.isValidSegmentUUID = (str) =>  /^([a-f0-9]{64}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/.test(str);

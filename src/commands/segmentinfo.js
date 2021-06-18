@@ -1,6 +1,6 @@
 const { InteractionResponseType } = require("discord-interactions");
 const { ApplicationCommandOptionType } = require("slash-commands");
-const sbcutil = require("../util/sbc-util.js");
+const { isValidSegmentUUID } = require("../util/sbc-util.js");
 const { formatSegment } = require("../util/formatResponse.js");
 const { segmentComponents } = require("../util/components.js");
 const { invalidSegment, segmentNotFound } = require("../util/invalidResponse.js");
@@ -28,7 +28,7 @@ module.exports = {
     const segmentid = ((interaction.data.options.find((opt) => opt.name === "segmentid") || {}).value || "").trim();
     const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
     // check for invalid segmentid
-    if (!sbcutil.isValidSegmentUUID(segmentid)) return response(invalidSegment);
+    if (!isValidSegmentUUID(segmentid)) return response(invalidSegment);
     // fetch
     const parsed = await getSegmentInfo(segmentid)
       .then((res) => JSON.parse(res)[0]);

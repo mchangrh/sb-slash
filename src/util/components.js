@@ -1,6 +1,6 @@
 const SBTOOLSURL = "https://sb.ltn.fi";
 
-const userComponents = (publicid, ephemeral) => {
+exports.userComponents = (publicid, ephemeral) => {
   const components = [{
     type: 1,
     components: [{
@@ -20,7 +20,7 @@ const userComponents = (publicid, ephemeral) => {
   return components;
 };
 
-const segmentComponents = (videoID, ephemeral) => {
+exports.segmentComponents = (videoID, ephemeral) => {
   const components = [{
     type: 1,
     components: [{
@@ -38,9 +38,4 @@ const segmentComponents = (videoID, ephemeral) => {
   };
   if (!ephemeral) components[0].components.push(lookupButton);
   return components;
-};
-
-module.exports = {
-  userComponents,
-  segmentComponents
 };
