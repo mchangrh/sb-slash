@@ -23,13 +23,13 @@ const hidden = (result) => {
 
 const formatUser = (result) => 
   `${userName(result)}
-  **Submitted:** ${result.segmentCount}
+  **Submitted:** ${result.segmentCount.toLocaleString("en-US")}
   **Reputation:** ${result.reputation.toFixed(2)}
-  **Segment Views:** ${result.viewCount}
+  **Segment Views:** ${result.viewCount.toLocaleString("en-US")}
   **Time Saved:** ${sbcutil.minutesReadable(result.minutesSaved)}
   **Warnings:** ${result.warnings}
   **Ignored Submissions:** ${result.ignoredSegmentCount}
-  **Ignored Views:** ${result.ignoredViewCount}
+  **Ignored Views:** ${result.ignoredViewCount.toLocaleString("en-US")}
   **Last Submission:** \`${result.lastSegmentID}\`
   `;
 
@@ -40,7 +40,7 @@ const formatSegment = (result) =>
   **End:** ${result.endTime}
   **Length:** ${(result.endTime - result.startTime).toFixed(2)}
   **Votes:** ${formatVote(result)}
-  **Views:** ${result.views}
+  **Views:** ${result.views.toLocaleString("en-US")}
   **Category:** ${result.category}
   **Hidden:** ${hidden(result)}
   **User ID:** ${result.userID}
