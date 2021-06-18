@@ -58,7 +58,7 @@ const formatSegment = (result) =>
 const formatShowoff = (result) => 
   `${userName(result)}
  **Submissions:** ${result.segmentCount.toLocaleString("en-US")}
-  You"ve saved people from **${result.viewCount.toLocaleString("en-US")}** segments
+  You've saved people from **${result.viewCount.toLocaleString("en-US")}** segments
   (**${sbcutil.minutesReadable(result.minutesSaved)}** of their lives)
   `;
 
