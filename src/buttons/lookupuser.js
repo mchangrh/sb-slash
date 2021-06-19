@@ -3,6 +3,7 @@ const { isValidUserUUID } = require("../util/sbc-util.js");
 const { formatUser } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
 const { invalidPublicID } = require("../util/invalidResponse.js");
+const { getUserInfo, getSegmentInfo } = require("../util/min-api.js");
 
 module.exports = {
   name: "lookupuser",
@@ -13,7 +14,7 @@ module.exports = {
     const parsedUser = await getUserInfo(publicid)
       .then((res) => JSON.parse(res));
     const segmentParse = await getSegmentInfo(parsedUser.lastSegmentID)
-      .then((res) => JSON.parse(res)[0]) ;
+      .then((res) => JSON.parse(res)[0]);
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {

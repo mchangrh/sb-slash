@@ -33,7 +33,7 @@ module.exports = {
     const parsedUser = await getUserInfo(publicid)
       .then((res) => JSON.parse(res));
     const segmentParse = await getSegmentInfo(parsedUser.lastSegmentID)
-      .then((res) => JSON.parse(res)) ;
+      .then((res) => JSON.parse(res));
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {

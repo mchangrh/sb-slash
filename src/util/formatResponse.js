@@ -29,7 +29,7 @@ const hidden = (result) => {
   return "Not Hidden";
 };
 
-exports.formatUser = (result, submitted) => 
+const formatUser = (result, submitted) => 
   `${userName(result)}
   **Submitted:** ${result.segmentCount.toLocaleString("en-US")}
   **Reputation:** ${result.reputation.toFixed(2)}
@@ -37,12 +37,12 @@ exports.formatUser = (result, submitted) =>
   **Time Saved:** ${sbcutil.minutesReadable(result.minutesSaved)}
   **Current Warnings:** ${result.warnings}
   **Ignored Submissions:** ${result.ignoredSegmentCount}
-  **Ignored Views:** ${result.ignoredViewCount.toLocaleString("en-US")}
+  **Ignored Views:** ${result.ignoredViewCount}
   **Last Submission:** \`${result.lastSegmentID}\`
   **Last Submittion Time:** ${formatDate(submitted)}
   `;
 
-exports.formatSegment = (result) =>
+const formatSegment = (result) =>
   `**Submitted:** ${formatDate(result.timeSubmitted)}
   **Video ID:** ${result.videoID}
   **Start:** ${durationFormat(result.startTime)}
@@ -55,9 +55,15 @@ exports.formatSegment = (result) =>
   **User ID:** \`${result.userID}\`
   `;
 
-exports.formatShowoff = (result) => 
+const formatShowoff = (result) => 
   `${userName(result)}
  **Submissions:** ${result.segmentCount.toLocaleString("en-US")}
   You've saved people from **${result.viewCount.toLocaleString("en-US")}** segments
   (**${sbcutil.minutesReadable(result.minutesSaved)}** of their lives)
   `;
+
+module.exports = {
+  formatShowoff,
+  formatSegment,
+  formatUser
+};
