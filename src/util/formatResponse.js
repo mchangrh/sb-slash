@@ -1,4 +1,5 @@
 const sbcutil = require("./sbc-util");
+const { getSegmentInfo } = require("./min-api.js");
 
 const userName = (result) => result.vip ? `[VIP] ${result.userName}` : result.userName;
 
@@ -11,6 +12,7 @@ const durationFormat = (duration) => {
 };
 
 const formatDate = (date) => {
+  if (!date) return null;
   const dateObj = new Date(date);
   return dateObj.toISOString().replace(/T/, " ").replace(/\..+/, "");
 };
@@ -62,8 +64,21 @@ const formatShowoff = (result) =>
   (**${sbcutil.minutesReadable(result.minutesSaved)}** of their lives)
   `;
 
+/**
+ * Get time of last segment
+ * @param {Object} lastSegmentID 
+ * @returns 
+ */
+async function getLastSegmentTime(lastSegmentID) {
+  if (!lastSegmentID) return null;
+  const segmentParse = await getSegmentInfo(lastSegmentID)
+    .then((res) => JSON.parse(res));
+  return segmentParse ? segmentParse[0].timeSubmitted : null;
+}
+
 module.exports = {
   formatShowoff,
   formatSegment,
-  formatUser
+  formatUser,
+  getLastSegmentTime
 };

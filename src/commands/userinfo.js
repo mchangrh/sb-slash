@@ -1,10 +1,10 @@
 const { InteractionResponseType } = require("discord-interactions");
 const { ApplicationCommandOptionType } = require("slash-commands");
 const { isValidUserUUID } = require("../util/sbc-util.js");
-const { formatUser } = require("../util/formatResponse.js");
+const { formatUser, getLastSegmentTime } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
 const { invalidPublicID } = require("../util/invalidResponse.js");
-const { getUserInfo, getSegmentInfo } = require("../util/min-api.js");
+const { getUserInfo } = require("../util/min-api.js");
 
 module.exports = {
   name: "userinfo",
@@ -32,12 +32,12 @@ module.exports = {
     // fetch
     const parsedUser = await getUserInfo(publicid)
       .then((res) => JSON.parse(res));
-    const segmentParse = await getSegmentInfo(parsedUser.lastSegmentID)
-      .then((res) => JSON.parse(res));
+    // get last segment time
+    const timeSubmitted = await getLastSegmentTime(parsedUser.lastSegmentID);
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
-        content: formatUser(parsedUser, segmentParse[0].timeSubmitted),
+        content: formatUser(parsedUser, timeSubmitted),
         components: userComponents(publicid, false),
         flags: (hide ? 64 : 0)
       }
