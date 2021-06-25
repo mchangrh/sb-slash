@@ -1,7 +1,11 @@
 const sbcutil = require("./sbc-util");
 const { getSegmentInfo } = require("./min-api.js");
 
-const userName = (result) => result.vip ? `[VIP] ${result.userName}` : result.userName;
+const userNameFilter = (userName) => 
+  // only take 64 chars, nullify url
+  userName.trim().substring(0,64).replace(/https:\/\//g, "https//");
+
+const userName = (result) => result.vip ? `[VIP] ${userNameFilter(result.userName)}` : userNameFilter(result.userName);
 
 const durationFormat = (duration) => {
   // split ms
