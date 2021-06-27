@@ -22,8 +22,7 @@ module.exports = {
     // check for invalid publicID
     if (!isValidUserUUID(publicid)) return response(invalidPublicID);
     // fetch
-    const res = await getUserInfo(publicid)
-      .then((res) => JSON.parse(res));
+    const res = await getUserInfo(publicid);
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {

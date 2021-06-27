@@ -75,8 +75,7 @@ const formatShowoff = (result) =>
  */
 async function getLastSegmentTime(lastSegmentID) {
   if (!lastSegmentID) return null;
-  const segmentParse = await getSegmentInfo(lastSegmentID)
-    .then((res) => JSON.parse(res));
+  const segmentParse = await getSegmentInfo(lastSegmentID);
   return segmentParse ? segmentParse[0].timeSubmitted : null;
 }
 

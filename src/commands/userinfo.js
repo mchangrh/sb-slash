@@ -30,8 +30,7 @@ module.exports = {
     // check for invalid publicID
     if (!isValidUserUUID(publicid)) return response(invalidPublicID);
     // fetch
-    const parsedUser = await getUserInfo(publicid)
-      .then((res) => JSON.parse(res));
+    const parsedUser = await getUserInfo(publicid);
     // get last segment time
     const timeSubmitted = await getLastSegmentTime(parsedUser.lastSegmentID);
     return response({

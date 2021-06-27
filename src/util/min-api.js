@@ -7,12 +7,12 @@ const getSkipSegments = async (videoID, categoryParam) => {
 
 const getUserInfo = async (publicid) => {
   const url = `${BASEURL}/userInfo?publicUserID=${publicid}`;
-  return fetch(url).then((res) => res.text());
+  return fetch(url).then((res) => res.json());
 };
 
 const getSegmentInfo = async (segmentid) => {
   const url = `${BASEURL}/segmentInfo?UUID=${segmentid}`;
-  return fetch(url).then((res) => res.text());
+  return fetch(url).then((res) => res.json());
 };
 
 module.exports = {

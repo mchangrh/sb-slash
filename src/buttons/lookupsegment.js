@@ -11,14 +11,13 @@ module.exports = {
     const segmentid = interaction.message.content.match(/(?:\*\*Last Submission:\*\*) `([a-f0-9]{64})`/)[1];
     if (!isValidSegmentUUID(segmentid)) return response(invalidSegment);
     // fetch
-    const parsed = await getSegmentInfo(segmentid)
-      .then((res) => JSON.parse(res)[0]);
-    if (parsed === null) return response(segmentNotFound);
+    const parsed = await getSegmentInfo(segmentid);
+    if (parsed[0] === null) return response(segmentNotFound);
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
-        content: formatSegment(parsed),
-        components: segmentComponents(parsed.videoID, true),
+        content: formatSegment(parsed[0]),
+        components: segmentComponents(parsed[0].videoID, true),
         flags: InteractionResponseFlags.EPHEMERAL
       }
     });

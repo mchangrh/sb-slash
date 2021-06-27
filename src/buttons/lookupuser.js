@@ -11,8 +11,7 @@ module.exports = {
     const publicid = interaction.message.content.match(/(?:\*\*User ID:\*\*) `([a-f0-9]{64})`/)[1];
     if (!isValidUserUUID(publicid)) return response(invalidPublicID);
     // fetch
-    const parsedUser = await getUserInfo(publicid)
-      .then((res) => JSON.parse(res));
+    const parsedUser = await getUserInfo(publicid);
     // get last segment time
     const timeSubmitted = await getLastSegmentTime(parsedUser.lastSegmentID);
     return response({

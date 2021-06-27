@@ -30,14 +30,13 @@ module.exports = {
     // check for invalid segmentid
     if (!isValidSegmentUUID(segmentid)) return response(invalidSegment);
     // fetch
-    const parsed = await getSegmentInfo(segmentid)
-      .then((res) => JSON.parse(res)[0]);
-    if (parsed === null) return response(segmentNotFound);
+    const parsed = await getSegmentInfo(segmentid);
+    if (parsed[0] === null) return response(segmentNotFound);
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
-        content: formatSegment(parsed),
-        components: segmentComponents(parsed.videoID, false),
+        content: formatSegment(parsed[0]),
+        components: segmentComponents(parsed[0].videoID, false),
         flags: (hide ? 64 : 0)
       }
     });
