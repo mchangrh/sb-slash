@@ -9,15 +9,21 @@ Retreive [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and use
 /skipsegments videoid: categories:
 /showoff publicid:
 /segmentinfo segmentid:
+/userid username:
 ```
 
 - Other commands were not added since a local ID is required, this is for quickly retreiving general stats and checking segments.
 - Stat related commands were not included  
 - Anonymous lookup was not included.
 
-## Cloudflare Environment Variables
+## Cloudflare Environment Variables (Handling Interactions)
 `CLIENT_ID` - Client ID from bot portal  
 `CLIENT_PUBLIC_KEY` - Public Key from bot portal
+
+## Local Environment Variables (Populating slash commands & options)
+`CLIENT_ID` - Client ID from bot portal
+`BOT_TOKEN` - Bot Token from bot portal
+`CLIENT_PUBLIC_KEY` - Public key from bot portal
 
 # Credit
 API follows [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) Documentation at [ajayyy/Sponsorblock](https://github.com/ajayyy/SponsorBlock/wiki/API-Docs)

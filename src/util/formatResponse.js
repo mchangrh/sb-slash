@@ -68,6 +68,14 @@ const formatShowoff = (result) =>
   (**${sbcutil.minutesReadable(result.minutesSaved)}** of their lives)
   `;
 
+const formatUserID = (result) => {
+  let str = "";
+  for (const user of result) {
+    str += `${user.userName}: \`${user.userID}\`\n`;
+  }
+  return str;
+};
+
 /**
  * Get time of last segment
  * @param {Object} lastSegmentID 
@@ -83,5 +91,6 @@ module.exports = {
   formatShowoff,
   formatSegment,
   formatUser,
+  formatUserID,
   getLastSegmentTime
 };
