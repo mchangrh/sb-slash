@@ -15,8 +15,14 @@ const getSegmentInfo = async (segmentid) => {
   return fetch(url).then((res) => res.json());
 };
 
+const getUserID = async (searchString, exact) => {
+  const url = `${BASEURL}/userID?username=${searchString}&exact=${exact}`;
+  return fetch(url);
+};
+
 module.exports = {
   getSkipSegments,
   getUserInfo,
-  getSegmentInfo
+  getSegmentInfo,
+  getUserID
 };
