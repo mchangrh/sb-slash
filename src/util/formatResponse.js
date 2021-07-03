@@ -29,9 +29,9 @@ const formatVote = (result) => {
 };
 
 const hidden = (result) => {
-  if (result.votes <= -2) return "❌ Downvoted"; // if votes <=2
   if (result.hidden) return "❌ Hidden"; // if hidden
   if (result.shadowHidden) return "❌ Shadowhidden"; // if shadowHidden
+  if (result.votes <= -2) return "❌ Downvoted"; // if votes <=2
   return "Not Hidden";
 };
 
@@ -57,6 +57,7 @@ const formatSegment = (result) =>
   **Votes:** ${formatVote(result)}
   **Views:** ${result.views.toLocaleString("en-US")}
   **Category:** ${result.category}
+  **Video Duration:** ${result.videoDuration}
   **Hidden:** ${hidden(result)}
   **User ID:** \`${result.userID}\`
   `;
