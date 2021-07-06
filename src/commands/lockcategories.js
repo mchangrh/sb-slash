@@ -1,6 +1,7 @@
 const { InteractionResponseType } = require("discord-interactions");
 const { ApplicationCommandOptionType } = require("slash-commands");
 const { getLockCategories } = require("../util/min-api.js");
+const { formatLockCategories } = require("../util/formatResponse.js");
 
 module.exports = {
   name: "lockcategories",
@@ -25,11 +26,10 @@ module.exports = {
     const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
     // fetch
     const body = await getLockCategories(videoID);
-    const stringified = (body === "Not Found" ? body : JSON.stringify(body));
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
-        content: "```json\n"+stringified+"```",
+        content: formatLockCategories(body),
         flags: (hide ? 64 : 0)
       }
     });

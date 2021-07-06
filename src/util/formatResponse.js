@@ -88,10 +88,25 @@ async function getLastSegmentTime(lastSegmentID) {
   return segmentParse ? segmentParse[0].timeSubmitted : null;
 }
 
+const allCategories = ["interaction", "intro", "music_offtopic", "outro", "preview", "selfpromo", "sponsor"];
+
+const deepEquals = (a,b) => {
+  a.forEach((e) => { if (!b.includes(e)) return false; });
+  return true;
+};
+
+const formatLockCategories = (result) => {
+  if (result === "Not Found") return result;
+  const categories = JSON.parse(result).categories;
+  if (deepEquals(categories, allCategories)) return "Locked Categories:\n > **All**";
+  return `Locked Categories:\n >>> ${categories.join("\n")}`;
+};
+
 module.exports = {
   formatShowoff,
   formatSegment,
   formatUser,
   formatUserID,
-  getLastSegmentTime
+  getLastSegmentTime,
+  formatLockCategories
 };
