@@ -1,5 +1,5 @@
 const { InteractionType, InteractionResponseType, InteractionResponseFlags, verifyKey } = require("discord-interactions");
-const commands = ["userinfo", "skipsegments", "showoff", "segmentinfo", "userid"];
+const commands = ["userinfo", "skipsegments", "showoff", "segmentinfo", "userid", "lockcategories"];
 const buttons = ["lookupuser", "lookupsegment"];
 
 // Util to send a JSON response

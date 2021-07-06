@@ -20,9 +20,15 @@ const getUserID = async (searchString, exact) => {
   return fetch(url);
 };
 
+const getLockCategories = async (videoID) => {
+  const url = `${BASEURL}/lockCategories?videoID=${videoID}`;
+  return fetch(url).then((res) => res.text());
+};
+
 module.exports = {
   getSkipSegments,
   getUserInfo,
   getSegmentInfo,
-  getUserID
+  getUserID,
+  getLockCategories
 };
