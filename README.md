@@ -10,6 +10,7 @@ Retreive [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and use
 /showoff publicid:
 /segmentinfo segmentid:
 /userid username:
+/lockcategories videoid:
 ```
 
 - Other commands were not added since a local ID is required, this is for quickly retreiving general stats and checking segments.
