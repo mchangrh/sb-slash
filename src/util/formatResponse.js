@@ -91,15 +91,20 @@ async function getLastSegmentTime(lastSegmentID) {
 const allCategories = ["interaction", "intro", "music_offtopic", "outro", "preview", "selfpromo", "sponsor"];
 
 const deepEquals = (a,b) => {
-  a.forEach((e) => { if (!b.includes(e)) return false; });
-  return true;
+  let result = true;
+  b.forEach((e) => { 
+    if (!a.includes(e)) result = false;
+  });
+  return result;
 };
 
 const formatLockCategories = (result) => {
   if (result === "Not Found") return result;
-  const categories = JSON.parse(result).categories;
-  if (deepEquals(categories, allCategories)) return "Locked Categories:\n > **All**";
-  return `Locked Categories:\n >>> ${categories.join("\n")}`;
+  const parsed = JSON.parse(result);
+  let { categories, reason } = parsed;
+  categories = (deepEquals(categories, allCategories)) ? "> **All**" : `>>> ${categories.join("\n")}`;
+  return `Locked Categories:\n ${categories}\
+  \n Reason: \`${reason}\``;
 };
 
 module.exports = {
