@@ -1,5 +1,6 @@
 const sbcutil = require("./sbc-util");
 const { getSegmentInfo } = require("./min-api.js");
+const { parseUserAgent } = require("./parseUserAgent.js");
 
 const userNameFilter = (userName) => 
   // only take 64 chars, nullify url
@@ -59,6 +60,7 @@ const formatSegment = (result) =>
   **Category:** ${result.category}
   **Video Duration:** ${result.videoDuration}
   **Hidden:** ${hidden(result)}
+  **User Agent:** ${parseUserAgent(result.userAgent)}
   **User ID:** \`${result.userID}\`
   `;
 
