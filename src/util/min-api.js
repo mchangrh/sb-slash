@@ -10,6 +10,11 @@ const getUserInfo = async (publicid) => {
   return fetch(url).then((res) => res.json());
 };
 
+const getUserInfoShowoff = async (publicid) => {
+  const url = `${BASEURL}/userInfo?publicUserID=${publicid}&values=["segmentCount", "viewCount", "minutesSaved", "userName", "vip"]`;
+  return fetch(url).then((res) => res.json());
+};
+
 const getSegmentInfo = async (segmentid) => {
   const url = `${BASEURL}/segmentInfo?UUID=${segmentid}`;
   return fetch(url).then((res) => res.json());
@@ -28,6 +33,7 @@ const getLockCategories = async (videoID) => {
 module.exports = {
   getSkipSegments,
   getUserInfo,
+  getUserInfoShowoff,
   getSegmentInfo,
   getUserID,
   getLockCategories

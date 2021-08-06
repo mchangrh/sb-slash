@@ -3,7 +3,7 @@ const { ApplicationCommandOptionType } = require("slash-commands");
 const { isValidUserUUID } = require("../util/sbc-util.js");
 const { formatShowoff } = require("../util/formatResponse.js");
 const { invalidPublicID } = require("../util/invalidResponse.js");
-const { getUserInfo } = require("../util/min-api.js");
+const { getUserInfoShowoff } = require("../util/min-api.js");
 
 module.exports = {
   name: "showoff",
@@ -22,7 +22,7 @@ module.exports = {
     // check for invalid publicID
     if (!isValidUserUUID(publicid)) return response(invalidPublicID);
     // fetch
-    const res = await getUserInfo(publicid);
+    const res = await getUserInfoShowoff(publicid);
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
