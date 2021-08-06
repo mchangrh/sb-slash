@@ -9,13 +9,14 @@ Retreive [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and use
 /skipsegments videoid: categories:
 /showoff publicid:
 /segmentinfo segmentid:
-/userid username:
+/userid username: exact:
 /lockcategories videoid:
 ```
 
 - Other commands were not added since a local ID is required, this is for quickly retreiving general stats and checking segments.
 - Stat related commands were not included  
-- Anonymous lookup was not included.
+- Anonymous lookup was not included
+- All commands can have their response be ephemeral by setting the hide parameter to true
 
 ## Cloudflare Environment Variables (Handling Interactions)
 `CLIENT_ID` - Client ID from bot portal  
