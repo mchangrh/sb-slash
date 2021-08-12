@@ -68,7 +68,6 @@ const handleInteraction = async ({ request, wait }) => {
     }
   } catch (err) {
     // Catch & log any errors
-    console.log(body);
     console.error(err);
 
     // Send an ephemeral message to the user
