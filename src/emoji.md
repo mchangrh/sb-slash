@@ -1,5 +1,7 @@
 # Emojis for logos
 
+## Removed since this will break if `@everyone` does not have `use external emojis`
+
 ## Vanced Logo
 `<:vancedlogo:833709207056154634>` | 
 [Link](https://cdn.discordapp.com/emojis/833709207056154634.png) | 
