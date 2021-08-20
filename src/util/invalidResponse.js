@@ -32,9 +32,18 @@ const usernameNotFound = {
   }
 };
 
+const videoIDNotFound = {
+  type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+  data: {
+    content: "Sorry there doesn't seem to be any video links in this message",
+    flags: InteractionResponseFlags.EPHEMERAL
+  }
+}
+
 module.exports = {
   invalidSegment,
   invalidPublicID,
   segmentNotFound,
-  usernameNotFound
+  usernameNotFound,
+  videoIDNotFound
 };

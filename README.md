@@ -1,5 +1,5 @@
 # sb-slash
-Retreive [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and user info with slash commands (and buttons!)
+Retrieve [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and user info with slash commands (and buttons!)
 
 [Invite](https://sb-slash.mchang.workers.dev/invite)
 

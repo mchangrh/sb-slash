@@ -5,7 +5,7 @@ const { formatLockCategories } = require("../util/formatResponse.js");
 
 module.exports = {
   name: "lockcategories",
-  description: "retreives video lock categories",
+  description: "retrieves video lock categories",
   options: [
     {
       name: "videoid",

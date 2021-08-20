@@ -8,7 +8,7 @@ const { getUserInfo } = require("../util/min-api.js");
 
 module.exports = {
   name: "userinfo",
-  description: "retreives user info",
+  description: "retrieves user info",
   options: [
     {
       name: "publicid",

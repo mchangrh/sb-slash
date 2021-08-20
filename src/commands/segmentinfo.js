@@ -8,7 +8,7 @@ const { getSegmentInfo } = require("../util/min-api.js");
 
 module.exports = {
   name: "segmentinfo",
-  description: "retreives segment info",
+  description: "retrieves segment info",
   options: [
     {
       name: "segmentid",
