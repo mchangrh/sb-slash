@@ -13,6 +13,12 @@ Retrieve [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and use
 /lockcategories videoid:
 ```
 
+## misc commands
+```
+/invite
+/github
+```
+
 - Other commands were not added since a local ID is required, this is for quickly retreiving general stats and checking segments.
 - Stat related commands were not included  
 - Anonymous lookup was not included
