@@ -7,6 +7,7 @@ const { invalidPublicID } = require("../util/invalidResponse.js");
 const { getUserInfo } = require("../util/min-api.js");
 
 module.exports = {
+  type: 1,
   name: "userinfo",
   description: "retrieves user info",
   options: [

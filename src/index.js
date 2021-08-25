@@ -1,7 +1,10 @@
 const { InteractionType, InteractionResponseType, InteractionResponseFlags, verifyKey } = require("discord-interactions");
 const commands = ["userinfo", "skipsegments", "showoff", "segmentinfo", "userid", "lockcategories", "github", "invite"];
 const buttons = ["lookupuser", "lookupsegment"];
-const messagecmd = ['lookupsegment']
+const messageCmd = {
+  "Lookup Segments": "lookupSegments",
+  "Open in sb.ltn.fi": "openinsbltnfi"
+};
 
 // Util to send a JSON response
 const jsonResponse = (obj) => new Response(JSON.stringify(obj), {
@@ -44,25 +47,27 @@ const handleInteraction = async ({ request, wait }) => {
     return jsonResponse({
       type: InteractionResponseType.PONG
     });
-  // handle commands or buttons
   try {
-    if (body.type == InteractionType.APPLICATION_COMMAND) {
-      // locate command data
+    if (body.type == InteractionType.APPLICATION_COMMAND) { // handle commands
       const commandName = body.data.name;
-      if (!commands.find((e) => e === commandName))
+      if (Object.keys(messageCmd).includes(commandName)) { // check in messageCmd list
+        // load and execute
+        const command = require(`./commands/${messageCmd[commandName]}.js`);
+        return await command.execute({ interaction: body, response: jsonResponse, wait });
+      } else if (commands.find((e) => e === commandName)) { // check in commands list
+        // load and execute
+        const command = require(`./commands/${commandName}.js`);
+        return await command.execute({ interaction: body, response: jsonResponse, wait });
+      } else { // command not found, 404
         return new Response(null, { status: 404 });
-      // Load command
-      const command = require(`./commands/${commandName}.js`);
-      // Execute
-      return await command.execute({ interaction: body, response: jsonResponse, wait });
-    } else if (body.type == InteractionType.MESSAGE_COMPONENT) {
+      }
+    } else if (body.type == InteractionType.MESSAGE_COMPONENT) { // handle buttons
       // Locate button data
       const buttonName = body.data.custom_id;
       if (!buttons.find((e) => e === buttonName))
         return new Response(null, { status: 404 });
-      // Load button
+      // load and execute
       const button = require(`./buttons/${buttonName}.js`);
-      // Execute
       return await button.execute({ interaction: body, response: jsonResponse, wait });
     } else { // if not ping, button or message send 501
       return new Response(null, { status: 501 });

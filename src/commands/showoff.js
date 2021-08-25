@@ -6,6 +6,7 @@ const { invalidPublicID } = require("../util/invalidResponse.js");
 const { getUserInfoShowoff } = require("../util/min-api.js");
 
 module.exports = {
+  type: 1,
   name: "showoff",
   description: "Show off your stats",
   options: [

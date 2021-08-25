@@ -7,6 +7,7 @@ const { invalidSegment, segmentNotFound } = require("../util/invalidResponse.js"
 const { getSegmentInfo } = require("../util/min-api.js");
 
 module.exports = {
+  type: 1,
   name: "segmentinfo",
   description: "retrieves segment info",
   options: [

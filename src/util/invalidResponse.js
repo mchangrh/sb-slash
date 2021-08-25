@@ -38,7 +38,7 @@ const videoIDNotFound = {
     content: "Sorry there doesn't seem to be any video links in this message",
     flags: InteractionResponseFlags.EPHEMERAL
   }
-}
+};
 
 module.exports = {
   invalidSegment,

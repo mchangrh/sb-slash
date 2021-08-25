@@ -1,6 +1,7 @@
 const { InteractionResponseType } = require("discord-interactions");
 
 module.exports = {
+  type: 1,
   name: "github",
   description: "Get a link for the sb-slash GitHub",
   execute: async ({ response }) =>

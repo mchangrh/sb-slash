@@ -5,6 +5,7 @@ const ALLCATEGORIES = `["${CATEGORIES.slice(1).join("\",\"")}"]`;
 const { getSkipSegments } = require("../util/min-api.js");
 
 module.exports = {
+  type: 1,
   name: "skipsegments",
   description: "Get Segments on Video",
   options: [

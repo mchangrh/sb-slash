@@ -5,6 +5,7 @@ const { formatUserID } = require("../util/formatResponse.js");
 const { usernameNotFound } = require("../util/invalidResponse.js");
 
 module.exports = {
+  type: 1,
   name: "userid",
   description: "get ID from username",
   options: [

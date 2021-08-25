@@ -4,6 +4,7 @@ const { getLockCategories } = require("../util/min-api.js");
 const { formatLockCategories } = require("../util/formatResponse.js");
 
 module.exports = {
+  type: 1,
   name: "lockcategories",
   description: "retrieves video lock categories",
   options: [
