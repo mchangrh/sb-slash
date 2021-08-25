@@ -26,6 +26,12 @@ module.exports = {
       }))
     },
     {
+      name: "json",
+      description: "output as JSON",
+      type: ApplicationCommandOptionType.BOOLEAN,
+      required: false
+    },
+    {
       name: "hide",
       description: "Only you can see the response",
       type: ApplicationCommandOptionType.BOOLEAN,
@@ -37,17 +43,29 @@ module.exports = {
     const videoID = ((interaction.data.options.find((opt) => opt.name === "videoid") || {}).value || "").trim();
     const category = ((interaction.data.options.find((opt) => opt.name === "category") || {}).value || "all").trim();
     const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
+    const json = (interaction.data.options.find((opt) => opt.name === "json") || {}).value;
     // construct URL
     const categoryParam = (category === "all") ? `categories=${ALLCATEGORIES}` : `category=${category}`;
     // fetch
     const body = await getSkipSegments(videoID, categoryParam);
-    const stringified = (body === "Not Found" ? body : JSON.stringify(JSON.parse(body), null, 4));
-    return response({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      data: {
-        content: "```json\n"+stringified+"```",
-        flags: (hide ? 64 : 0)
-      }
-    });
+    if (json) {
+      const stringified = (body === "Not Found" ? body : JSON.stringify(JSON.parse(body), null, 4));
+      return response({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: "```json\n"+stringified+"```",
+          flags: (hide ? 64 : 0)
+        }
+      });
+    } else {
+      const embed = formatSkipSegments(videoID, body);
+      return response({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          embeds: [embed],
+          flags: (hide ? 64 : 0)
+        }
+      });
+    }
   }
 };

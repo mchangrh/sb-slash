@@ -1,6 +1,7 @@
 const sbcutil = require("./sbc-util");
 const { getSegmentInfo } = require("./min-api.js");
 const { parseUserAgent } = require("./parseUserAgent.js");
+const { secondsToTime } = require("./timeConvert.js");
 
 const userNameFilter = (userName) => 
   // only take 64 chars, nullify url
@@ -109,11 +110,39 @@ const formatLockCategories = (result) => {
   \n Reason: \`${reason}\``;
 };
 
+const segmentsNotFoundEmbed = (videoID) => {
+  return {
+    title: videoID,
+    description: "No Segments Found",
+    url: `https://sb.ltn.fi/video/${videoID}`,
+    color: 0xff0000
+  };
+};
+
+const formatSkipSegments = (videoID, result) => {
+  if (result === "Not Found") return segmentsNotFoundEmbed(videoID);
+  const body = JSON.parse(result);
+  let embed = {
+    title: videoID,
+    url: `https://sb.ltn.fi/video/${videoID}`,
+    color: 0xff0000,
+    fields: []
+  };
+  for (const segment of body) {
+    embed.fields.push({
+      name: segment.UUID,
+      value: `${segment.category} | ${secondsToTime(segment.segment[0])} - ${secondsToTime(segment.segment[1])}`
+    });
+  }
+  return embed;
+};
+
 module.exports = {
   formatShowoff,
   formatSegment,
   formatUser,
   formatUserID,
   getLastSegmentTime,
-  formatLockCategories
+  formatLockCategories,
+  formatSkipSegments
 };

@@ -71,7 +71,6 @@
         "semi": 2,
         "comma-dangle": 2,
         "no-negated-in-lhs": 2,
-        "require-jsdoc": 2,
         "arrow-parens": 2
     }
 }

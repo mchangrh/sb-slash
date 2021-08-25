@@ -26,12 +26,12 @@
   "homepage": "https://github.com/mchangrh/sb-slash#readme",
   "dependencies": {
     "discord-interactions": "^2.3.0",
-    "slash-commands": "^1.4.0"
+    "slash-commands": "^1.5.0"
   },
   "devDependencies": {
     "deep-equal": "^2.0.5",
     "dotenv": "10.0.0",
-    "eslint": "^7.29.0",
-    "webpack": "^5.40.0"
+    "eslint": "^7.32.0",
+    "webpack": "^5.51.1"
   }
 }
