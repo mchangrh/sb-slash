@@ -6,7 +6,7 @@ Retrieve [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and use
 ## commands
 ```
 /userinfo publicid:
-/skipsegments videoid: categories:
+/skipsegments videoid: categories: json:
 /showoff publicid:
 /segmentinfo segmentid:
 /userid username: exact:

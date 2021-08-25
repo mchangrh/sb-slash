@@ -1,7 +1,15 @@
 const sbcutil = require("./sbc-util");
 const { getSegmentInfo } = require("./min-api.js");
 const { parseUserAgent } = require("./parseUserAgent.js");
-const { secondsToTime } = require("./timeConvert.js");
+
+const secondsToTime = (e) => {
+  var h = Math.floor(e / 3600).toString().padStart(1,"0"),
+    m = Math.floor(e % 3600 / 60).toString().padStart(2,"0"),
+    s = Math.floor(e % 60).toString().padStart(2,"0"),
+    ms = (e + "").split(".")[1]; // split ms
+  
+  return `${h}:${m}:${s}.${ms}`;
+};
 
 const emptyEmbed = (videoID) => {
   return {
@@ -17,14 +25,6 @@ const userNameFilter = (userName) =>
   userName.trim().substring(0,64).replace(/https:\/\//g, "https//");
 
 const userName = (result) => result.vip ? `[VIP] ${userNameFilter(result.userName)}` : userNameFilter(result.userName);
-
-const durationFormat = (duration) => {
-  // split ms
-  const ms = (duration+"").split(".")[1];
-  // convert seconds
-  const hms = new Date(duration * 1000).toISOString().substr(11,8);
-  return `${hms}${ms ? "."+ms : ""}`;
-};
 
 const formatDate = (date) => {
   if (!date) return null;
@@ -62,13 +62,13 @@ const formatUser = (result, submitted) =>
 const formatSegment = (result) =>
   `**Submitted:** ${formatDate(result.timeSubmitted)}
   **Video ID:** ${result.videoID}
-  **Start:** ${durationFormat(result.startTime)}
-  **End:** ${durationFormat(result.endTime)}
-  **Length:** ${durationFormat((result.endTime - result.startTime).toFixed(2))}
+  **Start:** ${secondsToTime(result.startTime)}
+  **End:** ${secondsToTime(result.endTime)}
+  **Length:** ${secondsToTime((result.endTime - result.startTime).toFixed(2))}
   **Votes:** ${formatVote(result)}
   **Views:** ${result.views.toLocaleString("en-US")}
   **Category:** ${result.category}
-  **Video Duration:** ${result.videoDuration}
+  **Video Duration:** ${secondsToTime(result.videoDuration)}
   **Hidden:** ${hidden(result)}
   **User Agent:** ${parseUserAgent(result.userAgent)}
   **User ID:** \`${result.userID}\`
