@@ -3,6 +3,15 @@ const { getSegmentInfo } = require("./min-api.js");
 const { parseUserAgent } = require("./parseUserAgent.js");
 const { secondsToTime } = require("./timeConvert.js");
 
+const emptyEmbed = (videoID) => {
+  return {
+    title: videoID,
+    url: `https://sb.ltn.fi/video/${videoID}/`,
+    color: 0xff0000,
+    fields: []
+  };
+};
+
 const userNameFilter = (userName) => 
   // only take 64 chars, nullify url
   userName.trim().substring(0,64).replace(/https:\/\//g, "https//");
@@ -101,34 +110,40 @@ const deepEquals = (a,b) => {
   return result;
 };
 
-const formatLockCategories = (result) => {
-  if (result === "Not Found") return result;
-  const parsed = JSON.parse(result);
-  let { categories, reason } = parsed;
-  categories = (deepEquals(categories, allCategories)) ? "> **All**" : `>>> ${categories.join("\n")}`;
-  return `Locked Categories:\n ${categories}\
-  \n Reason: \`${reason}\``;
+const formatLockCategories = (videoID, result) => {
+  let embed = emptyEmbed(videoID);
+  if (result === "Not Found") {
+    embed.fields.push({
+      name: "Locked Categories",
+      value: "None"
+    });
+    return embed;
+  }
+  const { categories, reason } = JSON.parse(result);
+  embed.fields.push({
+    name: "Locked Categories",
+    value: (deepEquals(categories, allCategories)) ? "All" : `${categories.join("\n")}`
+  }, {
+    name: "Reason",
+    value: (reason ? reason : "None")
+  });
+  return embed;
 };
 
 const segmentsNotFoundEmbed = (videoID) => {
   return {
     title: videoID,
     description: "No Segments Found",
-    url: `https://sb.ltn.fi/video/${videoID}`,
+    url: `https://sb.ltn.fi/video/${videoID}/`,
     color: 0xff0000
   };
 };
 
 const formatSkipSegments = (videoID, result) => {
   if (result === "Not Found") return segmentsNotFoundEmbed(videoID);
-  const body = JSON.parse(result);
-  let embed = {
-    title: videoID,
-    url: `https://sb.ltn.fi/video/${videoID}`,
-    color: 0xff0000,
-    fields: []
-  };
-  for (const segment of body) {
+  let embed = emptyEmbed(videoID);
+  const parsed = JSON.parse(result);
+  for (const segment of parsed) {
     embed.fields.push({
       name: segment.UUID,
       value: `${segment.category} | ${secondsToTime(segment.segment[0])} - ${secondsToTime(segment.segment[1])}`

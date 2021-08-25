@@ -27,10 +27,11 @@ module.exports = {
     const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
     // fetch
     const body = await getLockCategories(videoID);
+    const embed = formatLockCategories(videoID, body);
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
-        content: formatLockCategories(body),
+        embeds: [embed],
         flags: (hide ? 64 : 0)
       }
     });

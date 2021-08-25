@@ -3,6 +3,7 @@ const { ApplicationCommandOptionType } = require("slash-commands");
 const CATEGORIES = ["all", "sponsor", "intro", "outro", "selfpromo", "interaction", "music_offtopic", "preview"];
 const ALLCATEGORIES = `["${CATEGORIES.slice(1).join("\",\"")}"]`;
 const { getSkipSegments } = require("../util/min-api.js");
+const { formatSkipSegments } = require("../util/formatResponse.js");
 
 module.exports = {
   type: 1,
@@ -48,24 +49,18 @@ module.exports = {
     const categoryParam = (category === "all") ? `categories=${ALLCATEGORIES}` : `category=${category}`;
     // fetch
     const body = await getSkipSegments(videoID, categoryParam);
+    let responseTemplate = {
+      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      data: {
+        flags: (hide ? 64 : 0)
+      }
+    };
     if (json) {
       const stringified = (body === "Not Found" ? body : JSON.stringify(JSON.parse(body), null, 4));
-      return response({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          content: "```json\n"+stringified+"```",
-          flags: (hide ? 64 : 0)
-        }
-      });
+      responseTemplate.data.content = "```json\n"+stringified+"```";
     } else {
-      const embed = formatSkipSegments(videoID, body);
-      return response({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          embeds: [embed],
-          flags: (hide ? 64 : 0)
-        }
-      });
+      responseTemplate.data.embeds = [formatSkipSegments(videoID, body)];
     }
+    return response(responseTemplate);
   }
 };

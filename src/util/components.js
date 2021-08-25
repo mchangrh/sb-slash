@@ -7,7 +7,7 @@ exports.userComponents = (publicid, ephemeral) => {
       type: 2,
       label: "Open in Browser",
       style: 5,
-      url: `${SBTOOLSURL}/userid/${publicid}`
+      url: `${SBTOOLSURL}/userid/${publicid}/`
     }]
   }];
   const lookupButton = {
@@ -27,7 +27,7 @@ exports.segmentComponents = (videoID, ephemeral) => {
       type: 2,
       label: "Open Video",
       style: 5,
-      url: `${SBTOOLSURL}/video/${videoID}`
+      url: `${SBTOOLSURL}/video/${videoID}/`
     }]
   }];
   const lookupButton = {

@@ -14,7 +14,7 @@ module.exports = {
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
-        content: `https://sb.ltn.fi/video/${videoID}`,
+        content: `https://sb.ltn.fi/video/${videoID}/`,
         flags: 64
       }
     });
