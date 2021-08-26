@@ -105,6 +105,13 @@ const handleRequest = async ({ request, wait }) => {
         "Location": `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&scope=applications.commands`
       }
     });
+  if (url.pathname === "/vip")
+    return new Response(null, {
+      status: 301,
+      headers: {
+        "Location": "https://sponsor.ajay.app/api/isUserVIP?userID="
+      }
+    });
   if (url.pathname === "/")
     return new Response(null, {
       status: 301,
