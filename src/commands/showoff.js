@@ -27,7 +27,7 @@ module.exports = {
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
-        content: formatShowoff(res)
+        embeds: [formatShowoff(publicid, res)]
       }
     });
   }

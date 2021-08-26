@@ -11,12 +11,16 @@ const secondsToTime = (e) => {
   return `${h}:${m}:${s}.${ms}`;
 };
 
-const emptyEmbed = (videoID) => {
+const emptyEmbed = {
+  color: 0xff0000,
+  fields: []
+};
+
+const emptyVideoEmbed = (videoID) => {
   return {
     title: videoID,
     url: `https://sb.ltn.fi/video/${videoID}/`,
-    color: 0xff0000,
-    fields: []
+    ...emptyEmbed
   };
 };
 
@@ -74,12 +78,15 @@ const formatSegment = (result) =>
   **User ID:** \`${result.userID}\`
   `;
 
-const formatShowoff = (result) => 
-  `${userName(result)}
- **Submissions:** ${result.segmentCount.toLocaleString("en-US")}
+const formatShowoff = (publicID, result) => {
+  const embed = emptyEmbed;
+  embed.title = userName(result);
+  embed.url = `https://sb.ltn.fi/userid/${publicID}/`;
+  embed.description = `**Submissions:** ${result.segmentCount.toLocaleString("en-US")}
   You've saved people from **${result.viewCount.toLocaleString("en-US")}** segments
-  (**${sbcutil.minutesReadable(result.minutesSaved)}** of their lives)
-  `;
+  (**${sbcutil.minutesReadable(result.minutesSaved)}** of their lives)`;
+  return embed;
+};
 
 const formatUserID = (result) => {
   const embed = {
@@ -118,7 +125,7 @@ const deepEquals = (a,b) => {
 };
 
 const formatLockCategories = (videoID, result) => {
-  const embed = emptyEmbed(videoID);
+  const embed = emptyVideoEmbed(videoID);
   if (result === "Not Found") {
     embed.fields.push({
       name: "Locked Categories",
@@ -148,7 +155,7 @@ const segmentsNotFoundEmbed = (videoID) => {
 
 const formatSkipSegments = (videoID, result) => {
   if (result === "Not Found") return segmentsNotFoundEmbed(videoID);
-  const embed = emptyEmbed(videoID);
+  const embed = emptyVideoEmbed(videoID);
   const parsed = JSON.parse(result);
   for (const segment of parsed) {
     embed.fields.push({
