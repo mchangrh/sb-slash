@@ -3,7 +3,7 @@ const { getSegmentInfo } = require("./min-api.js");
 const { parseUserAgent } = require("./parseUserAgent.js");
 
 const secondsToTime = (e) => {
-  var h = Math.floor(e / 3600).toString().padStart(1,"0"),
+  const h = Math.floor(e / 3600).toString().padStart(1,"0"),
     m = Math.floor(e % 3600 / 60).toString().padStart(2,"0"),
     s = Math.floor(e % 60).toString().padStart(2,"0"),
     ms = (e + "").split(".")[1]; // split ms
@@ -82,11 +82,18 @@ const formatShowoff = (result) =>
   `;
 
 const formatUserID = (result) => {
-  let str = "";
+  const embed = {
+    color: 0xff0000,
+    fields: []
+  };
   for (const user of result) {
-    str += `${user.userName}: \`${user.userID}\`\n`;
+    embed.fields.push({
+      name: user.userName,
+      value: "`"+user.userID+"`",
+      inline: true
+    });
   }
-  return str;
+  return embed;
 };
 
 /**
@@ -111,7 +118,7 @@ const deepEquals = (a,b) => {
 };
 
 const formatLockCategories = (videoID, result) => {
-  let embed = emptyEmbed(videoID);
+  const embed = emptyEmbed(videoID);
   if (result === "Not Found") {
     embed.fields.push({
       name: "Locked Categories",
@@ -141,7 +148,7 @@ const segmentsNotFoundEmbed = (videoID) => {
 
 const formatSkipSegments = (videoID, result) => {
   if (result === "Not Found") return segmentsNotFoundEmbed(videoID);
-  let embed = emptyEmbed(videoID);
+  const embed = emptyEmbed(videoID);
   const parsed = JSON.parse(result);
   for (const segment of parsed) {
     embed.fields.push({

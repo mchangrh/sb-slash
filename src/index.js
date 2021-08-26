@@ -81,6 +81,7 @@ const handleInteraction = async ({ request, wait }) => {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
         content: "An unexpected error occurred when executing the command.",
+        // content: `error: ${err}`,
         flags: InteractionResponseFlags.EPHEMERAL
       }
     });

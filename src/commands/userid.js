@@ -40,7 +40,7 @@ module.exports = {
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
-        content: formatUserID(await res.json()),
+        embeds: [formatUserID(await res.json())],
         flags: (hide ? 64 : 0)
       }
     });
