@@ -1,15 +1,19 @@
 const sbcutil = require("./sbc-util");
 const { getSegmentInfo } = require("./min-api.js");
 const { parseUserAgent } = require("./parseUserAgent.js");
+const { CATEGORIES_ARR } = require("./categories.js");
 
 const secondsToTime = (e) => {
   const h = Math.floor(e / 3600).toString().padStart(1,"0"),
     m = Math.floor(e % 3600 / 60).toString().padStart(2,"0"),
     s = Math.floor(e % 60).toString().padStart(2,"0"),
-    ms = (e + "").split(".")[1]; // split ms
+    msRaw = (e + "").split(".")[1], // split ms
+    ms = msRaw ? `.${msRaw}` : "";
   
-  return `${h}:${m}:${s}.${ms}`;
+  return `${h}:${m}:${s}${ms}`;
 };
+
+const videoTimeLink = (videoID, startTime) => `https://www.youtube.com/watch?v=${videoID}&t=${startTime.toFixed(0)-2}`;
 
 const emptyEmbed = {
   color: 0xff0000,
@@ -20,7 +24,8 @@ const emptyVideoEmbed = (videoID) => {
   return {
     title: videoID,
     url: `https://sb.ltn.fi/video/${videoID}/`,
-    ...emptyEmbed
+    color: 0xff0000,
+    fields: []
   };
 };
 
@@ -79,7 +84,7 @@ const formatSegment = (result) =>
   `;
 
 const formatShowoff = (publicID, result) => {
-  const embed = emptyEmbed;
+  const embed = {...emptyEmbed};
   embed.title = userName(result);
   embed.url = `https://sb.ltn.fi/userid/${publicID}/`;
   embed.description = `**Submissions:** ${result.segmentCount.toLocaleString("en-US")}
@@ -103,18 +108,11 @@ const formatUserID = (result) => {
   return embed;
 };
 
-/**
- * Get time of last segment
- * @param {Object} lastSegmentID 
- * @returns 
- */
 async function getLastSegmentTime(lastSegmentID) {
   if (!lastSegmentID) return null;
   const segmentParse = await getSegmentInfo(lastSegmentID);
   return segmentParse ? segmentParse[0].timeSubmitted : null;
 }
-
-const allCategories = ["interaction", "intro", "music_offtopic", "outro", "preview", "selfpromo", "sponsor"];
 
 const deepEquals = (a,b) => {
   let result = true;
@@ -136,7 +134,7 @@ const formatLockCategories = (videoID, result) => {
   const { categories, reason } = JSON.parse(result);
   embed.fields.push({
     name: "Locked Categories",
-    value: (deepEquals(categories, allCategories)) ? "All" : `${categories.join("\n")}`
+    value: (deepEquals(categories, CATEGORIES_ARR)) ? "All" : `${categories.join("\n")}`
   }, {
     name: "Reason",
     value: (reason ? reason : "None")
@@ -158,9 +156,13 @@ const formatSkipSegments = (videoID, result) => {
   const embed = emptyVideoEmbed(videoID);
   const parsed = JSON.parse(result);
   for (const segment of parsed) {
+    const videoLink = videoTimeLink(videoID, segment.segment[0]);
+    const segmentTimes = (segment.segment[0] == segment.segment[1]) ?
+      `${secondsToTime(segment.segment[0])}` :
+      `${secondsToTime(segment.segment[0])} - ${secondsToTime(segment.segment[1])}`;
     embed.fields.push({
       name: segment.UUID,
-      value: `${segment.category} | ${secondsToTime(segment.segment[0])} - ${secondsToTime(segment.segment[1])}`
+      value: `[${segment.category}](${videoLink}) | ${segmentTimes}`
     });
   }
   return embed;

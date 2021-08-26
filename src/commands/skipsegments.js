@@ -1,7 +1,7 @@
 const { InteractionResponseType } = require("discord-interactions");
 const { ApplicationCommandOptionType } = require("slash-commands");
-const CATEGORIES = ["all", "sponsor", "intro", "outro", "selfpromo", "interaction", "music_offtopic", "preview"];
-const ALLCATEGORIES = `["${CATEGORIES.slice(1).join("\",\"")}"]`;
+const { CATEGORIES_ARR, CATEGORIES_STRING } = require("../util/categories.js");
+const CATEGORY_CHOICES = ["all", ...CATEGORIES_ARR];
 const { getSkipSegments } = require("../util/min-api.js");
 const { formatSkipSegments } = require("../util/formatResponse.js");
 
@@ -21,7 +21,7 @@ module.exports = {
       description: "category of segment",
       type: ApplicationCommandOptionType.STRING,
       required: false,
-      choices: CATEGORIES.map((category) => ({
+      choices: CATEGORY_CHOICES.map((category) => ({
         name: category,
         value: category
       }))
@@ -46,7 +46,7 @@ module.exports = {
     const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
     const json = (interaction.data.options.find((opt) => opt.name === "json") || {}).value;
     // construct URL
-    const categoryParam = (category === "all") ? `categories=${ALLCATEGORIES}` : `category=${category}`;
+    const categoryParam = (category === "all") ? CATEGORIES_STRING : `category=${category}`;
     // fetch
     const body = await getSkipSegments(videoID, categoryParam);
     let responseTemplate = {
