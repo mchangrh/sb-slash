@@ -4,6 +4,7 @@ const { CATEGORIES_ARR, CATEGORIES_STRING } = require("../util/categories.js");
 const CATEGORY_CHOICES = ["all", ...CATEGORIES_ARR];
 const { getSkipSegments } = require("../util/min-api.js");
 const { formatSkipSegments } = require("../util/formatResponse.js");
+const { findVideoID, strictVideoID } = require("./parseUrl.js");
 
 module.exports = {
   type: 1,
@@ -41,12 +42,16 @@ module.exports = {
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    const videoID = ((interaction.data.options.find((opt) => opt.name === "videoid") || {}).value || "").trim();
+    let videoID = ((interaction.data.options.find((opt) => opt.name === "videoid") || {}).value || "").trim();
     const category = ((interaction.data.options.find((opt) => opt.name === "category") || {}).value || "all").trim();
     const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
     const json = (interaction.data.options.find((opt) => opt.name === "json") || {}).value;
     // construct URL
     const categoryParam = (category === "all") ? CATEGORIES_STRING : `category=${category}`;
+    // check for video ID - if not stricly videoID, then try searching, then return original text if not found
+    if (!strictVideoID(videoID)) {
+      videoID = findVideoID(videoID) || videoID;
+    }
     // fetch
     const body = await getSkipSegments(videoID, categoryParam);
     let responseTemplate = {

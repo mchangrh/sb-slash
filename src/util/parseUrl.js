@@ -1,5 +1,5 @@
 const idRegex = "([0-9A-Za-z_-]{11})"; // group to always be index 1
-const urlIDRegexp = new RegExp(`(?:[/=])${idRegex}`);
+const urlIDRegexp = new RegExp(`(?:v=|/)${idRegex}(?:$|/$|[?&]t=\\d+$)`);
 const onlyIDRegexp = new RegExp(`^${idRegex}$`);
 const anyIDRegexp = new RegExp(idRegex);
 exports.findVideoID = (str) => {
@@ -13,3 +13,5 @@ exports.findVideoID = (str) => {
     return null;
   }
 };
+
+exports.strictVideoID = (str) => onlyIDRegexp.test(str);

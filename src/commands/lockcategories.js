@@ -23,8 +23,12 @@ module.exports = {
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    const videoID = ((interaction.data.options.find((opt) => opt.name === "videoid") || {}).value || "").trim();
+    let videoID = ((interaction.data.options.find((opt) => opt.name === "videoid") || {}).value || "").trim();
     const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
+    // check for video ID - if not stricly videoID, then try searching, then return original text if not found
+    if (!strictVideoID(videoID)) {
+      videoID = findVideoID(videoID) || videoID;
+    }
     // fetch
     const body = await getLockCategories(videoID);
     const embed = formatLockCategories(videoID, body);

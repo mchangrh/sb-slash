@@ -78,6 +78,7 @@ const formatSegment = (result) =>
   **Views:** ${result.views.toLocaleString("en-US")}
   **Category:** ${result.category}
   **Video Duration:** ${secondsToTime(result.videoDuration)}
+  **Action Type:** ${result.actionType}
   **Hidden:** ${hidden(result)}
   **User Agent:** ${parseUserAgent(result.userAgent)}
   **User ID:** \`${result.userID}\`
