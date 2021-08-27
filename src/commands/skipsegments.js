@@ -4,7 +4,7 @@ const { CATEGORIES_ARR, CATEGORIES_STRING } = require("../util/categories.js");
 const CATEGORY_CHOICES = ["all", ...CATEGORIES_ARR];
 const { getSkipSegments } = require("../util/min-api.js");
 const { formatSkipSegments } = require("../util/formatResponse.js");
-const { findVideoID, strictVideoID } = require("./parseUrl.js");
+const { findVideoID, strictVideoID } = require("../util/parseUrl.js");
 
 module.exports = {
   type: 1,
