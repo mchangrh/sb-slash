@@ -2,6 +2,7 @@ const { InteractionResponseType } = require("discord-interactions");
 const { ApplicationCommandOptionType } = require("slash-commands");
 const { getLockCategories } = require("../util/min-api.js");
 const { formatLockCategories } = require("../util/formatResponse.js");
+const { findVideoID, strictVideoID } = require("../util/parseUrl.js");
 
 module.exports = {
   type: 1,
