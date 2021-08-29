@@ -100,9 +100,10 @@ const formatUserID = (result) => {
     fields: []
   };
   for (const user of result) {
+    const userIDUrl = `https://sb.ltn.fi/userid/${user.userID}/`;
     embed.fields.push({
       name: user.userName,
-      value: "`"+user.userID+"`",
+      value: `[\`${user.userID}\`](${userIDUrl})`,
       inline: true
     });
   }
