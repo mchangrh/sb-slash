@@ -1,18 +1,26 @@
 # Emojis for logos
 
 ## Vanced Logo
-`<:vancedlogo:833709207056154634>` | 
-[Link](https://cdn.discordapp.com/emojis/833709207056154634.png) | 
+`<:vanced:882089632555216916>` | 
+[Link](https://cdn.discordapp.com/emojis/882089632555216916.png) | 
 [Server Invite](https://discord.com/invite/WCGNdRruzb)
 
 ## Chromium
-`<:chromium:871511147017306123>` | [Link](https://cdn.discordapp.com/emojis/871511147017306123.png) | [Source](https://about.google/brand-resource-center/logos-list/)
+`<:chromium:882089632731369522>` |
+[Link](https://cdn.discordapp.com/emojis/882089632731369522.png) |
+[Source](https://about.google/brand-resource-center/logos-list/)
 
 ## Firefox
-`<:firefox:871495890286825472>` | [Link](https://cdn.discordapp.com/emojis/871495890286825472.png) | [Source](https://design.firefox.com/photon/visuals/product-identity-assets.html)
+`<:firefox:882089632777523200>` |
+[Link](https://cdn.discordapp.com/emojis/882089632777523200.png) |
+[Source](https://design.firefox.com/photon/visuals/product-identity-assets.html)
 
 ## MPV
-`<:mpv:871496580782489660>` | [Link](https://cdn.discordapp.com/emojis/871496580782489660.png) | [Source](https://github.com/mpv-player/mpv.io/tree/master/source/images)
+`<:mpv:882089632681058374>` |
+[Link](https://cdn.discordapp.com/emojis/882089632681058374.png) |
+[Source](https://github.com/mpv-player/mpv.io/tree/master/source/images)
 
 ## Edge
-`<:edge:871513299643146301>` | [Link](https://cdn.discordapp.com/emojis/871513299643146301.png) | [Source](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks)
+`<:edge:882089632471347292>` |
+[Link](https://cdn.discordapp.com/emojis/882089632471347292.png) |
+[Source](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks)
