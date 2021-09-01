@@ -12,7 +12,7 @@ const minutesReadable = (minutes, useLong = false) => {
   }
   return str.trim();
 };
-const isValidUserUUID = (str) => /^[a-f0-9]{64}$/.test(str);
+const isValidUserUUID = (str) => /[a-f0-9]{64}/.test(str);
 const isValidSegmentUUID = (str) =>  /^([a-f0-9]{64}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/.test(str);
 
 module.exports = {
