@@ -3,3 +3,6 @@ type = "webpack"
 account_id = "d5ccf1d783709bbdc23fc29786f38736"
 workers_dev = true
 webpack_config = "webpack.config.js"
+
+[vars]
+VERSION = "DEVELOPMENT"
