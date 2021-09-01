@@ -8,7 +8,7 @@ const { getSegmentInfo } = require("../util/min-api.js");
 module.exports = {
   name: "lookupsegment",
   execute: async ({ interaction, response }) => {
-    const segmentid = interaction.message.content.match(/(?:\*\*Last Submission:\*\*) `([a-f0-9]{64})`/)[1];
+    const segmentid = interaction.message.content.match(/(?:\*\*Last Submission:\*\*) `([a-f0-9]{64,65})`/)[1];
     if (!isValidSegmentUUID(segmentid)) return response(invalidSegment);
     // fetch
     const parsed = await getSegmentInfo(segmentid);
