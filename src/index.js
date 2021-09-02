@@ -1,5 +1,5 @@
 const { InteractionType, InteractionResponseType, InteractionResponseFlags, verifyKey } = require("discord-interactions");
-const commands = ["userinfo", "skipsegments", "showoff", "segmentinfo", "userid", "lockcategories", "github", "invite"];
+const commands = ["userinfo", "skipsegments", "showoff", "segmentinfo", "userid", "lockcategories", "github", "invite", "status"];
 const buttons = ["lookupuser", "lookupsegment"];
 const messageCmd = {
   "Lookup Segments": "lookupSegments",
@@ -74,14 +74,14 @@ const handleInteraction = async ({ request, wait }) => {
     }
   } catch (err) {
     // Catch & log any errors
-    console.error(err);
+    console.log(err);
 
     // Send an ephemeral message to the user
     return jsonResponse({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
         content: "An unexpected error occurred when executing the command.",
-        // content: `error: ${err}`,
+        //content: `error: ${err}`,
         flags: InteractionResponseFlags.EPHEMERAL
       }
     });
@@ -130,7 +130,7 @@ addEventListener("fetch", (event) => {
     wait: event.waitUntil.bind(event)
   }).catch((err) => {
     // Log & re-throw any errors
-    console.error(err);
+    console.log(err);
     throw err;
   }));
 });

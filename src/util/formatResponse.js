@@ -170,6 +170,36 @@ const formatSkipSegments = (videoID, result) => {
   return embed;
 };
 
+const formatStatus = (res) => {
+  const embed = { ...emptyEmbed};
+  embed.title = "SponsorBlock Server Status";
+  embed.url = "https://status.sponsor.ajay.app/";
+  embed.fields.push(
+    {
+      name: "Uptime",
+      value: secondsToTime(res.uptime),
+      inline: true
+    }, {
+      name: "Commit",
+      value: `[${res.commit.substring(0,7)}](https://github.com/ajayyy/SponsorBlockServer/commit/${res.commit})`,
+      inline: true
+    }, {
+      name: "DB Version",
+      value: res.db,
+      inline: true
+    }, {
+      name: "Start Time",
+      value: `<t:${(""+res.startTime).substring(0, 10)}:R>`,
+      inline: true
+    }, {
+      name: "Process Time",
+      value: res.processTime,
+      inline: true
+    }
+  );
+  return embed;
+};
+
 module.exports = {
   formatShowoff,
   formatSegment,
@@ -177,5 +207,6 @@ module.exports = {
   formatUserID,
   getLastSegmentTime,
   formatLockCategories,
-  formatSkipSegments
+  formatSkipSegments,
+  formatStatus
 };

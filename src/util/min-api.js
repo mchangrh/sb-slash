@@ -30,11 +30,17 @@ const getLockCategories = async (videoID) => {
   return fetch(url).then((res) => res.text());
 };
 
+const getStatus = async () => {
+  const url = `${BASEURL}/status`;
+  return fetch(url).then((res) => res.json());
+};
+
 module.exports = {
   getSkipSegments,
   getUserInfo,
   getUserInfoShowoff,
   getSegmentInfo,
   getUserID,
-  getLockCategories
+  getLockCategories,
+  getStatus
 };
