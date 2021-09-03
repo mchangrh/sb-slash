@@ -80,7 +80,7 @@ const formatUser = (result, submitted) =>
   **Ignored Submissions:** ${result.ignoredSegmentCount}
   **Ignored Views:** ${result.ignoredViewCount}
   **Last Submission:** \`${result.lastSegmentID}\`
-  **Last Submittion Time:** ${formatDate(submitted)}
+  **Last Submittion Time:** <t:${(""+submitted).substring(0, 10)}:R>
   `;
 
 const formatSegment = (result) =>

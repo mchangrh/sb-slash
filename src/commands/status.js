@@ -11,7 +11,6 @@ module.exports = {
     // fetch
     const parsedStatus = await getStatus();
     const embed = formatStatus(parsedStatus);
-    console.log(embed);
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
