@@ -9,6 +9,21 @@ get a list of segments
 - categories - Categories to get segments for
 - json - Show JSON response (includes videoDuration)
 
+### /searchsegments
+get all segments for a video based on filters
+- videoid - YouTube ID of video to get segments for
+- page - page number to start at
+- json - response in JSON format
+
+Filters (threshold to reach to be included in result)
+- minvotes - min # of votes
+- maxvotes - max # of votes
+- minviews - min # of views
+- maxviews - max # of views
+- locked - show locked segments
+- hidden - show hidden segments
+- ignored - show ignored segments (hidden or downvoted)
+
 ### /showoff
 show off your stats in a format similar to the extension
 - publicid - Public ID of user to get info on

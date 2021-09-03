@@ -11,6 +11,8 @@ Retrieve [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and use
 /segmentinfo segmentid:
 /userid username: exact:
 /lockcategories videoid:
+/searchsegments videoid:
+/status
 
 /invite
 /github
