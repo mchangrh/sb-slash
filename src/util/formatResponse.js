@@ -15,9 +15,11 @@ const secondsToTime = (e) => {
 
 const videoTimeLink = (videoID, startTime) => `https://www.youtube.com/watch?v=${videoID}&t=${startTime.toFixed(0)-2}`;
 
-const emptyEmbed = {
-  color: 0xff0000,
-  fields: []
+const emptyEmbed = () => {
+  return {
+    color: 0xff0000,
+    fields: []
+  };
 };
 
 const emptyVideoEmbed = (videoID) => {
@@ -55,6 +57,19 @@ const hidden = (result) => {
   return "Not Hidden";
 };
 
+const visibility = (result) => {
+  if (result.hidden) return "❌";
+  if (result.shadowHidden) return "❌";
+  if (result.votes === -2) return "❌";
+  if (result.locked) return `🔒 ${result.votes}`;
+  return `✅ ${result.votes}`;
+};
+
+const totalPages = (total) => {
+  const [quo, rem] = [total/10, total%10];
+  return rem === 0 ? quo-1 : Math.floor(quo);
+};
+
 const formatUser = (result, submitted) => 
   `${userName(result)}
   **Submitted:** ${result.segmentCount.toLocaleString("en-US")}
@@ -85,7 +100,7 @@ const formatSegment = (result) =>
   `;
 
 const formatShowoff = (publicID, result) => {
-  const embed = {...emptyEmbed};
+  const embed = emptyEmbed();
   embed.title = userName(result);
   embed.url = `https://sb.ltn.fi/userid/${publicID}/`;
   embed.description = `**Submissions:** ${result.segmentCount.toLocaleString("en-US")}
@@ -164,14 +179,34 @@ const formatSkipSegments = (videoID, result) => {
       `${secondsToTime(segment.segment[0])} - ${secondsToTime(segment.segment[1])}`;
     embed.fields.push({
       name: segment.UUID,
-      value: `[${segment.category}](${videoLink}) | ${segmentTimes}`
+      value: `[${segment.category}](${videoLink}) | ${segment.actionType} | ${segmentTimes}`
+    });
+  }
+  return embed;
+};
+
+const formatSearchSegments = (videoID, result) => {
+  if (result === "Not Found") return segmentsNotFoundEmbed(videoID);
+  const embed = emptyVideoEmbed(videoID);
+  const parsed = JSON.parse(result);
+  embed.description = `**Segments:** ${parsed.segmentCount} | **Page:**: ${parsed.page}/${totalPages(parsed.segmentCount)}`;
+  const segments = parsed.segments;
+  for (const segment of segments) {
+    const videoLink = videoTimeLink(videoID, segment.startTime);
+    const segmentTimes = (segment.startTime == segment.endTime) ?
+      `${secondsToTime(segment.startTime)}` :
+      `${secondsToTime(segment.startTime)} - ${secondsToTime(segment.endTime)}`;
+    const views = `👀 ${segment.views}`;
+    embed.fields.push({
+      name: segment.UUID,
+      value: `[${segment.category}](${videoLink}) | ${visibility(segment)} | ${views} | ${segment.actionType} | ${segmentTimes}`
     });
   }
   return embed;
 };
 
 const formatStatus = (res) => {
-  const embed = { ...emptyEmbed};
+  const embed = emptyEmbed();
   embed.title = "SponsorBlock Server Status";
   embed.url = "https://status.sponsor.ajay.app/";
   embed.fields.push(
@@ -208,5 +243,6 @@ module.exports = {
   getLastSegmentTime,
   formatLockCategories,
   formatSkipSegments,
+  formatSearchSegments,
   formatStatus
 };

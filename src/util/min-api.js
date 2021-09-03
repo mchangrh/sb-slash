@@ -1,7 +1,12 @@
 const BASEURL = "https://sponsor.ajay.app/api";
 
 const getSkipSegments = async (videoID, categoryParam) => {
-  const url = `${BASEURL}/skipSegments?videoID=${videoID}&${categoryParam}`;
+  const url = `${BASEURL}/skipSegments?videoID=${videoID}&${categoryParam}&actionType=["skip", "mute"]`;
+  return fetch(url).then((res) => res.text());
+};
+
+const getSearchSegments = async (videoID, page, filterParam) => {
+  const url = `${BASEURL}/searchSegments?videoID=${videoID}&actionType=["skip", "mute"]&page=${page}${filterParam}`;
   return fetch(url).then((res) => res.text());
 };
 
@@ -37,6 +42,7 @@ const getStatus = async () => {
 
 module.exports = {
   getSkipSegments,
+  getSearchSegments,
   getUserInfo,
   getUserInfoShowoff,
   getSegmentInfo,
