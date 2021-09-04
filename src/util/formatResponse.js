@@ -227,12 +227,8 @@ const formatStatus = (res) => {
       value: res.db,
       inline: true
     }, {
-      name: "Start Time",
-      value: `<t:${(""+res.startTime).substring(0, 10)}:R>`,
-      inline: true
-    }, {
       name: "Process Time",
-      value: res.processTime,
+      value: `${res.processTime} ms`,
       inline: true
     }
   );
