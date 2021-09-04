@@ -70,6 +70,10 @@ const totalPages = (total) => {
   return rem === 0 ? quo-1 : Math.floor(quo);
 };
 
+const actionType = (type) => {
+  return (type === mute) ? "🔇" : "⏭️";
+};
+
 const formatUser = (result, submitted) => 
   `${userName(result)}
   **Submitted:** ${result.segmentCount.toLocaleString("en-US")}
@@ -179,7 +183,7 @@ const formatSkipSegments = (videoID, result) => {
       `${secondsToTime(segment.segment[0])} - ${secondsToTime(segment.segment[1])}`;
     embed.fields.push({
       name: segment.UUID,
-      value: `[${segment.category}](${videoLink}) | ${segment.actionType} | ${segmentTimes}`
+      value: `[${segment.category}](${videoLink}) | ${actionType(segment.actionType)} | ${segmentTimes}`
     });
   }
   return embed;
@@ -199,7 +203,7 @@ const formatSearchSegments = (videoID, result) => {
     const views = `👀 ${segment.views}`;
     embed.fields.push({
       name: segment.UUID,
-      value: `[${segment.category}](${videoLink}) | ${visibility(segment)} | ${views} | ${segment.actionType} | ${segmentTimes}`
+      value: `[${segment.category}](${videoLink}) | ${visibility(segment)} | ${views} | ${actionType(segment.actionType)} | ${segmentTimes}`
     });
   }
   return embed;
