@@ -9,8 +9,8 @@ module.exports = {
   // eslint-disable-next-line no-unused-vars
   execute: async ({ interaction, response }) => {
     // fetch
-    const parsedStatus = await getStatus();
-    const embed = formatStatus(parsedStatus);
+    const statusRes = await getStatus();
+    const embed = await formatStatus(statusRes);
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {

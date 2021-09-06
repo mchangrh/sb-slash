@@ -209,29 +209,40 @@ const formatSearchSegments = (videoID, result) => {
   return embed;
 };
 
-const formatStatus = (res) => {
+const formatStatus = async (res) => {
   const embed = emptyEmbed();
   embed.title = "SponsorBlock Server Status";
   embed.url = "https://status.sponsor.ajay.app/";
-  embed.fields.push(
-    {
-      name: "Uptime",
-      value: secondsToTime(res.uptime),
-      inline: true
-    }, {
-      name: "Commit",
-      value: `[${res.commit.substring(0,7)}](https://github.com/ajayyy/SponsorBlockServer/commit/${res.commit})`,
-      inline: true
-    }, {
-      name: "DB Version",
-      value: res.db,
-      inline: true
-    }, {
-      name: "Process Time",
-      value: `${res.processTime} ms`,
-      inline: true
-    }
-  );
+  if (!res.ok) {
+    embed.description = `Server Unavailable: ${res.status} ${res.statusText}`;
+  } else {
+    const data = await res.json();
+    const totalTime = Date.now() - data.startTime;
+    console.log(totalTime);
+    embed.fields.push(
+      {
+        name: "Uptime",
+        value: secondsToTime(data.uptime),
+        inline: true
+      }, {
+        name: "Commit",
+        value: `[${data.commit.substring(0,7)}](https://github.com/ajayyy/SponsorBlockServer/commit/${data.commit})`,
+        inline: true
+      }, {
+        name: "DB Version",
+        value: data.db,
+        inline: true
+      }, {
+        name: "Total Response Time",
+        value: `${totalTime} ms`,
+        inline: true
+      }, {
+        name: "Process Time",
+        value: `${data.processTime} ms`,
+        inline: true
+      }
+    );
+  }
   return embed;
 };
 

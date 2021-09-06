@@ -37,7 +37,7 @@ const getLockCategories = async (videoID) => {
 
 const getStatus = async () => {
   const url = `${BASEURL}/status`;
-  return fetch(url).then((res) => res.json());
+  return fetch(url);
 };
 
 module.exports = {
