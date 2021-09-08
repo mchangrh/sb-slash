@@ -71,7 +71,7 @@ const totalPages = (total) => {
 };
 
 const actionType = (type) => {
-  return (type === mute) ? "🔇" : "⏭️";
+  return (type == "mute") ? "🔇" : "⏭️";
 };
 
 const formatUser = (result, submitted) => 
