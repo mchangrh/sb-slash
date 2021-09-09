@@ -46,7 +46,7 @@ const formatDate = (date) => {
 const formatVote = (result) => {
   let votes = result.votes;
   if (result.votes <= -2) votes += " ❌"; // hidden
-  if (result.locked) votes += " 👑"; // locked
+  if (result.locked) votes += " 🔒"; // locked
   return votes;
 };
 
