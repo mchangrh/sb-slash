@@ -48,7 +48,7 @@ module.exports = {
     const json = (interaction.data.options.find((opt) => opt.name === "json") || {}).value;
     // construct URL
     const categoryParam = (category === "all") ? CATEGORIES_STRING : `category=${category}`;
-    // check for video ID - if not stricly videoID, then try searching, then return original text if not found
+    // check for video ID - if not strictly videoID, then try searching, then return original text if not found
     if (!strictVideoID(videoID)) {
       videoID = findVideoID(videoID) || videoID;
     }
