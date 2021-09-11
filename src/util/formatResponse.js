@@ -37,12 +37,6 @@ const userNameFilter = (userName) =>
 
 const userName = (result) => result.vip ? `[VIP] ${userNameFilter(result.userName)}` : userNameFilter(result.userName);
 
-const formatDate = (date) => {
-  if (!date) return null;
-  const dateObj = new Date(date);
-  return dateObj.toISOString().replace(/T/, " ").replace(/\..+/, "");
-};
-
 const formatVote = (result) => {
   let votes = result.votes;
   if (result.votes <= -2) votes += " ❌"; // hidden
@@ -70,9 +64,21 @@ const totalPages = (total) => {
   return rem === 0 ? quo-1 : Math.floor(quo);
 };
 
-const actionType = (type) => {
-  return (type == "mute") ? "🔇" : "⏭️";
+const actionType = (type) => (type == "mute") ? "🔇" : "⏭️";
+
+const categoryColour = {
+  "sponsor": 54272,
+  "selfpromo": 16776960,
+  "interaction": 13369599,
+  "intro": 65535,
+  "outro": 131821,
+  "preview": 36822,
+  "music_offtopic": 16750848,
+  "poi_highlight": 16717444,
+  "default": 16711680
 };
+
+const timeStamp = (time) => `<t:${(""+time).substring(0,10)}:R>`;
 
 const formatUser = (result, submitted) => 
   `${userName(result)}
@@ -84,24 +90,28 @@ const formatUser = (result, submitted) =>
   **Ignored Submissions:** ${result.ignoredSegmentCount}
   **Ignored Views:** ${result.ignoredViewCount}
   **Last Submission:** \`${result.lastSegmentID}\`
-  **Last Submission Time:** <t:${(""+submitted).substring(0, 10)}:R>
+  **Last Submission Time:** ${timeStamp(submitted)}
   `;
 
-const formatSegment = (result) =>
-  `**Submitted:** ${formatDate(result.timeSubmitted)}
-  **Video ID:** ${result.videoID}
-  **Start:** ${secondsToTime(result.startTime)}
-  **End:** ${secondsToTime(result.endTime)}
-  **Length:** ${secondsToTime((result.endTime - result.startTime).toFixed(2))}
-  **Votes:** ${formatVote(result)}
-  **Views:** ${result.views.toLocaleString("en-US")}
-  **Category:** ${result.category}
-  **Video Duration:** ${secondsToTime(result.videoDuration)}
-  **Action Type:** ${result.actionType}
-  **Hidden:** ${hidden(result)}
+const formatSegment = (result) => {
+  const embed = emptyEmbed();
+  const { videoID, category, startTime, endTime } = result;
+  const videoLink = videoTimeLink(videoID, startTime);
+  const segmentTimes = (startTime == endTime) ?
+    `**Time:** ${secondsToTime(startTime)}` :
+    `**Times:** ${secondsToTime(startTime)} - ${secondsToTime(endTime)} **Length:** ${secondsToTime((endTime - startTime).toFixed(2))}`;
+  embed.title = videoID;
+  embed.url = `https://sb.ltn.fi/video/${videoID}/`;
+  embed.color = categoryColour[category] || categoryColour["default"];
+  embed.description = `[${category}](${videoLink}) | ${actionType(result.actionType)} | **Submitted:** ${timeStamp(result.timeSubmitted)}
+  ${segmentTimes}
+  **Votes:** ${formatVote(result)} | **Views:** ${result.views.toLocaleString("en-US")} | **Hidden:** ${hidden(result)}
   **User Agent:** ${parseUserAgent(result.userAgent)}
+  **Video Duration:** ${secondsToTime(result.videoDuration)}
   **User ID:** \`${result.userID}\`
   `;
+  return embed;
+};
 
 const formatShowoff = (publicID, result) => {
   const embed = emptyEmbed();

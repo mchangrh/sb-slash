@@ -8,7 +8,7 @@ const { getUserInfo } = require("../util/min-api.js");
 module.exports = {
   name: "lookupuser",
   execute: async ({ interaction, response }) => {
-    const publicid = interaction.message.content.match(/(?:\*\*User ID:\*\*) `([a-f0-9]{64})`/)[1];
+    const publicid = interaction.message.embeds[0].description.match(/(?:\*\*User ID:\*\*) `([a-f0-9]{64})`/)[1];
     if (!isValidUserUUID(publicid)) return response(invalidPublicID);
     // fetch
     const parsedUser = await getUserInfo(publicid);

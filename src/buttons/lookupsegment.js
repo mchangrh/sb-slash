@@ -16,7 +16,7 @@ module.exports = {
     return response({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
-        content: formatSegment(parsed[0]),
+        embeds: [formatSegment(parsed[0])],
         components: segmentComponents(parsed[0].videoID, true),
         flags: InteractionResponseFlags.EPHEMERAL
       }

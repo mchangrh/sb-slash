@@ -11,8 +11,8 @@ module.exports = {
   execute: async ({ interaction, response }) => {
     // parse videoid from description
     const msg = Object.values(interaction.data.resolved.messages)[0];
-    const embedTitle = (msg.embeds !== undefined && msg.embeds.length ) ? msg.embeds[0].title : "";
-    const searchString = msg.content || embedTitle;
+    const searchEmbed = msg.embeds[0] || {};
+    const searchString = msg.content || searchEmbed.title || searchEmbed.description || "";
     const videoID = findVideoID(searchString);
     if (!videoID) return response(videoIDNotFound);
     // fetch
