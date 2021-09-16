@@ -253,6 +253,12 @@ const formatUserStats = (publicID, data) => {
     columnSplitter: " | ",
     showHeaders: false
   };
+  const typeConfig = {
+    ...columnifyConfig,
+    config: {
+      key: { minWidth: 14 }
+    }
+  };
   const categoryData = [];
   const typeData = [];
   for (const [key, value] of Object.entries(data.categoryCount)) {
@@ -272,7 +278,7 @@ const formatUserStats = (publicID, data) => {
       value: "```"+columnify(categoryData, columnifyConfig)+"```"
     }, {
       name: "Type Breakdown",
-      value: "```"+columnify(typeData, columnifyConfig)+"```"
+      value: "```"+columnify(typeData, typeConfig)+"```"
     }
   );
   return embed;

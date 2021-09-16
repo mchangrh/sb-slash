@@ -5,11 +5,15 @@ Retrieve [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and use
 
 ## slash commands
 ```
+# users
 /userinfo publicid:
-/skipsegments videoid: categories: json:
 /showoff publicid:
-/segmentinfo segmentid:
+/userstats publicid:
 /userid username: exact:
+
+# segments
+/skipsegments videoid: categories: json:
+/segmentinfo segmentid:
 /lockcategories videoid:
 /searchsegments videoid:
 /status

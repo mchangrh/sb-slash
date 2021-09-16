@@ -3,6 +3,11 @@
 get user info
 - publicid - Public ID of user to get info on
 
+### /userstats
+get user statistics
+breakdown of categories and types, with count and percentage
+- publicid - Public ID of user to get info on
+
 ### /skipsegments
 get a list of segments 
 - videoid - YouTube ID of video to get segments for
