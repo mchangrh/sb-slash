@@ -1,5 +1,5 @@
 const { InteractionType, InteractionResponseType, InteractionResponseFlags, verifyKey } = require("discord-interactions");
-const commands = ["userinfo", "skipsegments", "showoff", "segmentinfo", "userid", "lockcategories", "github", "invite", "status", "searchsegments"];
+const commands = ["userinfo", "skipsegments", "showoff", "segmentinfo", "userid", "lockcategories", "github", "invite", "status", "searchsegments", "userstats"];
 const buttons = ["lookupuser", "lookupsegment"];
 const messageCmd = {
   "Lookup Segments": "lookupSegments",

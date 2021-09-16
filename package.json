@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/mchangrh/sb-slash#readme",
   "dependencies": {
+    "columnify": "^1.5.4",
     "discord-interactions": "^2.3.0",
     "slash-commands": "^1.5.0"
   },

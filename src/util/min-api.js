@@ -40,6 +40,11 @@ const getStatus = async () => {
   return fetch(url);
 };
 
+const getUserStats = async (userID) => {
+  const url = `${BASEURL}/userStats?publicUserID=${userID}&fetchCategoryStats=true&fetchActionTypeStats=true`;
+  return fetch(url).then((res) => res.json());
+};
+
 module.exports = {
   getSkipSegments,
   getSearchSegments,
@@ -48,5 +53,6 @@ module.exports = {
   getSegmentInfo,
   getUserID,
   getLockCategories,
-  getStatus
+  getStatus,
+  getUserStats
 };

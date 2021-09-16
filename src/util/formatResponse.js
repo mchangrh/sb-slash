@@ -1,4 +1,5 @@
 const sbcutil = require("./sbc-util");
+const columnify = require("columnify");
 const { getSegmentInfo } = require("./min-api.js");
 const { parseUserAgent } = require("./parseUserAgent.js");
 const { CATEGORIES_ARR } = require("./categories.js");
@@ -37,27 +38,19 @@ const userNameFilter = (userName) =>
 
 const userName = (result) => result.vip ? `[VIP] ${userNameFilter(result.userName)}` : userNameFilter(result.userName);
 
-const formatVote = (result) => {
-  let votes = result.votes;
-  if (result.votes <= -2) votes += " ❌"; // hidden
-  if (result.locked) votes += " 🔒"; // locked
-  return votes;
-};
-
-const hidden = (result) => {
-  if (result.hidden) return "❌ Hidden"; // if hidden
-  if (result.shadowHidden) return "❌ Shadowhidden"; // if shadowHidden
-  if (result.votes <= -2) return "❌ Downvoted"; // if votes <=2
-  return "Not Hidden";
-};
-
 const visibility = (result) => {
-  if (result.hidden) return "❌";
-  if (result.shadowHidden) return "❌";
-  if (result.votes === -2) return "❌";
-  if (result.locked) return `🔒 ${result.votes}`;
-  return `✅ ${result.votes}`;
+  if (result.hidden) return "❌ Hidden"; // if hidden
+  if (result.shadowHidden) return "🚫 Shadowhidden"; // if shadowHidden
+  if (result.votes <= -2) return "👎 Downvoted"; // if votes <=2
+  return "Visible";
 };
+
+const formatVote = (result) =>
+  (result.hidden) ? "❌"
+    : (result.shadowHidden) ? "🚫"
+      : (result.votes === -2) ? "👎"
+        : (result.locked) ? `🔒 ${result.votes}`
+          : `✅ ${result.votes}`;
 
 const totalPages = (total) => {
   const [quo, rem] = [total/10, total%10];
@@ -65,6 +58,11 @@ const totalPages = (total) => {
 };
 
 const actionType = (type) => (type == "mute") ? "🔇" : "⏭️";
+
+const segmentTimes = (start, end) => 
+  (start == end) ?
+    `${secondsToTime(start)}` :
+    `${secondsToTime(start)} - ${secondsToTime(end)}`;
 
 const categoryColour = {
   "sponsor": 54272,
@@ -97,15 +95,12 @@ const formatSegment = (result) => {
   const embed = emptyEmbed();
   const { videoID, category, startTime, endTime } = result;
   const videoLink = videoTimeLink(videoID, startTime);
-  const segmentTimes = (startTime == endTime) ?
-    `**Time:** ${secondsToTime(startTime)}` :
-    `**Times:** ${secondsToTime(startTime)} - ${secondsToTime(endTime)} **Length:** ${secondsToTime((endTime - startTime).toFixed(2))}`;
   embed.title = videoID;
   embed.url = `https://sb.ltn.fi/video/${videoID}/`;
   embed.color = categoryColour[category] || categoryColour["default"];
   embed.description = `[${category}](${videoLink}) | ${actionType(result.actionType)} | **Submitted:** ${timeStamp(result.timeSubmitted)}
-  ${segmentTimes}
-  **Votes:** ${formatVote(result)} | **Views:** ${result.views.toLocaleString("en-US")} | **Hidden:** ${hidden(result)}
+  ${segmentTimes(startTime, endTime)} **Length:** ${secondsToTime((endTime - startTime).toFixed(2))}
+  **Votes:** ${formatVote(result)} | **Views:** ${result.views.toLocaleString("en-US")} | **Visibility:** ${visibility(result)}
   **User Agent:** ${parseUserAgent(result.userAgent)}
   **Video Duration:** ${secondsToTime(result.videoDuration)}
   **User ID:** \`${result.userID}\`
@@ -187,13 +182,10 @@ const formatSkipSegments = (videoID, result) => {
   const embed = emptyVideoEmbed(videoID);
   const parsed = JSON.parse(result);
   for (const segment of parsed) {
-    const videoLink = videoTimeLink(videoID, segment.segment[0]);
-    const segmentTimes = (segment.segment[0] == segment.segment[1]) ?
-      `${secondsToTime(segment.segment[0])}` :
-      `${secondsToTime(segment.segment[0])} - ${secondsToTime(segment.segment[1])}`;
+    const [ startTime, endTime ] = segment.segment;
     embed.fields.push({
       name: segment.UUID,
-      value: `[${segment.category}](${videoLink}) | ${actionType(segment.actionType)} | ${segmentTimes}`
+      value: `[${segment.category}](${videoTimeLink(videoID, startTime)}) | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
     });
   }
   return embed;
@@ -206,14 +198,10 @@ const formatSearchSegments = (videoID, result) => {
   embed.description = `**Segments:** ${parsed.segmentCount} | **Page:**: ${parsed.page}/${totalPages(parsed.segmentCount)}`;
   const segments = parsed.segments;
   for (const segment of segments) {
-    const videoLink = videoTimeLink(videoID, segment.startTime);
-    const segmentTimes = (segment.startTime == segment.endTime) ?
-      `${secondsToTime(segment.startTime)}` :
-      `${secondsToTime(segment.startTime)} - ${secondsToTime(segment.endTime)}`;
-    const views = `👀 ${segment.views}`;
+    const { startTime, endTime } = segment;
     embed.fields.push({
       name: segment.UUID,
-      value: `[${segment.category}](${videoLink}) | ${visibility(segment)} | ${views} | ${actionType(segment.actionType)} | ${segmentTimes}`
+      value: `[${segment.category}](${videoTimeLink(videoID, startTime)}) | ${formatVote(segment)} | ${`👀 ${segment.views}`} | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
     });
   }
   return embed;
@@ -256,6 +244,40 @@ const formatStatus = async (res) => {
   return embed;
 };
 
+const formatUserStats = (publicID, data) => {
+  // format response
+  const total = data.overallStats.segmentCount;
+  const timeSaved = sbcutil.minutesReadable(data.overallStats.minutesSaved);
+  const percentage = (value) => ((value/total)*100).toFixed(2)+"%";
+  const columnifyConfig = {
+    columnSplitter: " | ",
+    showHeaders: false
+  };
+  const categoryData = [];
+  const typeData = [];
+  for (const [key, value] of Object.entries(data.categoryCount)) {
+    categoryData.push({key, value, a:percentage(value)});
+  }
+  for (const [key, value] of Object.entries(data.actionTypeCount)) {
+    typeData.push({key, value, a:percentage(value)});
+  }
+  // send result
+  const embed = emptyEmbed();
+  embed.title = data.userName;
+  embed.url = `https://sb.ltn.fi/userid/${publicID}/`;
+  embed.description = `**Total Segments:** ${total}\n **Time Saved:** ${timeSaved}`;
+  embed.fields.push(
+    {
+      name: "Category Breakdown",
+      value: "```"+columnify(categoryData, columnifyConfig)+"```"
+    }, {
+      name: "Type Breakdown",
+      value: "```"+columnify(typeData, columnifyConfig)+"```"
+    }
+  );
+  return embed;
+};
+
 module.exports = {
   formatShowoff,
   formatSegment,
@@ -265,5 +287,6 @@ module.exports = {
   formatLockCategories,
   formatSkipSegments,
   formatSearchSegments,
-  formatStatus
+  formatStatus,
+  formatUserStats
 };
