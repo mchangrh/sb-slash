@@ -215,8 +215,6 @@ const formatStatus = async (res) => {
     embed.description = `Server Unavailable: ${res.status} ${res.statusText}`;
   } else {
     const data = await res.json();
-    const totalTime = Date.now() - data.startTime;
-    console.log(totalTime);
     embed.fields.push(
       {
         name: "Uptime",
@@ -229,10 +227,6 @@ const formatStatus = async (res) => {
       }, {
         name: "DB Version",
         value: data.db,
-        inline: true
-      }, {
-        name: "Total Response Time",
-        value: `${totalTime} ms`,
         inline: true
       }, {
         name: "Process Time",
