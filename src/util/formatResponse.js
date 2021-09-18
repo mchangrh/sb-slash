@@ -25,10 +25,9 @@ const emptyEmbed = () => {
 
 const emptyVideoEmbed = (videoID) => {
   return {
+    ...emptyEmbed(),
     title: videoID,
-    url: `https://sb.ltn.fi/video/${videoID}/`,
-    color: 0xff0000,
-    fields: []
+    url: `https://sb.ltn.fi/video/${videoID}/`
   };
 };
 
@@ -38,12 +37,11 @@ const userNameFilter = (userName) =>
 
 const userName = (result) => result.vip ? `[VIP] ${userNameFilter(result.userName)}` : userNameFilter(result.userName);
 
-const visibility = (result) => {
-  if (result.hidden) return "❌ Hidden"; // if hidden
-  if (result.shadowHidden) return "🚫 Shadowhidden"; // if shadowHidden
-  if (result.votes <= -2) return "👎 Downvoted"; // if votes <=2
-  return "Visible";
-};
+const visibility = (result) =>
+  (result.hidden) ? "❌ Hidden"
+    : (result.shadowHidden) ? "🚫 Shadowhidden"
+      : (result.votes <= -2) ? "👎 Downvoted"
+        :"Visible";
 
 const formatVote = (result) =>
   (result.hidden) ? "❌"
@@ -60,9 +58,9 @@ const totalPages = (total) => {
 const actionType = (type) => (type == "mute") ? "🔇" : "⏭️";
 
 const segmentTimes = (start, end) => 
-  (start == end) ?
-    `${secondsToTime(start)}` :
-    `${secondsToTime(start)} - ${secondsToTime(end)}`;
+  (start == end)
+    ? `${secondsToTime(start)}`
+    : `${secondsToTime(start)} - ${secondsToTime(end)}`;
 
 const categoryColour = {
   "sponsor": 54272,
@@ -242,7 +240,7 @@ const formatUserStats = (publicID, data) => {
   // format response
   const total = data.overallStats.segmentCount;
   const timeSaved = sbcutil.minutesReadable(data.overallStats.minutesSaved);
-  const percentage = (value) => ((value/total)*100).toFixed(2)+"%";
+  const percentage = (value) => total ? ((value/total)*100).toFixed(2)+"%" : "0%";
   const columnifyConfig = {
     columnSplitter: " | ",
     showHeaders: false
