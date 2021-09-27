@@ -1,4 +1,5 @@
 const { InteractionResponseType } = require("discord-interactions");
+const { ApplicationCommandOptionType } = require("slash-commands");
 const { formatStatus } = require("../util/formatResponse.js");
 const { getStatus } = require("../util/min-api.js");
 
@@ -16,7 +17,7 @@ module.exports = {
   ],
   // eslint-disable-next-line no-unused-vars
   execute: async ({ interaction, response }) => {
-    const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
+    const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value || false;
     // fetch
     const statusRes = await getStatus();
     const embed = await formatStatus(statusRes);
