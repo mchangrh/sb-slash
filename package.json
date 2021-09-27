@@ -1,6 +1,6 @@
 {
   "name": "sb-slash",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "sponsorblock from slash commands",
   "main": "webpack.config.js",
   "scripts": {
@@ -34,6 +34,6 @@
     "deep-equal": "^2.0.5",
     "dotenv": "10.0.0",
     "eslint": "^7.32.0",
-    "webpack": "^5.52.1"
+    "webpack": "^5.54.0"
   }
 }

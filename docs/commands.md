@@ -45,6 +45,9 @@ find your publicID from username
 ### /lockcategories
 - videoid - ID of video to lock categories for
 
+### /status
+get status of the server
+
 ### /invite
 get invite link for the bot
 
