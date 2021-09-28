@@ -54,6 +54,15 @@ get invite link for the bot
 ### /github
 get a link to the bot's github page
 
+### /me
+run commands agianst your stored userID
+- userid
+  - set - associate discordID with publicID 
+  - get - get associated publicID
+- [userinfo](#userinfo)
+- [showoff](#showoff)
+- [userstats](#userstats)
+
 # Message Commands
 ### Lookup Segments
 find videoIDs in a message and lookup segments for that video.

@@ -18,6 +18,12 @@ Retrieve [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and use
 /searchsegments videoid:
 /status
 
+# /me
+userid set / get
+userinfo
+showoff
+userstats
+
 /invite
 /github
 ```
