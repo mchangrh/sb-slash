@@ -16,6 +16,14 @@ const invalidPublicID = {
   }
 };
 
+const noStoredID = {
+  type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+  data: {
+    content: "Sorry, there don't seem to be any set userIDs for this Discord user",
+    flags: InteractionResponseFlags.EPHEMERAL
+  }
+};
+
 const segmentNotFound = {
   type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
   data: {
@@ -43,6 +51,7 @@ const videoIDNotFound = {
 module.exports = {
   invalidSegment,
   invalidPublicID,
+  noStoredID,
   segmentNotFound,
   usernameNotFound,
   videoIDNotFound
