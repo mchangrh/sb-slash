@@ -4,9 +4,7 @@ const { formatUser, getLastSegmentTime } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
 const { invalidPublicID } = require("../util/invalidResponse.js");
 const { getUserInfo } = require("../util/min-api.js");
-
-const userIDRegex = new RegExp(/(?:^|sb.ltn.fi\/userid\/)([a-f0-9]{64})/);
-const hasValidUserUUID = (str) => userIDRegex.test(str);
+const { linkCheck, linkExtract } = require("../util/userUUID.js");
 
 module.exports = {
   type: 1,
@@ -31,8 +29,8 @@ module.exports = {
     const publicid = ((interaction.data.options.find((opt) => opt.name === "publicid") || {}).value || "").trim();
     const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
     // check for invalid publicID
-    if (!hasValidUserUUID(publicid)) return response(invalidPublicID);
-    const userID = publicid.match(userIDRegex)[1];
+    if (!linkCheck(publicid)) return response(invalidPublicID);
+    const userID = linkExtract(publicid);
     // fetch
     const parsedUser = await getUserInfo(userID);
     // get last segment time

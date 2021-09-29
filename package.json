@@ -1,6 +1,6 @@
 {
   "name": "sb-slash",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "sponsorblock from slash commands",
   "main": "webpack.config.js",
   "scripts": {

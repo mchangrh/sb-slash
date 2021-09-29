@@ -4,6 +4,7 @@ const format = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
 const { invalidPublicID, noStoredID } = require("../util/invalidResponse.js");
 const api = require("../util/min-api.js");
+const { strictCheck } = require("../util/userUUID.js");
 
 const hideOption = [{
   name: "hide",
@@ -11,8 +12,6 @@ const hideOption = [{
   type: ApplicationCommandOptionType.BOOLEAN,
   required: false
 }];
-
-const strictSBIDCheck = (str) => /^[a-f0-9]{64}$/.test(str);
 
 // get existing SBID with cache of 24hr
 const getSBID = (dID) => NAMESPACE.get(dID, {cacheTtl: 86400});
@@ -78,7 +77,7 @@ module.exports = {
     if (cmdName === "userid" && rootOptions.options[0].name === "set") {
       // get option and return if error
       const SBID = (rootOptions.options[0].options[0].value || "").trim();
-      if (!strictSBIDCheck(SBID)) return response(invalidPublicID);
+      if (!strictCheck(SBID)) return response(invalidPublicID);
       // set associated publicID and return confirmation
       await NAMESPACE.put(dID, SBID);
       return response(contentResponse(`Associated \`${SBID}\` with **\`${dUserName}\`**`, false));
