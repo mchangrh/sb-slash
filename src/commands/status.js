@@ -17,7 +17,10 @@ module.exports = {
   ],
   // eslint-disable-next-line no-unused-vars
   execute: async ({ interaction, response }) => {
-    const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value || false;
+    let hide = false;
+    if ("options" in interaction.data) {
+      hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value || false;
+    }
     // fetch
     const statusRes = await getStatus();
     const embed = await formatStatus(statusRes);
