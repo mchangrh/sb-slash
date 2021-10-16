@@ -3,7 +3,8 @@ const commands = ["userinfo", "skipsegments", "showoff", "segmentinfo", "userid"
 const buttons = ["lookupuser", "lookupsegment"];
 const messageCmd = {
   "Lookup Segments": "lookupSegments",
-  "Open in sb.ltn.fi": "openinsbltnfi"
+  "Open in sb.ltn.fi": "openinsbltnfi",
+  "Replace with sb.ltn.fi links": "replacelinks"
 };
 
 // Util to send a JSON response
