@@ -35,6 +35,8 @@ module.exports.getCommands = () => {
   // Get all files in the commands directory
   const commandDirectory = path.join(__dirname, "..", "commands");
   const commandFiles = fs.readdirSync(commandDirectory);
+  const messageCommandDirectory = path.join(__dirname, "..", "msgcommands");
+  commandFiles.push(...fs.readdirSync(messageCommandDirectory));
 
   // Work through each file
   for (const commandFile of commandFiles) {

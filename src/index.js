@@ -53,7 +53,7 @@ const handleInteraction = async ({ request, wait }) => {
       const commandName = body.data.name;
       if (Object.keys(messageCmd).includes(commandName)) { // check in messageCmd list
         // load and execute
-        const command = require(`./commands/${messageCmd[commandName]}.js`);
+        const command = require(`./msgcommands/${messageCmd[commandName]}.js`);
         return await command.execute({ interaction: body, response: jsonResponse, wait });
       } else if (commands.find((e) => e === commandName)) { // check in commands list
         // load and execute
