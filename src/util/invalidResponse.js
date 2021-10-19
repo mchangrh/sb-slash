@@ -1,56 +1,26 @@
-const { InteractionResponseType, InteractionResponseFlags } = require("discord-interactions");
-
-const invalidSegment = {
-  type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+const defaultResponse = (content) => ({
+  type: 4,
   data: {
-    content: "Sorry, that doesn't appear to be a valid segment ID",
-    flags: InteractionResponseFlags.EPHEMERAL
+    content,
+    flags: 64
   }
-};
+});
 
-const invalidPublicID = {
-  type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-  data: {
-    content: "Sorry, that doesn't appear to be a valid public User ID",
-    flags: InteractionResponseFlags.EPHEMERAL
-  }
-};
+// invalid input
+const invalidInput = (property) => defaultResponse(`Sorry, that doesn't appear to be a valid ${property}`);
+const invalidVideoID = invalidInput("Video ID");
+const invalidPublicID = invalidInput("Public User ID");
+const invalidSegment = invalidInput("Segment ID");
 
-const noStoredID = {
-  type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-  data: {
-    content: "Sorry, there don't seem to be any set userIDs for this Discord user",
-    flags: InteractionResponseFlags.EPHEMERAL
-  }
-};
-
-const segmentNotFound = {
-  type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-  data: {
-    content: "Sorry, there doesn't seem to be any segments with that ID",
-    flags: InteractionResponseFlags.EPHEMERAL
-  }
-};
-
-const usernameNotFound = {
-  type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-  data: {
-    content: "Sorry, there doesn't seem to be any users with that username. The search **is** case-sensitive.",
-    flags: InteractionResponseFlags.EPHEMERAL
-  }
-};
-
-const videoIDNotFound = {
-  type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-  data: {
-    content: "Sorry there doesn't seem to be any video links in this message",
-    flags: InteractionResponseFlags.EPHEMERAL
-  }
-};
+const videoIDNotFound = defaultResponse("Sorry there doesn't seem to be any video links in this message");
+const noStoredID = defaultResponse("Sorry, there don't seem to be any set userIDs for this Discord user");
+const usernameNotFound = defaultResponse("Sorry, there doesn't seem to be any users with that username. The search **is** case-sensitive.");
+const segmentNotFound = defaultResponse("Sorry, there doesn't seem to be any segments with that ID");
 
 module.exports = {
   invalidSegment,
   invalidPublicID,
+  invalidVideoID,
   noStoredID,
   segmentNotFound,
   usernameNotFound,

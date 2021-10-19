@@ -1,8 +1,20 @@
-const sbcutil = require("./sbc-util");
 const columnify = require("columnify");
 const { getSegmentInfo } = require("./min-api.js");
 const { parseUserAgent } = require("./parseUserAgent.js");
 const { CATEGORIES_ARR } = require("./categories.js");
+
+// https://github.com/MRuy/sponsorBlockControl/blob/61f0585c9bff9c46f6fde06bb613aadeffb7e189/src/utils.js
+const minutesReadable = (minutes) => {
+  const years = Math.floor(minutes / 60 / 24 / 365);
+  const days = Math.floor(minutes / 60 / 24) % 365;
+  const hours = Math.floor(minutes / 60) % 24;
+  let str = "";
+  str += `${years > 0 ? years + "y" : ""}`;
+  str += `${days > 0 ? days + "d" : ""}`;
+  str += `${hours > 0 ? hours + "h" : ""}`;
+  if (years == 0) str += `${(minutes % 60).toFixed(1)}m`;
+  return str.trim();
+};
 
 const secondsToTime = (e) => {
   const h = Math.floor(e / 3600).toString().padStart(1,"0"),
@@ -83,7 +95,7 @@ const formatUser = (result, submitted) =>
   **Submitted:** ${result.segmentCount.toLocaleString("en-US")}
   **Reputation:** ${result.reputation.toFixed(2)}
   **Segment Views:** ${result.viewCount.toLocaleString("en-US")}
-  **Time Saved:** ${sbcutil.minutesReadable(result.minutesSaved)}
+  **Time Saved:** ${minutesReadable(result.minutesSaved)}
   **Current Warnings:** ${result.warnings}
   **Ignored Submissions:** ${result.ignoredSegmentCount}
   **Ignored Views:** ${result.ignoredViewCount}
@@ -114,7 +126,7 @@ const formatShowoff = (publicID, result) => {
   embed.url = `https://sb.ltn.fi/userid/${publicID}/`;
   embed.description = `**Submissions:** ${result.segmentCount.toLocaleString("en-US")}
   You've saved people from **${result.viewCount.toLocaleString("en-US")}** segments
-  (**${sbcutil.minutesReadable(result.minutesSaved)}** of their lives)`;
+  (**${minutesReadable(result.minutesSaved)}** of their lives)`;
   return embed;
 };
 
@@ -243,7 +255,7 @@ const formatStatus = async (res) => {
 const formatUserStats = (publicID, data, sort) => {
   // format response
   const total = data.overallStats.segmentCount;
-  const timeSaved = sbcutil.minutesReadable(data.overallStats.minutesSaved);
+  const timeSaved = minutesReadable(data.overallStats.minutesSaved);
   const percentage = (value) => total ? ((value/total)*100).toFixed(2)+"%" : "0%";
   const columnifyConfig = {
     columnSplitter: " | ",

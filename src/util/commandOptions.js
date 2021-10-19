@@ -1,5 +1,8 @@
 const { ApplicationCommandOptionType } = require("slash-commands");
 
+const findOption = (interaction, optName) => ((interaction.data.options.find((opt) => opt.name === optName) || {}).value);
+const findOptionString = (interaction, optName, fallback="") => ((findOption(interaction, optName) || fallback).trim());
+
 const hideOption = {
   name: "hide",
   description: "Only you can see the response",
@@ -29,5 +32,7 @@ module.exports = {
   hideOption,
   videoIDOption,
   segmentIDOption,
-  publicIDOption
+  publicIDOption,
+  findOption,
+  findOptionString
 };
