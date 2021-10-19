@@ -1,95 +1,80 @@
-const { InteractionResponseType } = require("discord-interactions");
-const { ApplicationCommandOptionType } = require("slash-commands");
 const { getSearchSegments } = require("../util/min-api.js");
 const { formatSearchSegments } = require("../util/formatResponse.js");
-const { findVideoID, strictVideoID } = require("../util/parseUrl.js");
-const { videoIDOption, hideOption } = require("../util/commandOptions.js");
+const { findVideoID } = require("../util/validation.js");
+const { videoIDOption, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const [ INTEGER, BOOLEAN ] = [4, 5];
 
 module.exports = {
-  type: 1,
   name: "searchsegments",
   description: "Get All Segments on Video",
   options: [
-    videoIDOption,
-    {
+    videoIDOption, {
       name: "page",
       description: "Page of response",
-      type: ApplicationCommandOptionType.INTEGER
-    },
-    {
+      type: INTEGER
+    }, {
       name: "minvotes",
       description: "Minimum Vote Threshold",
-      type: ApplicationCommandOptionType.INTEGER
-    },
-    {
+      type: INTEGER
+    }, {
       name: "maxvotes",
       description: "Maximum Vote Threshold",
-      type: ApplicationCommandOptionType.INTEGER
-    },
-    {
+      type: INTEGER
+    }, {
       name: "minviews",
       description: "Minimum Vote Threshold",
-      type: ApplicationCommandOptionType.INTEGER
-    },
-    {
+      type: INTEGER
+    }, {
       name: "maxviews",
       description: "Maximum Vote Threshold",
-      type: ApplicationCommandOptionType.INTEGER
-    },
-    {
+      type: INTEGER
+    }, {
       name: "locked",
       description: "include locked segments",
-      type: ApplicationCommandOptionType.BOOLEAN
-    },
-    {
+      type: BOOLEAN
+    }, {
       name: "hidden",
       description: "include hidden segments",
-      type: ApplicationCommandOptionType.BOOLEAN
-    },
-    {
+      type: BOOLEAN
+    }, {
       name: "ignored",
       description: "include ignored segments (hidden or downvoted)",
-      type: ApplicationCommandOptionType.BOOLEAN
-    },
-    {
+      type: BOOLEAN
+    }, {
       name: "json",
       description: "return response as JSON",
-      type: ApplicationCommandOptionType.BOOLEAN
+      type: BOOLEAN
     },
     hideOption
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    let videoID = ((interaction.data.options.find((opt) => opt.name === "videoid") || {}).value || "").trim();
-    const page = ((interaction.data.options.find((opt) => opt.name === "page") || {}).value || 0);
-    const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
-    const json = (interaction.data.options.find((opt) => opt.name === "json") || {}).value;
+    let videoID = findOptionString(interaction, "videoid");
+    const page = findOption(interaction, "page") || 0;
+    const hide = findOption(interaction, "hide");
+    const json = findOption(interaction, "json");
     // construct URL with filters
     const filterObj = {
-      minVotes: ((interaction.data.options.find((opt) => opt.name === "minVotes") || {}).value),
-      maxVotes: ((interaction.data.options.find((opt) => opt.name === "maxVotes") || {}).value),
-      minViews: ((interaction.data.options.find((opt) => opt.name === "minViews") || {}).value),
-      maxViews: ((interaction.data.options.find((opt) => opt.name === "maxViews") || {}).value),
-      locked: ((interaction.data.options.find((opt) => opt.name === "locked") || {}).value),
-      hidden: ((interaction.data.options.find((opt) => opt.name === "hidden") || {}).value),
-      ignored: ((interaction.data.options.find((opt) => opt.name === "ignored") || {}).value)
+      minVotes: findOption(interaction, "minVotes"),
+      maxVotes: findOption(interaction, "maxVotes"),
+      minViews: findOption(interaction, "minViews"),
+      maxViews: findOption(interaction, "maxViews"),
+      locked: findOption(interaction, "locked"),
+      hidden: findOption(interaction, "hidden"),
+      ignored: findOption(interaction, "ignored")
     };
     let paramString = "";
     for (const [key, value] of Object.entries(filterObj)) {
       if (value) paramString += `&${key}=${value}`;
     }
-    console.log(paramString);
     // check for video ID - if not stricly videoID, then try searching, then return original text if not found
-    if (!strictVideoID(videoID)) {
-      videoID = findVideoID(videoID) || videoID;
-    }
+    videoID = findVideoID(videoID) || videoID;
+    if (!videoID) return response(invalidVideoID);
     // fetch
     const body = await getSearchSegments(videoID, page, paramString);
     const responseTemplate = {
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      data: {
-        flags: (hide ? 64 : 0)
-      }
+      type: 4,
+      data: { flags: (hide ? 64 : 0) }
     };
     if (json) {
       const stringified = (body === "Not Found" ? body : JSON.stringify(JSON.parse(body), null, 4));

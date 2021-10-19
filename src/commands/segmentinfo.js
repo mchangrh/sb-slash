@@ -1,13 +1,11 @@
-const { InteractionResponseType } = require("discord-interactions");
-const { isValidSegmentUUID } = require("../util/sbc-util.js");
+const { segmentStrictCheck } = require("../util/validation.js");
 const { formatSegment } = require("../util/formatResponse.js");
 const { segmentComponents } = require("../util/components.js");
 const { invalidSegment, segmentNotFound } = require("../util/invalidResponse.js");
 const { getSegmentInfo } = require("../util/min-api.js");
-const { hideOption, segmentIDOption } = require("../util/commandOptions.js");
+const { hideOption, segmentIDOption, findOption, findOptionString } = require("../util/commandOptions.js");
 
 module.exports = {
-  type: 1,
   name: "segmentinfo",
   description: "retrieves segment info",
   options: [
@@ -16,15 +14,15 @@ module.exports = {
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    const segmentid = ((interaction.data.options.find((opt) => opt.name === "segmentid") || {}).value || "").trim();
-    const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
+    const segmentid = findOptionString(interaction, "segmentid");
+    const hide = findOption(interaction, "hide");
     // check for invalid segmentid
-    if (!isValidSegmentUUID(segmentid)) return response(invalidSegment);
+    if (!segmentStrictCheck(segmentid)) return response(invalidSegment);
     // fetch
     const parsed = await getSegmentInfo(segmentid);
     if (parsed[0] === null) return response(segmentNotFound);
     return response({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      type: 4,
       data: {
         embeds: [formatSegment(parsed[0])],
         components: segmentComponents(parsed[0].videoID, false),

@@ -1,14 +1,13 @@
-const { InteractionResponseType } = require("discord-interactions");
 const { ApplicationCommandOptionType } = require("slash-commands");
 const { CATEGORIES_ARR, CATEGORIES_STRING } = require("../util/categories.js");
 const CATEGORY_CHOICES = ["all", ...CATEGORIES_ARR];
 const { getSkipSegments } = require("../util/min-api.js");
 const { formatSkipSegments } = require("../util/formatResponse.js");
-const { findVideoID, strictVideoID } = require("../util/parseUrl.js");
-const { videoIDOption, hideOption } = require("../util/commandOptions.js");
+const { invalidVideoID } = require("../util/invalidResponse.js");
+const { findVideoID } = require("../util/validation.js");
+const { videoIDOption, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
 
 module.exports = {
-  type: 1,
   name: "skipsegments",
   description: "Get Segments on Video",
   options: [
@@ -33,20 +32,19 @@ module.exports = {
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    let videoID = ((interaction.data.options.find((opt) => opt.name === "videoid") || {}).value || "").trim();
-    const category = ((interaction.data.options.find((opt) => opt.name === "category") || {}).value || "all").trim();
-    const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
-    const json = (interaction.data.options.find((opt) => opt.name === "json") || {}).value;
+    let videoID = findOptionString(interaction, "videoid");
+    const category = findOptionString(interaction, "category", "all");
+    const hide = findOption(interaction, "hide");
+    const json = findOption(interaction, "json");
     // construct URL
     const categoryParam = (category === "all") ? CATEGORIES_STRING : `category=${category}`;
-    // check for video ID - if not strictly videoID, then try searching, then return original text if not found
-    if (!strictVideoID(videoID)) {
-      videoID = findVideoID(videoID) || videoID;
-    }
+    // check for video ID
+    videoID = findVideoID(videoID) || videoID;
+    if (!videoID) return response(invalidVideoID);
     // fetch
     const body = await getSkipSegments(videoID, categoryParam);
     let responseTemplate = {
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      type: 4,
       data: {
         flags: (hide ? 64 : 0)
       }

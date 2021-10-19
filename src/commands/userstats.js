@@ -1,13 +1,10 @@
-const { InteractionResponseType } = require("discord-interactions");
-const { ApplicationCommandOptionType } = require("slash-commands");
 const { formatUserStats } = require("../util/formatResponse.js");
 const { invalidPublicID } = require("../util/invalidResponse.js");
 const { getUserStats } = require("../util/min-api.js");
-const { linkCheck, linkExtract } = require("../util/userUUID.js");
-const { hideOption, publicIDOption } = require("../util/commandOptions.js");
+const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
+const { hideOption, publicIDOption, findOption, findOptionString } = require("../util/commandOptions.js");
 
 module.exports = {
-  type: 1,
   name: "userstats",
   description: "retrieves user statistics",
   options: [
@@ -15,24 +12,24 @@ module.exports = {
     {
       name: "sort",
       description: "Sort categories in descending order",
-      type: ApplicationCommandOptionType.BOOLEAN,
+      type: 5,
       required: false
     },
     hideOption
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    const publicid = ((interaction.data.options.find((opt) => opt.name === "publicid") || {}).value || "").trim();
-    const sort = (interaction.data.options.find((opt) => opt.name === "sort") || {}).value;
-    const hide = (interaction.data.options.find((opt) => opt.name === "hide") || {}).value;
+    const publicid = findOptionString(interaction, "publicid");
+    const sort = findOption(interaction, "sort");
+    const hide = findOption(interaction, "hide");
     // check for invalid publicID
-    if (!linkCheck(publicid)) return response(invalidPublicID);
-    const userID = linkExtract(publicid);
+    if (!userLinkCheck(publicid)) return response(invalidPublicID);
+    const userID = userLinkExtract(publicid);
     // fetch
     const parsedUser = await getUserStats(userID);
     const embed = formatUserStats(userID, parsedUser,sort);
     return response({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      type: 4,
       data: {
         embeds: [embed],
         flags: (hide ? 64 : 0)
