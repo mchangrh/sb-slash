@@ -77,6 +77,12 @@ module.exports = {
     if (cmdName === "userid" && rootOptions.options[0].name === "set") {
       // get option and return if error
       const SBID = (rootOptions.options[0].options[0].value || "").trim();
+      // delete if requested
+      if (SBID == "delete") {
+        await NAMESPACE.delete(dID);
+        return response(contentResponse(`Removed ID from ${dUserName}`, true));
+      }
+      // check for valid SBID
       if (!strictCheck(SBID)) return response(invalidPublicID);
       // set associated publicID and return confirmation
       await NAMESPACE.put(dID, SBID);

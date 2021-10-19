@@ -57,11 +57,13 @@ get a link to the bot's github page
 ### /me
 run commands agianst your stored userID
 - userid
-  - set - associate discordID with publicID 
+  - set - associate discordID with publicID
   - get - get associated publicID
 - [userinfo](#userinfo)
 - [showoff](#showoff)
 - [userstats](#userstats)
+
+To delete the assocation with your discord ID, run `/me userid set delete` - or replace your publicID with delete.
 
 # Message Commands
 ### Lookup Segments
