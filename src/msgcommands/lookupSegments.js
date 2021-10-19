@@ -1,5 +1,4 @@
-const { InteractionResponseType } = require("discord-interactions");
-const { findVideoID } = require("../util/parseUrl.js");
+const { findVideoID } = require("../util/validation.js");
 const { videoIDNotFound } = require("../util/invalidResponse.js");
 const { getSkipSegments } = require("../util/min-api.js");
 const { formatSkipSegments } = require("../util/formatResponse.js");
@@ -19,7 +18,7 @@ module.exports = {
     const body = await getSkipSegments(videoID, CATEGORIES_STRING);
     const embed = formatSkipSegments(videoID, body);
     return response({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      type: 4,
       data: {
         embeds: [embed],
         flags: 64

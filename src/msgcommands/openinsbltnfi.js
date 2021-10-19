@@ -1,5 +1,4 @@
-const { InteractionResponseType } = require("discord-interactions");
-const { findVideoID } = require("../util/parseUrl.js");
+const { findVideoID } = require("../util/validation.js");
 const { videoIDNotFound } = require("../util/invalidResponse.js");
 
 module.exports = {
@@ -13,7 +12,7 @@ module.exports = {
     const videoID = findVideoID(searchString);
     if (!videoID) return response(videoIDNotFound);
     return response({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      type: 4,
       data: {
         content: `https://sb.ltn.fi/video/${videoID}/`,
         flags: 64

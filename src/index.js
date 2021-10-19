@@ -79,7 +79,7 @@ const handleInteraction = async ({ request, wait }) => {
 
     // Send an ephemeral message to the user
     return jsonResponse({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      type: 4,
       data: {
         //content: "An unexpected error occurred when executing the command.",
         content: `error: ${err}`,
