@@ -14,7 +14,9 @@ const secondsToTime = (e) => {
   return `${h}:${m}:${s}${ms}`;
 };
 
-const videoTimeLink = (videoID, startTime) => `https://www.youtube.com/watch?v=${videoID}&t=${startTime.toFixed(0)-2}`;
+const videoTimeLink = (videoID, startTime, UUID = "") => `https://www.youtube.com/watch?v=${videoID}&t=${startTime.toFixed(0)-2}s${videoSegmentLink(UUID)}`;
+
+const videoSegmentLink = (UUID) => UUID.length ? (`#requiredSegment=${UUID}`) : "";
 
 const emptyEmbed = () => {
   return {
@@ -91,8 +93,8 @@ const formatUser = (result, submitted) =>
 
 const formatSegment = (result) => {
   const embed = emptyEmbed();
-  const { videoID, category, startTime, endTime } = result;
-  const videoLink = videoTimeLink(videoID, startTime);
+  const { videoID, category, startTime, endTime, UUID } = result;
+  const videoLink = videoTimeLink(videoID, startTime, UUID);
   embed.title = videoID;
   embed.url = `https://sb.ltn.fi/video/${videoID}/`;
   embed.color = categoryColour[category] || categoryColour["default"];
@@ -181,9 +183,10 @@ const formatSkipSegments = (videoID, result) => {
   const parsed = JSON.parse(result);
   for (const segment of parsed) {
     const [ startTime, endTime ] = segment.segment;
+    const name = segment.UUID;
     embed.fields.push({
-      name: segment.UUID,
-      value: `[${segment.category}](${videoTimeLink(videoID, startTime)}) | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
+      name,
+      value: `[${segment.category}](${videoTimeLink(videoID, startTime, name)}) | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
     });
   }
   return embed;
@@ -197,9 +200,10 @@ const formatSearchSegments = (videoID, result) => {
   const segments = parsed.segments;
   for (const segment of segments) {
     const { startTime, endTime } = segment;
+    const name = segment.UUID;
     embed.fields.push({
-      name: segment.UUID,
-      value: `[${segment.category}](${videoTimeLink(videoID, startTime)}) | ${formatVote(segment)} | ${`👀 ${segment.views}`} | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
+      name,
+      value: `[${segment.category}](${videoTimeLink(videoID, startTime, name)}) | ${formatVote(segment)} | ${`👀 ${segment.views}`} | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
     });
   }
   return embed;
@@ -251,7 +255,7 @@ const formatUserStats = (publicID, data) => {
       key: { minWidth: 14 }
     }
   };
-  const categoryData = [];
+  let categoryData = [];
   const typeData = [];
   for (const [key, value] of Object.entries(data.categoryCount)) {
     categoryData.push({key, value, a:percentage(value)});
@@ -259,6 +263,8 @@ const formatUserStats = (publicID, data) => {
   for (const [key, value] of Object.entries(data.actionTypeCount)) {
     typeData.push({key, value, a:percentage(value)});
   }
+  // sort categorydata
+  categoryData = categoryData.sort((a,b) => b.value-a.value);
   // send result
   const embed = emptyEmbed();
   embed.title = data.userName;
