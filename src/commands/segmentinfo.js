@@ -1,28 +1,18 @@
 const { InteractionResponseType } = require("discord-interactions");
-const { ApplicationCommandOptionType } = require("slash-commands");
 const { isValidSegmentUUID } = require("../util/sbc-util.js");
 const { formatSegment } = require("../util/formatResponse.js");
 const { segmentComponents } = require("../util/components.js");
 const { invalidSegment, segmentNotFound } = require("../util/invalidResponse.js");
 const { getSegmentInfo } = require("../util/min-api.js");
+const { hideOption, segmentIDOption } = require("../util/commandOptions.js");
 
 module.exports = {
   type: 1,
   name: "segmentinfo",
   description: "retrieves segment info",
   options: [
-    {
-      name: "segmentid",
-      description: "UUID of segment to look up",
-      type: ApplicationCommandOptionType.STRING,
-      required: true
-    },
-    {
-      name: "hide",
-      description: "Only you can see the response",
-      type: ApplicationCommandOptionType.BOOLEAN,
-      required: false
-    }
+    segmentIDOption,
+    hideOption
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord

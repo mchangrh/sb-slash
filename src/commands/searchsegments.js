@@ -3,67 +3,61 @@ const { ApplicationCommandOptionType } = require("slash-commands");
 const { getSearchSegments } = require("../util/min-api.js");
 const { formatSearchSegments } = require("../util/formatResponse.js");
 const { findVideoID, strictVideoID } = require("../util/parseUrl.js");
+const { videoIDOption, hideOption } = require("../util/commandOptions.js");
 
 module.exports = {
   type: 1,
   name: "searchsegments",
   description: "Get All Segments on Video",
-  options: [{
-    name: "videoid",
-    description: "videoID to lookup",
-    type: ApplicationCommandOptionType.STRING,
-    required: true
-  },
-  {
-    name: "page",
-    description: "Page of response",
-    type: ApplicationCommandOptionType.INTEGER
-  },
-  {
-    name: "minvotes",
-    description: "Minimum Vote Threshold",
-    type: ApplicationCommandOptionType.INTEGER
-  },
-  {
-    name: "maxvotes",
-    description: "Maximum Vote Threshold",
-    type: ApplicationCommandOptionType.INTEGER
-  },
-  {
-    name: "minviews",
-    description: "Minimum Vote Threshold",
-    type: ApplicationCommandOptionType.INTEGER
-  },
-  {
-    name: "maxviews",
-    description: "Maximum Vote Threshold",
-    type: ApplicationCommandOptionType.INTEGER
-  },
-  {
-    name: "locked",
-    description: "include locked segments",
-    type: ApplicationCommandOptionType.BOOLEAN
-  },
-  {
-    name: "hidden",
-    description: "include hidden segments",
-    type: ApplicationCommandOptionType.BOOLEAN
-  },
-  {
-    name: "ignored",
-    description: "include ignored segments (hidden or downvoted)",
-    type: ApplicationCommandOptionType.BOOLEAN
-  },
-  {
-    name: "json",
-    description: "return response as JSON",
-    type: ApplicationCommandOptionType.BOOLEAN
-  },
-  {
-    name: "hide",
-    description: "Only you can see the response",
-    type: ApplicationCommandOptionType.BOOLEAN
-  }],
+  options: [
+    videoIDOption,
+    {
+      name: "page",
+      description: "Page of response",
+      type: ApplicationCommandOptionType.INTEGER
+    },
+    {
+      name: "minvotes",
+      description: "Minimum Vote Threshold",
+      type: ApplicationCommandOptionType.INTEGER
+    },
+    {
+      name: "maxvotes",
+      description: "Maximum Vote Threshold",
+      type: ApplicationCommandOptionType.INTEGER
+    },
+    {
+      name: "minviews",
+      description: "Minimum Vote Threshold",
+      type: ApplicationCommandOptionType.INTEGER
+    },
+    {
+      name: "maxviews",
+      description: "Maximum Vote Threshold",
+      type: ApplicationCommandOptionType.INTEGER
+    },
+    {
+      name: "locked",
+      description: "include locked segments",
+      type: ApplicationCommandOptionType.BOOLEAN
+    },
+    {
+      name: "hidden",
+      description: "include hidden segments",
+      type: ApplicationCommandOptionType.BOOLEAN
+    },
+    {
+      name: "ignored",
+      description: "include ignored segments (hidden or downvoted)",
+      type: ApplicationCommandOptionType.BOOLEAN
+    },
+    {
+      name: "json",
+      description: "return response as JSON",
+      type: ApplicationCommandOptionType.BOOLEAN
+    },
+    hideOption
+  ],
   execute: async ({ interaction, response }) => {
     // get params from discord
     let videoID = ((interaction.data.options.find((opt) => opt.name === "videoid") || {}).value || "").trim();

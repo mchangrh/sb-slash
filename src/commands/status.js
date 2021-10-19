@@ -1,20 +1,13 @@
 const { InteractionResponseType } = require("discord-interactions");
-const { ApplicationCommandOptionType } = require("slash-commands");
 const { formatStatus } = require("../util/formatResponse.js");
 const { getStatus } = require("../util/min-api.js");
+const { hideOption } = require("../util/commandOptions.js");
 
 module.exports = {
   type: 1,
   name: "status",
   description: "Get server status",
-  options: [
-    {
-      name: "hide",
-      description: "Only you can see the response",
-      type: ApplicationCommandOptionType.BOOLEAN,
-      required: false
-    }
-  ],
+  options: [ hideOption ],
   // eslint-disable-next-line no-unused-vars
   execute: async ({ interaction, response }) => {
     let hide = false;

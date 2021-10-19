@@ -5,13 +5,8 @@ const { userComponents } = require("../util/components.js");
 const { invalidPublicID, noStoredID } = require("../util/invalidResponse.js");
 const api = require("../util/min-api.js");
 const { strictCheck } = require("../util/userUUID.js");
-
-const hideOption = [{
-  name: "hide",
-  description: "Only you can see the response",
-  type: ApplicationCommandOptionType.BOOLEAN,
-  required: false
-}];
+const { hideOption, publicIDOption } = require("../util/commandOptions.js");
+const subCommand = ApplicationCommandOptionType.SUB_COMMAND;
 
 // get existing SBID with cache of 24hr
 const getSBID = (dID) => NAMESPACE.get(dID, {cacheTtl: 86400});
@@ -37,33 +32,36 @@ module.exports = {
     options: [{
       name: "set",
       description: "Set associated public userID",
-      type: ApplicationCommandOptionType.SUB_COMMAND,
-      options: [{
-        name: "publicid",
-        description: "Public User ID",
-        type: ApplicationCommandOptionType.STRING,
-        required: true
-      }]
+      type: subCommand,
+      options: [publicIDOption]
     }, {
       name: "get",
       description: "Get associated public userID",
-      type: ApplicationCommandOptionType.SUB_COMMAND
+      type: subCommand
     }]
   },
   {
     name: "userinfo",
     description: "Post userinfo",
-    type: ApplicationCommandOptionType.SUB_COMMAND,
-    options: hideOption
+    type: subCommand,
+    options: [hideOption]
   }, {
     name: "showoff",
     description: "Post showoff",
-    type: ApplicationCommandOptionType.SUB_COMMAND
+    type: subCommand
   }, {
     name: "userstats",
     description: "Post userstats",
-    type: ApplicationCommandOptionType.SUB_COMMAND,
-    options: hideOption
+    type: subCommand,
+    options: [
+      hideOption,
+      {
+        name: "sort",
+        description: "Sort categories in descending order",
+        type: ApplicationCommandOptionType.BOOLEAN,
+        required: false
+      }
+    ]
   }],
   execute: async ({ interaction, response }) => {
     // set up constants
@@ -73,6 +71,7 @@ module.exports = {
     const rootOptions = interaction.data.options[0];
     const cmdName = rootOptions.name;
     const hide = ((rootOptions.options || [{}])[0].value || false);
+
     // userid set
     if (cmdName === "userid" && rootOptions.options[0].name === "set") {
       // get option and return if error
@@ -109,8 +108,9 @@ module.exports = {
         const res = await api.getUserInfoShowoff(SBID);
         embed = format.formatShowoff(SBID,res);
       } else if (cmdName === "userstats") { // userstats
+        const sort = (rootOptions.options.find((opt) => opt.name === "sort") || {}).value;
         const res = await api.getUserStats(SBID);
-        embed = format.formatUserStats(SBID,res);
+        embed = format.formatUserStats(SBID,res,sort);
       }
       
       return response({ // misc response

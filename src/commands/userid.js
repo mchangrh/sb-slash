@@ -3,6 +3,7 @@ const { ApplicationCommandOptionType } = require("slash-commands");
 const { getUserID } = require("../util/min-api.js");
 const { formatUserID } = require("../util/formatResponse.js");
 const { usernameNotFound } = require("../util/invalidResponse.js");
+const { hideOption } = require("../util/commandOptions.js");
 
 module.exports = {
   type: 1,
@@ -21,12 +22,7 @@ module.exports = {
       type: ApplicationCommandOptionType.BOOLEAN,
       required: false
     },
-    {
-      name: "hide",
-      description: "Only you can see the response",
-      type: ApplicationCommandOptionType.BOOLEAN,
-      required: false
-    }
+    hideOption
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord

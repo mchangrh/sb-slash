@@ -240,7 +240,7 @@ const formatStatus = async (res) => {
   return embed;
 };
 
-const formatUserStats = (publicID, data) => {
+const formatUserStats = (publicID, data, sort) => {
   // format response
   const total = data.overallStats.segmentCount;
   const timeSaved = sbcutil.minutesReadable(data.overallStats.minutesSaved);
@@ -264,7 +264,7 @@ const formatUserStats = (publicID, data) => {
     typeData.push({key, value, a:percentage(value)});
   }
   // sort categorydata
-  categoryData = categoryData.sort((a,b) => b.value-a.value);
+  if (sort) categoryData = categoryData.sort((a,b) => b.value-a.value);
   // send result
   const embed = emptyEmbed();
   embed.title = data.userName;

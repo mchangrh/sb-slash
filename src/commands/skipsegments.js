@@ -5,18 +5,14 @@ const CATEGORY_CHOICES = ["all", ...CATEGORIES_ARR];
 const { getSkipSegments } = require("../util/min-api.js");
 const { formatSkipSegments } = require("../util/formatResponse.js");
 const { findVideoID, strictVideoID } = require("../util/parseUrl.js");
+const { videoIDOption, hideOption } = require("../util/commandOptions.js");
 
 module.exports = {
   type: 1,
   name: "skipsegments",
   description: "Get Segments on Video",
   options: [
-    {
-      name: "videoid",
-      description: "video ID",
-      type: ApplicationCommandOptionType.STRING,
-      required: true
-    },
+    videoIDOption,
     {
       name: "category",
       description: "category of segment",
@@ -33,12 +29,7 @@ module.exports = {
       type: ApplicationCommandOptionType.BOOLEAN,
       required: false
     },
-    {
-      name: "hide",
-      description: "Only you can see the response",
-      type: ApplicationCommandOptionType.BOOLEAN,
-      required: false
-    }
+    hideOption
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord

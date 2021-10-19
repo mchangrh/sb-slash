@@ -1,28 +1,18 @@
 const { InteractionResponseType } = require("discord-interactions");
-const { ApplicationCommandOptionType } = require("slash-commands");
 const { formatUser, getLastSegmentTime } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
 const { invalidPublicID } = require("../util/invalidResponse.js");
 const { getUserInfo } = require("../util/min-api.js");
 const { linkCheck, linkExtract } = require("../util/userUUID.js");
+const { publicIDOption, hideOption } = require("../util/commandOptions.js");
 
 module.exports = {
   type: 1,
   name: "userinfo",
   description: "retrieves user info",
   options: [
-    {
-      name: "publicid",
-      description: "Public User ID",
-      type: ApplicationCommandOptionType.STRING,
-      required: true
-    },
-    {
-      name: "hide",
-      description: "Only you can see the response",
-      type: ApplicationCommandOptionType.BOOLEAN,
-      required: false
-    }
+    publicIDOption,
+    hideOption
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord

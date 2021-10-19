@@ -1,26 +1,16 @@
 const { InteractionResponseType } = require("discord-interactions");
-const { ApplicationCommandOptionType } = require("slash-commands");
 const { getLockCategories } = require("../util/min-api.js");
 const { formatLockCategories } = require("../util/formatResponse.js");
 const { findVideoID, strictVideoID } = require("../util/parseUrl.js");
+const { hideOption, videoIDOption } = require("../util/commandOptions.js");
 
 module.exports = {
   type: 1,
   name: "lockcategories",
   description: "retrieves video lock categories",
   options: [
-    {
-      name: "videoid",
-      description: "Video ID",
-      type: ApplicationCommandOptionType.STRING,
-      required: true
-    },
-    {
-      name: "hide",
-      description: "Only you can see the response",
-      type: ApplicationCommandOptionType.BOOLEAN,
-      required: false
-    }
+    videoIDOption,
+    hideOption
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
