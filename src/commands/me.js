@@ -1,19 +1,20 @@
-const { InteractionResponseType } = require("discord-interactions");
-const { ApplicationCommandOptionType } = require("slash-commands");
 const format = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
 const { invalidPublicID, noStoredID } = require("../util/invalidResponse.js");
 const api = require("../util/min-api.js");
-const { strictCheck } = require("../util/userUUID.js");
+const { userStrictCheck } = require("../util/validation.js");
 const { hideOption, publicIDOption } = require("../util/commandOptions.js");
-const subCommand = ApplicationCommandOptionType.SUB_COMMAND;
+const [SUBCOMMAND, GROUP] = [1, 2];
 
 // get existing SBID with cache of 24hr
 const getSBID = (dID) => NAMESPACE.get(dID, {cacheTtl: 86400});
 
+const findNestedOption = (rootOptions, name) => ((objCheck(rootOptions) && (rootOptions.options.find((opt) => opt.name === name))) || false);
+const objCheck = (rootOptions) => (rootOptions && ("options" in rootOptions));
+
 const contentResponse = (content, hide) => {
   return {
-    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    type: 4,
     data: {
       content,
       flags: (hide ? 64 : 0)
@@ -22,43 +23,42 @@ const contentResponse = (content, hide) => {
 };
 
 module.exports = {
-  type: 1,
   name: "me",
   description: "run commands against your associated SB publicID",
   options: [{
     name: "userid",
     description: "Associate public userID",
-    type: ApplicationCommandOptionType.SUB_COMMAND_GROUP,
+    type: GROUP,
     options: [{
       name: "set",
       description: "Set associated public userID",
-      type: subCommand,
+      type: SUBCOMMAND,
       options: [publicIDOption]
     }, {
       name: "get",
       description: "Get associated public userID",
-      type: subCommand
+      type: SUBCOMMAND
     }]
   },
   {
     name: "userinfo",
     description: "Post userinfo",
-    type: subCommand,
+    type: SUBCOMMAND,
     options: [hideOption]
   }, {
     name: "showoff",
     description: "Post showoff",
-    type: subCommand
+    type: SUBCOMMAND
   }, {
     name: "userstats",
     description: "Post userstats",
-    type: subCommand,
+    type: SUBCOMMAND,
     options: [
       hideOption,
       {
         name: "sort",
         description: "Sort categories in descending order",
-        type: ApplicationCommandOptionType.BOOLEAN,
+        type: 5,
         required: false
       }
     ]
@@ -70,7 +70,7 @@ module.exports = {
     const dUserName = `${dUser.username}#${dUser.discriminator}`;
     const rootOptions = interaction.data.options[0];
     const cmdName = rootOptions.name;
-    const hide = ((rootOptions.options || [{}])[0].value || false);
+    const hide = findNestedOption(rootOptions, "hide");
 
     // userid set
     if (cmdName === "userid" && rootOptions.options[0].name === "set") {
@@ -82,7 +82,7 @@ module.exports = {
         return response(contentResponse(`Removed ID from ${dUserName}`, true));
       }
       // check for valid SBID
-      if (!strictCheck(SBID)) return response(invalidPublicID);
+      if (!userStrictCheck(SBID)) return response(invalidPublicID);
       // set associated publicID and return confirmation
       await NAMESPACE.put(dID, SBID);
       return response(contentResponse(`Associated \`${SBID}\` with **\`${dUserName}\`**`, false));
@@ -97,7 +97,7 @@ module.exports = {
         const res = await api.getUserInfo(SBID);
         const timeSubmitted = await format.getLastSegmentTime(res.lastSegmentID);
         return response({
-          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          type: 4,
           data: {
             content: format.formatUser(res, timeSubmitted),
             components: userComponents(SBID, false),
@@ -108,13 +108,12 @@ module.exports = {
         const res = await api.getUserInfoShowoff(SBID);
         embed = format.formatShowoff(SBID,res);
       } else if (cmdName === "userstats") { // userstats
-        const sort = (rootOptions.options.find((opt) => opt.name === "sort") || {}).value;
+        const sort = findNestedOption(rootOptions, "sort");
         const res = await api.getUserStats(SBID);
         embed = format.formatUserStats(SBID,res,sort);
       }
-      
       return response({ // misc response
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        type: 4,
         data: {
           embeds: [embed],
           flags: (hide ? 64 : 0)
@@ -123,3 +122,4 @@ module.exports = {
     }
   }
 };
+
