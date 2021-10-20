@@ -8,7 +8,7 @@ Retrieve [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and use
 # users
 /userinfo publicid:
 /showoff publicid:
-/userstats publicid:
+/userstats publicid: sort:
 /userid username: exact:
 
 # segments

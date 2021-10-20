@@ -7,6 +7,7 @@ get user info
 get user statistics
 breakdown of categories and types, with count and percentage
 - publicid - Public ID of user to get info on
+- sort - sort categories by descending order
 
 ### /skipsegments
 get a list of segments 

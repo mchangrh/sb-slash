@@ -1,7 +1,7 @@
 {
   "name": "sb-slash",
-  "version": "1.6.1",
-  "description": "sponsorblock from slash commands",
+  "version": "1.6.2",
+  "description": "sponsorblock over slash commands",
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -27,13 +27,13 @@
   "homepage": "https://github.com/mchangrh/sb-slash#readme",
   "dependencies": {
     "columnify": "^1.5.4",
-    "discord-interactions": "^2.3.0",
+    "discord-interactions": "^2.4.1",
     "slash-commands": "^1.5.0"
   },
   "devDependencies": {
     "deep-equal": "^2.0.5",
     "dotenv": "10.0.0",
-    "eslint": "^7.32.0",
-    "webpack": "^5.54.0"
+    "eslint": "^8.0.1",
+    "webpack": "^5.59.0"
   }
 }
