@@ -65,7 +65,7 @@ module.exports = {
   }],
   execute: async ({ interaction, response }) => {
     // set up constants
-    const dUser = interaction.member.user;
+    const dUser = (interaction.member) ? interaction.member.user : interaction.user;
     const dID = dUser.id;
     const dUserName = `${dUser.username}#${dUser.discriminator}`;
     const rootOptions = interaction.data.options[0];
