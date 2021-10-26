@@ -1,7 +1,7 @@
 module.exports = {
   name: "github",
   description: "Get a link for the sb-slash GitHub",
-  execute: async ({ response }) =>
+  execute: ({ response }) =>
     response({
       type: 4,
       data: {

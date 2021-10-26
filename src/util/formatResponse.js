@@ -22,7 +22,7 @@ const secondsToTime = (e) => {
     s = Math.floor(e % 60).toString().padStart(2,"0"),
     msRaw = (e + "").split(".")[1], // split ms
     ms = msRaw ? `.${msRaw}` : "";
-  
+
   return `${h}:${m}:${s}${ms}`;
 };
 
@@ -45,7 +45,7 @@ const emptyVideoEmbed = (videoID) => {
   };
 };
 
-const userNameFilter = (userName) => 
+const userNameFilter = (userName) =>
   // only take 64 chars, nullify url
   userName.trim().substring(0,64).replace(/https:\/\//g, "https//");
 
@@ -71,7 +71,7 @@ const totalPages = (total) => {
 
 const actionType = (type) => (type == "mute") ? "🔇" : "⏭️";
 
-const segmentTimes = (start, end) => 
+const segmentTimes = (start, end) =>
   (start == end)
     ? `${secondsToTime(start)}`
     : `${secondsToTime(start)} - ${secondsToTime(end)}`;
@@ -90,7 +90,7 @@ const categoryColour = {
 
 const timeStamp = (time) => `<t:${(""+time).substring(0,10)}:R>`;
 
-const formatUser = (result, submitted) => 
+const formatUser = (result, submitted) =>
   `${userName(result)}
   **Submitted:** ${result.segmentCount.toLocaleString("en-US")}
   **Reputation:** ${result.reputation.toFixed(2)}
@@ -154,7 +154,7 @@ async function getLastSegmentTime(lastSegmentID) {
 
 const deepEquals = (a,b) => {
   let result = true;
-  b.forEach((e) => { 
+  b.forEach((e) => {
     if (!a.includes(e)) result = false;
   });
   return result;

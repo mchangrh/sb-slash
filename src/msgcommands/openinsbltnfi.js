@@ -4,7 +4,7 @@ const { videoIDNotFound } = require("../util/invalidResponse.js");
 module.exports = {
   type: 3, // message command
   name: "Open in sb.ltn.fi",
-  execute: async ({ interaction, response }) => {
+  execute: ({ interaction, response }) => {
     // parse videoid from description
     const msg = Object.values(interaction.data.resolved.messages)[0];
     const embedTitle = (msg.embeds !== undefined && msg.embeds.length ) ? msg.embeds[0].title : "";

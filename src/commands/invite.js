@@ -1,7 +1,7 @@
 module.exports = {
   name: "invite",
   description: "Get a link to invite sb-slash to your server",
-  execute: async ({ response }) =>
+  execute: ({ response }) =>
     response({
       type: 4,
       data: {

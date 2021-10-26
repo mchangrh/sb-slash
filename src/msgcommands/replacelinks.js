@@ -4,7 +4,7 @@ const youtubeURLRegex = new RegExp(/(?:https:\/\/(?:|(?:www.)))((?:youtu.be\/)|(
 module.exports = {
   type: 3, // message command
   name: "Replace with sb.ltn.fi links",
-  execute: async ({ interaction, response }) => {
+  execute: ({ interaction, response }) => {
     // get message contents
     const msg = Object.values(interaction.data.resolved.messages)[0];
     return response({
