@@ -248,11 +248,11 @@ const formatStatus = async (res) => {
         inline: true
       }, {
         name: "5 Minute Load",
-        value: data.loadavg[0].toFixed(2),
+        value: `${data.loadavg[0].toFixed(2)}/2`,
         inline: true
       }, {
         name: "15 Minute Load",
-        value: data.loadavg[1].toFixed(2),
+        value: `${data.loadavg[1].toFixed(2)}/2`,
         inline: true
       }
     );
