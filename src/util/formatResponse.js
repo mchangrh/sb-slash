@@ -180,6 +180,24 @@ const formatLockCategories = (videoID, result) => {
   return embed;
 };
 
+const formatLockReason = (videoID, result) => {
+  const embed = emptyVideoEmbed(videoID);
+  const active = [];
+  for (const lock of result) if (lock.locked) active.push(lock);
+  if (active.length === 0) {
+    embed.description = "No Locked Categories";
+    return embed;
+  }
+  for (const lock of active) {
+    const user = lock.userName ? lock.userName : lock.userID;
+    embed.fields.push({
+      name: `${lock.category} | ${user}`,
+      value: `${lock.reason ? lock.reason : "[no reason provided]"}`
+    });
+  }
+  return embed;
+};
+
 const segmentsNotFoundEmbed = (videoID) => {
   return {
     title: videoID,
@@ -309,6 +327,7 @@ module.exports = {
   formatUserID,
   getLastSegmentTime,
   formatLockCategories,
+  formatLockReason,
   formatSkipSegments,
   formatSearchSegments,
   formatStatus,

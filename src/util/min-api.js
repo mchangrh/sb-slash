@@ -35,6 +35,11 @@ const getLockCategories = (videoID) => {
   return fetch(url).then((res) => res.text());
 };
 
+const getLockReason = (videoID) => {
+  const url = `${BASEURL}/lockReason?videoID=${videoID}`;
+  return fetch(url).then((res) => res.json());
+};
+
 const getStatus = () => {
   const url = `${BASEURL}/status`;
   return fetch(url);
@@ -53,6 +58,7 @@ module.exports = {
   getSegmentInfo,
   getUserID,
   getLockCategories,
+  getLockReason,
   getStatus,
   getUserStats
 };
