@@ -85,6 +85,7 @@ const categoryColour = {
   "preview": 36822,
   "music_offtopic": 16750848,
   "poi_highlight": 16717444,
+  "filler": 7536895,
   "default": 16711680
 };
 
