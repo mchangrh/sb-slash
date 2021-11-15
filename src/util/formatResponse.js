@@ -20,13 +20,15 @@ const secondsToTime = (e) => {
   const h = Math.floor(e / 3600).toString().padStart(1,"0"),
     m = Math.floor(e % 3600 / 60).toString().padStart(2,"0"),
     s = Math.floor(e % 60).toString().padStart(2,"0"),
-    msRaw = (e + "").split(".")[1], // split ms
+    msRaw = (e.toFixed(2) + "").split(".")[1], // split ms
     ms = msRaw ? `.${msRaw}` : "";
 
   return `${h}:${m}:${s}${ms}`;
 };
 
-const videoTimeLink = (videoID, startTime, UUID = "") => `https://www.youtube.com/watch?v=${videoID}&t=${startTime.toFixed(0)-2}s${videoSegmentLink(UUID)}`;
+const videoTimeLink = (videoID, startTime, UUID = "") => `https://www.youtube.com/watch?v=${videoID}${startTimeLink(startTime)}${videoSegmentLink(UUID)}`;
+
+const startTimeLink = (startTime) => (startTime >= 3) ? `&t=${startTime.toFixed(0)-2}s`: "";
 
 const videoSegmentLink = (UUID) => UUID.length ? (`#requiredSegment=${UUID}`) : "";
 
