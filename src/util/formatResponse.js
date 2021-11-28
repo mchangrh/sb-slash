@@ -214,6 +214,7 @@ const formatSkipSegments = (videoID, result) => {
   if (result === "Not Found") return segmentsNotFoundEmbed(videoID);
   const embed = emptyVideoEmbed(videoID);
   const parsed = JSON.parse(result);
+  embed.description = `**Segments:** ${parsed.length}`;
   for (const segment of parsed) {
     const [ startTime, endTime ] = segment.segment;
     const name = segment.UUID;
