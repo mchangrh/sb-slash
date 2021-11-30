@@ -16,12 +16,12 @@ const minutesReadable = (minutes) => {
   return str.trim();
 };
 
-const secondsToTime = (e) => {
+const secondsToTime = (e, showMs=true) => {
   const h = Math.floor(e / 3600).toString().padStart(1,"0"),
     m = Math.floor(e % 3600 / 60).toString().padStart(2,"0"),
     s = Math.floor(e % 60).toString().padStart(2,"0"),
     msRaw = (e.toFixed(2) + "").split(".")[1], // split ms
-    ms = msRaw ? `.${msRaw}` : "";
+    ms = (msRaw && showMs) ? `.${msRaw}` : "";
 
   return `${h}:${m}:${s}${ms}`;
 };
@@ -114,7 +114,7 @@ const formatSegment = (result) => {
   embed.url = `https://sb.ltn.fi/video/${videoID}/`;
   embed.color = categoryColour[category] || categoryColour["default"];
   embed.description = `[${category}](${videoLink}) | ${actionType(result.actionType)} | **Submitted:** ${timeStamp(result.timeSubmitted)}
-  ${segmentTimes(startTime, endTime)} **Length:** ${secondsToTime((endTime - startTime).toFixed(2))}
+  ${segmentTimes(startTime, endTime)} **Length:** ${secondsToTime((endTime - startTime), false)}
   **Votes:** ${formatVote(result)} | **Views:** ${result.views.toLocaleString("en-US")} | **Visibility:** ${visibility(result)}
   **User Agent:** ${parseUserAgent(result.userAgent)}
   **Video Duration:** ${secondsToTime(result.videoDuration)}
