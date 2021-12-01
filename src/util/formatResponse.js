@@ -324,6 +324,34 @@ const formatUserStats = (publicID, data, sort) => {
   return embed;
 };
 
+const formatUnsubmittedTemplate = (s) => {
+  const videoLink = `[${s.videoID}](https://youtu.be/${s.videoID})`;
+  const actionType = (s.type === "skip" ? "⏭️" : "🔇");
+  const category = (s.category === "chooseACategory" ? "?" : s.category);
+  const times = s.times.map((time) => `\`${time}\``).join(" - ");
+  return `${videoLink} | ${actionType} | ${category} | ${times}`;
+};
+
+const formatUnsubmitted = (debugObj) => {
+  const segments = debugObj.config.segmentTimes;
+  // filtered and remapped
+  const mapped = segments
+    .filter((e) => e[1][0].source == 1)
+    .map((e) => {
+      return {
+        videoID: e[0],
+        type: e[1][0].actionType,
+        category: e[1][0].category,
+        times: e[1][0].segment
+      };
+    });
+  const embed = emptyEmbed();
+  embed.title = "Unsubmitted Segments";
+  embed.description = mapped.map((s) => formatUnsubmittedTemplate(s)).join("\n");
+  embed.description += `\n\n[Playlist](https://www.youtube.com/watch_videos?video_ids=${mapped.map((s) => s.videoID).join(",")})`;
+  return embed;
+};
+
 module.exports = {
   formatShowoff,
   formatSegment,
@@ -335,5 +363,6 @@ module.exports = {
   formatSkipSegments,
   formatSearchSegments,
   formatStatus,
-  formatUserStats
+  formatUserStats,
+  formatUnsubmitted
 };
