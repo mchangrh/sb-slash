@@ -24,6 +24,9 @@ userinfo
 showoff
 userstats
 
+# misc
+/formatunsubmitted binid:
+
 /invite
 /github
 ```

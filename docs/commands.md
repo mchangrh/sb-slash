@@ -66,6 +66,13 @@ run commands agianst your stored userID
 
 To delete the assocation with your discord ID, run `/me userid set delete` - or replace your publicID with delete.
 
+### /formatunsubmitted
+format unsubmitted segments from debug log
+
+1. upload the debug here (https://mchangrh.github.io/cfkv-bin/) will try to open up to more raw text hosting services
+
+- binid: bin ID to fetch debug from
+
 # Message Commands
 ### Lookup Segments
 find videoIDs in a message and lookup segments for that video.

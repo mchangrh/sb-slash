@@ -18,6 +18,7 @@ const usernameNotFound = defaultResponse("Sorry, there doesn't seem to be any us
 const segmentNotFound = defaultResponse("Sorry, there doesn't seem to be any segments with that ID");
 
 module.exports = {
+  defaultResponse,
   invalidSegment,
   invalidPublicID,
   invalidVideoID,

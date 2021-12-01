@@ -328,7 +328,10 @@ const formatUnsubmittedTemplate = (s) => {
   const videoLink = `[${s.videoID}](https://youtu.be/${s.videoID})`;
   const actionType = (s.type === "skip" ? "⏭️" : "🔇");
   const category = (s.category === "chooseACategory" ? "?" : s.category);
-  const times = s.times.map((time) => `\`${time}\``).join(" - ");
+  const times = s.times
+    .map((time) =>
+      `\`${secondsToTime(time)}\``)
+    .join(" - ");
   return `${videoLink} | ${actionType} | ${category} | ${times}`;
 };
 
