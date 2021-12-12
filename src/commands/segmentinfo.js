@@ -1,8 +1,8 @@
 const { segmentStrictCheck } = require("../util/validation.js");
 const { formatSegment } = require("../util/formatResponse.js");
 const { segmentComponents } = require("../util/components.js");
-const { invalidSegment, segmentNotFound } = require("../util/invalidResponse.js");
-const { getSegmentInfo } = require("../util/min-api.js");
+const { invalidSegment, segmentNotFound, timeoutResponse } = require("../util/invalidResponse.js");
+const { getSegmentInfo, timeout } = require("../util/min-api.js");
 const { hideOption, segmentIDOption, findOption, findOptionString } = require("../util/commandOptions.js");
 
 module.exports = {
@@ -19,7 +19,8 @@ module.exports = {
     // check for invalid segmentid
     if (!segmentStrictCheck(segmentid)) return response(invalidSegment);
     // fetch
-    const parsed = await getSegmentInfo(segmentid);
+    const parsed = await Promise.race([getSegmentInfo(segmentid), timeout]);
+    if (!parsed) return response(timeoutResponse);
     if (parsed[0] === null) return response(segmentNotFound);
     return response({
       type: 4,

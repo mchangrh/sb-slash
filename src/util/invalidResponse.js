@@ -17,8 +17,12 @@ const noStoredID = defaultResponse("Sorry, there don't seem to be any set userID
 const usernameNotFound = defaultResponse("Sorry, there doesn't seem to be any users with that username. The search **is** case-sensitive.");
 const segmentNotFound = defaultResponse("Sorry, there doesn't seem to be any segments with that ID");
 
+// timeout
+const timeoutResponse = defaultResponse("Error: connection timed out");
+
 module.exports = {
   defaultResponse,
+  timeoutResponse,
   invalidSegment,
   invalidPublicID,
   invalidVideoID,

@@ -1,7 +1,8 @@
-const { getSearchSegments } = require("../util/min-api.js");
+const { getSearchSegments, timeout } = require("../util/min-api.js");
 const { formatSearchSegments } = require("../util/formatResponse.js");
 const { findVideoID } = require("../util/validation.js");
 const { videoIDOption, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { invalidVideoID, timeoutResponse } = require("../util/invalidResponse.js");
 const [ INTEGER, BOOLEAN ] = [4, 5];
 
 module.exports = {
@@ -71,7 +72,8 @@ module.exports = {
     videoID = findVideoID(videoID) || videoID;
     if (!videoID) return response(invalidVideoID);
     // fetch
-    const body = await getSearchSegments(videoID, page, paramString);
+    const body = await Promise.race([getSearchSegments(videoID, page, paramString), timeout]);
+    if (!body) return response(timeoutResponse);
     const responseTemplate = {
       type: 4,
       data: { flags: (hide ? 64 : 0) }

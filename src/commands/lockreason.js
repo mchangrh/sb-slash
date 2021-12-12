@@ -1,7 +1,8 @@
-const { getLockReason } = require("../util/min-api.js");
+const { getLockReason, timeout } = require("../util/min-api.js");
 const { formatLockReason } = require("../util/formatResponse.js");
 const { findVideoID } = require("../util/validation.js");
 const { hideOption, videoIDOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { timeoutResponse } = require("../util/invalidResponse.js");
 
 module.exports = {
   name: "lockreason",
@@ -18,7 +19,8 @@ module.exports = {
     videoID = findVideoID(videoID) || videoID;
     if (!videoID) return response(invalidVideoID);
     // fetch
-    const body = await getLockReason(videoID);
+    const body = await Promise.race([getLockReason(videoID), timeout]);
+    if (!body) return response(timeoutResponse);
     const embed = formatLockReason(videoID, body);
     return response({
       type: 4,

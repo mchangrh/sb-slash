@@ -1,4 +1,5 @@
 const BASEURL = "https://sponsor.ajay.app/api";
+const timeout = scheduler.wait(2000);
 
 const getSkipSegments = (videoID, categoryParam) => {
   const url = `${BASEURL}/skipSegments?videoID=${videoID}&${categoryParam}&actionTypes=["skip","mute"]`;
@@ -51,6 +52,7 @@ const getUserStats = (userID) => {
 };
 
 module.exports = {
+  timeout,
   getSkipSegments,
   getSearchSegments,
   getUserInfo,

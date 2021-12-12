@@ -1,6 +1,6 @@
-const { getUserID } = require("../util/min-api.js");
+const { getUserID, timeout } = require("../util/min-api.js");
 const { formatUserID } = require("../util/formatResponse.js");
-const { usernameNotFound } = require("../util/invalidResponse.js");
+const { usernameNotFound, timeoutResponse } = require("../util/invalidResponse.js");
 const { hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
 
 module.exports = {
@@ -27,7 +27,8 @@ module.exports = {
     const exact = findOption(interaction, "exact");
     const hide = findOption(interaction, "hide");
     // fetch
-    const res = await getUserID(username, exact);
+    const res = await Promise.race([getUserID(username, exact), timeout]);
+    if (!res) return response(timeoutResponse);
     // check for responses
     if (res.status === 404) return response(usernameNotFound);
     return response({

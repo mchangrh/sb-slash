@@ -20,9 +20,7 @@ module.exports = {
     const url = `https://bin.mchang.xyz/b/${binID}`;
     // fetch
     const result = await fetch(url);
-    if (!result.ok) {
-      return response(defaultResponse("Failed to fetch, maybe try reuploading\n https://bin.mchang.xyz/upload"));
-    }
+    if (!result.ok) return response(defaultResponse("Failed to fetch, maybe try reuploading\n https://bin.mchang.xyz/upload"));
     try {
       const json = await result.json();
       if (json.config.segmentTimes.length === 0) return response(defaultResponse("No unsubmitted segments"));

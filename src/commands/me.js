@@ -1,6 +1,6 @@
 const format = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
-const { invalidPublicID, noStoredID } = require("../util/invalidResponse.js");
+const { invalidPublicID, noStoredID, timeoutResponse } = require("../util/invalidResponse.js");
 const api = require("../util/min-api.js");
 const { userStrictCheck } = require("../util/validation.js");
 const { hideOption, publicIDOption } = require("../util/commandOptions.js");
@@ -94,7 +94,8 @@ module.exports = {
       if (cmdName === "userid") { // userid get
         return response(contentResponse(`**\`${dUserName}\`** has associated with \`${SBID}\``, false));
       } else if (cmdName === "userinfo") { // userinfo
-        const res = await api.getUserInfo(SBID);
+        const res = await Promise.race([api.getUserInfo(SBID), api.timeout]);
+        if (!res) return response(timeoutResponse);
         const timeSubmitted = await format.getLastSegmentTime(res.lastSegmentID);
         return response({
           type: 4,
@@ -105,11 +106,13 @@ module.exports = {
           }
         });
       } else if (cmdName === "showoff") { // showoff
-        const res = await api.getUserInfoShowoff(SBID);
+        const res = await Promise.race([api.getUserInfoShowoff(SBID), api.timeout]);
+        if (!res) return response(timeoutResponse);
         embed = format.formatShowoff(SBID,res);
       } else if (cmdName === "userstats") { // userstats
         const sort = findNestedOption(rootOptions, "sort");
-        const res = await api.getUserStats(SBID);
+        const res = await Promise.race([api.getUserStats(SBID), api.timeout]);
+        if (!res) return response(timeoutResponse);
         embed = format.formatUserStats(SBID,res,sort);
       }
       return response({ // misc response

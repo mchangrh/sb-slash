@@ -1,9 +1,9 @@
 const { ApplicationCommandOptionType } = require("slash-commands");
 const { CATEGORIES_ARR, CATEGORIES_STRING } = require("../util/categories.js");
 const CATEGORY_CHOICES = ["all", ...CATEGORIES_ARR];
-const { getSkipSegments } = require("../util/min-api.js");
+const { getSkipSegments, timeout } = require("../util/min-api.js");
 const { formatSkipSegments } = require("../util/formatResponse.js");
-const { invalidVideoID } = require("../util/invalidResponse.js");
+const { invalidVideoID, timeoutResponse } = require("../util/invalidResponse.js");
 const { findVideoID } = require("../util/validation.js");
 const { videoIDOption, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
 
@@ -42,7 +42,8 @@ module.exports = {
     videoID = findVideoID(videoID) || videoID;
     if (!videoID) return response(invalidVideoID);
     // fetch
-    const body = await getSkipSegments(videoID, categoryParam);
+    const body = await Promise.race([getSkipSegments(videoID, categoryParam), timeout]);
+    if (!body) return response(timeoutResponse);
     let responseTemplate = {
       type: 4,
       data: {
