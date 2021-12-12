@@ -282,6 +282,32 @@ const formatStatus = async (res) => {
   return embed;
 };
 
+const formatResponseTime = (data) => {
+  // preformatting
+  let processTimes = [];
+  let responseTimes = [];
+  Object.keys(data).forEach((key) => {
+    processTimes.push(data[key].sbProcessTime);
+    responseTimes.push(data[key].axiosResponseTime);
+  });
+  processTimes = processTimes.map((x) => x.toPrecision(2) + "ms");
+  responseTimes = responseTimes.map((x) => x.toPrecision(3) + "ms");
+  const embed = emptyEmbed();
+  embed.title = "SB Server Response Time";
+  embed.url = "https://sb-status.mchang.xyz/status";
+  embed.description = "Last | 5 Minute Average | 15 Minute Average";
+  embed.fields.push({
+    name: "Process Time",
+    value: processTimes.join(" | "),
+    inline: true
+  }, {
+    name: "Response Time",
+    value: responseTimes.join(" | "),
+    inline: true
+  });
+  return embed;
+};
+
 const formatUserStats = (publicID, data, sort) => {
   // format response
   const total = data.overallStats.segmentCount;
@@ -366,6 +392,7 @@ module.exports = {
   formatSkipSegments,
   formatSearchSegments,
   formatStatus,
+  formatResponseTime,
   formatUserStats,
   formatUnsubmitted
 };

@@ -51,8 +51,14 @@ const getUserStats = (userID) => {
   return fetch(url).then((res) => res.json());
 };
 
+const getResponseTime = () => {
+  const url = "https://sb-status.mchang.xyz/all";
+  return fetch(url).then((res) => res.json());
+};
+
 module.exports = {
   timeout,
+  getResponseTime,
   getSkipSegments,
   getSearchSegments,
   getUserInfo,

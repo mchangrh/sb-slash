@@ -3,7 +3,7 @@ const commands = ["userinfo", "showoff", "userstats", "me",
   "skipsegments",
   "segmentinfo", "userid",
   "lockcategories", "lockreason", "searchsegments",
-  "status",
+  "status", "responsetime",
   "github", "invite",
   "formatunsubmitted"
 ];

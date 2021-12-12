@@ -17,6 +17,7 @@ Retrieve [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and use
 /lockcategories videoid:
 /searchsegments videoid:
 /status
+/responsetime
 
 # /me
 userid set / get

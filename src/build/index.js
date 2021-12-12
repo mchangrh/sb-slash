@@ -1,6 +1,9 @@
 const path = require("path");
 const fs = require("fs").promises;
 require("dotenv").config();
+// global override for scheduler
+global.scheduler = {};
+global.scheduler.wait = async () => await true;
 const { getCommands, registerCommands } = require("./commands");
 
 const setup = async function() {

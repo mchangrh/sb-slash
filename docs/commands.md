@@ -49,6 +49,9 @@ find your publicID from username
 ### /status
 get status of the server
 
+### /responsetime
+get response time of the server via 3rd party API
+
 ### /invite
 get invite link for the bot
 
