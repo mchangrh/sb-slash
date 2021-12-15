@@ -286,12 +286,15 @@ const formatResponseTime = (data) => {
   // preformatting
   let processTimes = [];
   let responseTimes = [];
+  let skipResponseTimes = [];
   Object.keys(data).forEach((key) => {
     processTimes.push(data[key].sbProcessTime);
     responseTimes.push(data[key].axiosResponseTime);
+    skipResponseTimes.push(data[key].skipResponseTime);
   });
   processTimes = processTimes.map((x) => x.toPrecision(2) + "ms");
   responseTimes = responseTimes.map((x) => x.toPrecision(3) + "ms");
+  skipResponseTimes = skipResponseTimes.map((x) => x.toPrecision(3) + "ms");
   const embed = emptyEmbed();
   embed.title = "SB Server Response Time";
   embed.url = "https://sb-status.mchang.xyz/status";
@@ -301,8 +304,12 @@ const formatResponseTime = (data) => {
     value: processTimes.join(" | "),
     inline: true
   }, {
-    name: "Response Time",
+    name: "/status Response Time",
     value: responseTimes.join(" | "),
+    inline: true
+  }, {
+    name: "/skipSegment Response Time",
+    value: skipResponseTimes.join(" | "),
     inline: true
   });
   return embed;
