@@ -301,16 +301,13 @@ const formatResponseTime = (data) => {
   embed.description = "Last | 5 Minute Average | 15 Minute Average";
   embed.fields.push({
     name: "Process Time",
-    value: processTimes.join(" | "),
-    inline: true
+    value: processTimes.join(" | ")
   }, {
     name: "/status Response Time",
-    value: responseTimes.join(" | "),
-    inline: true
+    value: responseTimes.join(" | ")
   }, {
     name: "/skipSegment Response Time",
-    value: skipResponseTimes.join(" | "),
-    inline: true
+    value: skipResponseTimes.join(" | ")
   });
   return embed;
 };
