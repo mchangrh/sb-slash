@@ -292,9 +292,9 @@ const formatResponseTime = (data) => {
     responseTimes.push(data[key].axiosResponseTime);
     skipResponseTimes.push(data[key].skipResponseTime);
   });
-  processTimes = processTimes.map((x) => x.toPrecision(2) + "ms");
-  responseTimes = responseTimes.map((x) => x.toPrecision(3) + "ms");
-  skipResponseTimes = skipResponseTimes.map((x) => x.toPrecision(3) + "ms");
+  processTimes = processTimes.map((x) => x.toFixed(2) + "ms");
+  responseTimes = responseTimes.map((x) => x.toFixed(2) + "ms");
+  skipResponseTimes = skipResponseTimes.map((x) => x.toFixed(2) + "ms");
   const embed = emptyEmbed();
   embed.title = "SB Server Response Time";
   embed.url = "https://sb-status.mchang.xyz/status";
