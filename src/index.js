@@ -103,7 +103,7 @@ const handleRequest = async ({ request, wait }) => {
   if (request.method === "POST" && url.pathname === "/interactions")
     return await handleInteraction({ request, wait });
   if (url.pathname === "/ping")
-    return textResponse("pong");
+    return textResponse("lorem ipsum");
   if (url.pathname === "/version")
     return textResponse(VERSION.substring(0,7));
   if (url.pathname === "/invite")
