@@ -47,6 +47,9 @@ more details [here](./docs/commands)
 `BOT_TOKEN` - Bot Token from bot portal  
 `CLIENT_PUBLIC_KEY` - Public key from bot portal
 
+## PR Testing
+If you would like to test your PR on a dev environment, please contact me on discord and I can give you access to the private testing repository
+
 # Credit
 API follows [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) Documentation at [wiki.sponsor.ajay.app](https://wiki.sponsor.ajay.app/index.php/API_Docs)
 
