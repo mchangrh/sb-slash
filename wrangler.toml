@@ -7,3 +7,9 @@ kv_namespaces = [
   { binding = "NAMESPACE", id="fa509cd9887c42df8967b891d4cb420a" }
 ]
 compatibility_date = "2021-12-10"
+
+[env.dev]
+name="sb-slash-dev"
+kv_namespaces = [
+  { binding = "NAMESPACE", id="ad44494a0c4440008b1f93e0701c42c0" }
+]
