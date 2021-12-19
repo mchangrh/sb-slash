@@ -1,5 +1,5 @@
 name: Deploy to dev
-on: [push, workflow_dispatch]
+on: [push, workflow_dispatch, pull_request]
 
 jobs:
   deploy-dev:
@@ -14,8 +14,9 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           environment: dev
-          SECRETS: VERSION
-          BRANCH: BRANCH
+          SECRETS: |
+            VERSION
+            BRANCH
         env:
           VERSION: ${{ github.sha }}
           BRANCH: ${{ github.ref }}
