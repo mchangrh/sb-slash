@@ -312,7 +312,7 @@ const formatResponseTime = (data) => {
   return embed;
 };
 
-const formatUserStats = (publicID, data, sort) => {
+const formatUserStats = (publicID, data, sort, piechart) => {
   // format response
   const total = data.overallStats.segmentCount;
   const timeSaved = minutesReadable(data.overallStats.minutesSaved);
@@ -351,6 +351,11 @@ const formatUserStats = (publicID, data, sort) => {
       value: "```"+columnify(typeData, typeConfig)+"```"
     }
   );
+  if (piechart) {
+    embed.image = {
+      url: `https://sb-img.mchang.xyz/pie?userID=${publicID}`
+    };
+  }
   return embed;
 };
 

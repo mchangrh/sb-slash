@@ -105,7 +105,7 @@ const handleRequest = async ({ request, wait }) => {
   if (url.pathname === "/ping")
     return textResponse("pong");
   if (url.pathname === "/version")
-    return textResponse(VERSION.substring(0,7));
+    return textResponse(`${BRANCH}/${VERSION.substring(0,7)}`);
   if (url.pathname === "/invite")
     return new Response(null, {
       status: 301,

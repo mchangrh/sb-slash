@@ -8,6 +8,7 @@ get user statistics
 breakdown of categories and types, with count and percentage
 - publicid - Public ID of user to get info on
 - sort - sort categories by descending order
+- piechart - get a visual representation of the stats
 
 ### /skipsegments
 get a list of segments 

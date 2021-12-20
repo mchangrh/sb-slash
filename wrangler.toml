@@ -1,9 +1,9 @@
-name = "sb-slash"
+name = "sb-slash-dev"
 type = "webpack"
 account_id = "d5ccf1d783709bbdc23fc29786f38736"
 workers_dev = true
 webpack_config = "webpack.config.js"
 kv_namespaces = [
-  { binding = "NAMESPACE", id="fa509cd9887c42df8967b891d4cb420a" }
+  { binding = "NAMESPACE", id="ad44494a0c4440008b1f93e0701c42c0" }
 ]
 compatibility_date = "2021-12-10"

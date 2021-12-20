@@ -27,12 +27,19 @@ const publicIDOption = {
   type: ApplicationCommandOptionType.STRING,
   required: true
 };
+const pieChartOption = {
+  name: "piechart",
+  description: "Pie chart to visualize the stats",
+  type: ApplicationCommandOptionType.BOOLEAN,
+  required: false
+};
 
 module.exports = {
   hideOption,
   videoIDOption,
   segmentIDOption,
   publicIDOption,
+  pieChartOption,
   findOption,
   findOptionString
 };
