@@ -2,6 +2,7 @@
 ### /userinfo
 get user info
 - publicid - Public ID of user to get info on
+- user - discord ID/ mention of user to get info on
 
 ### /userstats
 get user statistics
@@ -73,7 +74,7 @@ To delete the assocation with your discord ID, run `/me userid set delete` - or 
 ### /formatunsubmitted
 format unsubmitted segments from debug log
 
-1. upload the debug here (https://mchangrh.github.io/cfkv-bin/) will try to open up to more raw text hosting services
+upload the debug here (https://mchangrh.github.io/cfkv-bin/) will try to open up to more raw text hosting services
 
 - binid: bin ID to fetch debug from
 

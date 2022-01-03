@@ -6,7 +6,7 @@ Retrieve [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and use
 ## slash commands
 ```
 # users
-/userinfo publicid:
+/userinfo publicid: user:
 /showoff publicid:
 /userstats publicid: sort:
 /userid username: exact:
@@ -31,7 +31,7 @@ userstats
 /invite
 /github
 ```
-more details [here](./docs/commands)
+more details [here](./docs/commands.md)
 
 - Other commands were not added since a local ID is required, this is for quickly retreiving general stats and checking segments.
 - Mass stat related commands were not included  
