@@ -11,7 +11,7 @@ const minutesReadable = (minutes) => {
   let str = "";
   str += `${years > 0 ? years + "y " : ""}`;
   str += `${days > 0 ? days + "d " : ""}`;
-  str += `${hours > 0 ? hours + "h" : ""}`;
+  str += `${hours > 0 ? hours + "h " : ""}`;
   if (years == 0) str += `${(minutes % 60).toFixed(1)}m`;
   return str.trim();
 };
