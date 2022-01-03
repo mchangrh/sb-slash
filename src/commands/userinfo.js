@@ -16,15 +16,19 @@ module.exports = {
     hideOption
   ],
   execute: async ({ interaction, response }) => {
+    // check for no options
     if (!interaction.data.options) return response(noOptions);
     // get params from discord
     const publicid = findOptionString(interaction, "publicid");
     const user = findOption(interaction, "user");
     const hide = findOption(interaction, "hide");
-    // check for invalid publicID
+    // only hide command
+    if (!publicid && !user) return response(noOptions);
+    // invalid publicID
     if (!userLinkCheck(publicid) && !user) return response(invalidPublicID);
     const SBID = await getSBID(user);
     if (!SBID) return response(noStoredID);
+    // lookup
     const userID = (user && !publicid) ? SBID : userLinkExtract(publicid);
     // fetch
     const parsedUser = await Promise.race([getUserInfo(userID), timeout]);

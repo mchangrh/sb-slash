@@ -69,12 +69,12 @@ run commands agianst your stored userID
 - [showoff](#showoff)
 - [userstats](#userstats)
 
-To delete the assocation with your discord ID, run `/me userid set delete` - or replace your publicID with delete.
+To delete the assocation with your discord ID, run `/me userid set delete` or replace your publicID with delete.
 
 ### /formatunsubmitted
 format unsubmitted segments from debug log
 
-upload the debug here (https://mchangrh.github.io/cfkv-bin/) will try to open up to more raw text hosting services
+upload the debug here (https://mchangrh.github.io/cfkv-bin/)
 
 - binid: bin ID to fetch debug from
 
