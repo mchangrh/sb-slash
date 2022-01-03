@@ -27,6 +27,18 @@ const publicIDOption = {
   type: ApplicationCommandOptionType.STRING,
   required: true
 };
+const publicIDOptionOptional = {
+  name: "publicid",
+  description: "Public User ID",
+  type: ApplicationCommandOptionType.STRING,
+  required: false
+};
+const userOption = {
+  name: "user",
+  description: "The user to get info for",
+  type: ApplicationCommandOptionType.USER,
+  required: false
+};
 const pieChartOption = {
   name: "piechart",
   description: "Pie chart to visualize the stats",
@@ -39,6 +51,8 @@ module.exports = {
   videoIDOption,
   segmentIDOption,
   publicIDOption,
+  publicIDOptionOptional,
+  userOption,
   pieChartOption,
   findOption,
   findOptionString

@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node src/build/index.js"
+    "build": "node src/build/index.js",
+    "build:dev": "node src/build-dev/index.js"
   },
   "repository": {
     "type": "git",

@@ -11,6 +11,7 @@ const invalidInput = (property) => defaultResponse(`Sorry, that doesn't appear t
 const invalidVideoID = invalidInput("Video ID");
 const invalidPublicID = invalidInput("Public User ID");
 const invalidSegment = invalidInput("Segment ID");
+const noOptions = defaultResponse("No options provided");
 
 const videoIDNotFound = defaultResponse("Sorry there doesn't seem to be any video links in this message");
 const noStoredID = defaultResponse("Sorry, there don't seem to be any set userIDs for this Discord user");
@@ -29,5 +30,6 @@ module.exports = {
   noStoredID,
   segmentNotFound,
   usernameNotFound,
-  videoIDNotFound
+  videoIDNotFound,
+  noOptions
 };

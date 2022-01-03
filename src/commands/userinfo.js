@@ -1,24 +1,31 @@
 const { formatUser, getLastSegmentTime } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
-const { invalidPublicID, timeoutResponse } = require("../util/invalidResponse.js");
+const { invalidPublicID, timeoutResponse, noOptions, noStoredID } = require("../util/invalidResponse.js");
 const { getUserInfo, timeout } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
-const { publicIDOption, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { publicIDOptionOptional, userOption, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
+
+const getSBID = (dID) => NAMESPACE.get(dID, {cacheTtl: 86400});
 
 module.exports = {
   name: "userinfo",
   description: "retrieves user info",
   options: [
-    publicIDOption,
+    publicIDOptionOptional,
+    userOption,
     hideOption
   ],
   execute: async ({ interaction, response }) => {
+    if (!interaction.data.options) return response(noOptions);
     // get params from discord
     const publicid = findOptionString(interaction, "publicid");
+    const user = findOption(interaction, "user");
     const hide = findOption(interaction, "hide");
     // check for invalid publicID
-    if (!userLinkCheck(publicid)) return response(invalidPublicID);
-    const userID = userLinkExtract(publicid);
+    if (!userLinkCheck(publicid) && !user) return response(invalidPublicID);
+    const SBID = await getSBID(user);
+    if (!SBID) return response(noStoredID);
+    const userID = (user && !publicid) ? SBID : userLinkExtract(publicid);
     // fetch
     const parsedUser = await Promise.race([getUserInfo(userID), timeout]);
     if (!parsedUser) return response(timeoutResponse);
