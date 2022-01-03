@@ -276,6 +276,10 @@ const formatStatus = async (res) => {
         name: "15 Minute Load",
         value: `${data.loadavg[1].toFixed(2)}/2`,
         inline: true
+      }, {
+        name: "1 min /status requests",
+        value: data.statusRequests,
+        inline: true
       }
     );
   }
