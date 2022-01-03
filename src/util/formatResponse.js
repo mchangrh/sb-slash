@@ -297,7 +297,7 @@ const formatResponseTime = (data) => {
   skipResponseTimes = skipResponseTimes.map((x) => x.toFixed(2) + "ms");
   const embed = emptyEmbed();
   embed.title = "SB Server Response Time";
-  embed.url = "https://sb-status.mchang.xyz/status";
+  embed.url = "https://mchangrh.github.io/sb-status-chart";
   embed.description = "Last | 5 Minute Average | 15 Minute Average";
   embed.fields.push({
     name: "Process Time",
