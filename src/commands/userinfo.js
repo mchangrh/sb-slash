@@ -25,11 +25,13 @@ module.exports = {
     // only hide command
     if (!publicid && !user) return response(noOptions);
     // invalid publicID
-    if (!userLinkCheck(publicid) && !user) return response(invalidPublicID);
+    if (!userStrictCheck(publicid) && !userLinkCheck(publicid) && !user) return response(invalidPublicID);
     const SBID = await getSBID(user);
     if (!SBID) return response(noStoredID);
     // lookup
-    const userID = (user && !publicid) ? SBID : userLinkExtract(publicid);
+    const userID = (user && !publicid) ? SBID
+      : userStrictCheck(publicid) ? publicid
+        : userLinkExtract(publicid);
     // fetch
     const parsedUser = await Promise.race([getUserInfo(userID), timeout]);
     if (!parsedUser) return response(timeoutResponse);
