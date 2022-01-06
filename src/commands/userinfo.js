@@ -1,8 +1,8 @@
 const { formatUser, getLastSegmentTime } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
-const { invalidPublicID, timeoutResponse, noOptions, noStoredID } = require("../util/invalidResponse.js");
+const { invalidPublicID, timeoutResponse, noOptions } = require("../util/invalidResponse.js");
 const { getUserInfo, timeout } = require("../util/min-api.js");
-const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
+const { userLinkCheck, userLinkExtract, userStrictCheck } = require("../util/validation.js");
 const { publicIDOptionOptional, userOption, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
 
 const getSBID = (dID) => NAMESPACE.get(dID, {cacheTtl: 86400});
@@ -27,11 +27,11 @@ module.exports = {
     // invalid publicID
     if (!userStrictCheck(publicid) && !userLinkCheck(publicid) && !user) return response(invalidPublicID);
     const SBID = await getSBID(user);
-    if (!SBID) return response(noStoredID);
     // lookup
     const userID = (user && !publicid) ? SBID
       : userStrictCheck(publicid) ? publicid
         : userLinkExtract(publicid);
+    if (!userID) return response(invalidPublicID);
     // fetch
     const parsedUser = await Promise.race([getUserInfo(userID), timeout]);
     if (!parsedUser) return response(timeoutResponse);
