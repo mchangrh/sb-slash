@@ -395,6 +395,16 @@ const formatUnsubmitted = (debugObj) => {
   return embed;
 };
 
+const contentResponse = (content, hide) => {
+  return {
+    type: 4,
+    data: {
+      content,
+      flags: (hide ? 64 : 0)
+    }
+  };
+};
+
 module.exports = {
   formatShowoff,
   formatSegment,
@@ -408,5 +418,6 @@ module.exports = {
   formatStatus,
   formatResponseTime,
   formatUserStats,
-  formatUnsubmitted
+  formatUnsubmitted,
+  contentResponse
 };

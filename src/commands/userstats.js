@@ -2,13 +2,13 @@ const { formatUserStats } = require("../util/formatResponse.js");
 const { invalidPublicID, timeoutResponse } = require("../util/invalidResponse.js");
 const { getUserStats, timeout } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
-const { hideOption, publicIDOption, pieChartOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { hideOption, publicIDOptionRequired, pieChartOption, findOption, findOptionString } = require("../util/commandOptions.js");
 
 module.exports = {
   name: "userstats",
   description: "retrieves user statistics",
   options: [
-    publicIDOption,
+    publicIDOptionRequired,
     {
       name: "sort",
       description: "Sort categories in descending order",

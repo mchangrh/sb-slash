@@ -24,20 +24,28 @@ const segmentIDOption = {
 const publicIDOption = {
   name: "publicid",
   description: "Public User ID",
-  type: ApplicationCommandOptionType.STRING,
+  type: ApplicationCommandOptionType.STRING
+};
+const publicIDOptionRequired = {
+  ...publicIDOption,
   required: true
 };
 const publicIDOptionOptional = {
-  name: "publicid",
-  description: "Public User ID",
-  type: ApplicationCommandOptionType.STRING,
+  ...publicIDOption,
   required: false
 };
 const userOption = {
   name: "user",
   description: "The user to get info for",
-  type: ApplicationCommandOptionType.USER,
+  type: ApplicationCommandOptionType.USER
+};
+const userOptionOptional = {
+  ...userOption,
   required: false
+};
+const userOptionRequired = {
+  ...userOption,
+  required: true
 };
 const pieChartOption = {
   name: "piechart",
@@ -50,9 +58,10 @@ module.exports = {
   hideOption,
   videoIDOption,
   segmentIDOption,
-  publicIDOption,
+  publicIDOptionRequired,
   publicIDOptionOptional,
-  userOption,
+  userOptionOptional,
+  userOptionRequired,
   pieChartOption,
   findOption,
   findOptionString

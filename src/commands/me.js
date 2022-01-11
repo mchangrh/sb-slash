@@ -3,24 +3,12 @@ const { userComponents } = require("../util/components.js");
 const { invalidPublicID, noStoredID, timeoutResponse } = require("../util/invalidResponse.js");
 const api = require("../util/min-api.js");
 const { userStrictCheck } = require("../util/validation.js");
-const { hideOption, publicIDOption, pieChartOption } = require("../util/commandOptions.js");
+const { hideOption, publicIDOptionRequired, pieChartOption } = require("../util/commandOptions.js");
+const { getSBID } = require("../util/cfkv.js");
 const [SUBCOMMAND, GROUP] = [1, 2];
-
-// get existing SBID with cache of 24hr
-const getSBID = (dID) => NAMESPACE.get(dID, {cacheTtl: 86400});
 
 const findNestedOption = (rootOptions, name) => ((objCheck(rootOptions) && (rootOptions.options.find((opt) => opt.name === name))) || false);
 const objCheck = (rootOptions) => (rootOptions && ("options" in rootOptions));
-
-const contentResponse = (content, hide) => {
-  return {
-    type: 4,
-    data: {
-      content,
-      flags: (hide ? 64 : 0)
-    }
-  };
-};
 
 module.exports = {
   name: "me",
@@ -33,7 +21,7 @@ module.exports = {
       name: "set",
       description: "Set associated public userID",
       type: SUBCOMMAND,
-      options: [publicIDOption]
+      options: [publicIDOptionRequired]
     }, {
       name: "get",
       description: "Get associated public userID",
@@ -81,20 +69,20 @@ module.exports = {
       // delete if requested
       if (SBID == "delete") {
         await NAMESPACE.delete(dID);
-        return response(contentResponse(`Removed ID from ${dUserName}`, true));
+        return response(format.contentResponse(`Removed ID from ${dUserName}`, true));
       }
       // check for valid SBID
       if (!userStrictCheck(SBID)) return response(invalidPublicID);
       // set associated publicID and return confirmation
       await NAMESPACE.put(dID, SBID);
-      return response(contentResponse(`Associated \`${SBID}\` with **\`${dUserName}\`**`, false));
+      return response(format.contentResponse(`Associated \`${SBID}\` with **\`${dUserName}\`**`, false));
     } else {
       let embed;
       const SBID = await getSBID(dID); // get SBID
       if (SBID === null) return response(noStoredID); // if no stored, return error
       // userid get
       if (cmdName === "userid") { // userid get
-        return response(contentResponse(`**\`${dUserName}\`** has associated with \`${SBID}\``, false));
+        return response(format.contentResponse(`**\`${dUserName}\`** has associated with \`${SBID}\``, false));
       } else if (cmdName === "userinfo") { // userinfo
         const res = await Promise.race([api.getUserInfo(SBID), api.timeout]);
         if (!res) return response(timeoutResponse);

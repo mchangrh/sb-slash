@@ -1,18 +1,17 @@
 const { formatUser, getLastSegmentTime } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
-const { invalidPublicID, timeoutResponse, noOptions } = require("../util/invalidResponse.js");
+const { invalidPublicID, timeoutResponse, noOptions, notVIP } = require("../util/invalidResponse.js");
 const { getUserInfo, timeout } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract, userStrictCheck } = require("../util/validation.js");
-const { publicIDOptionOptional, userOption, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
-
-const getSBID = (dID) => NAMESPACE.get(dID, {cacheTtl: 86400});
+const { publicIDOptionOptional, userOptionOptional, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { getSBID, checkVIP } = require("../util/cfkv.js");
 
 module.exports = {
   name: "userinfo",
   description: "retrieves user info",
   options: [
     publicIDOptionOptional,
-    userOption,
+    userOptionOptional,
     hideOption
   ],
   execute: async ({ interaction, response }) => {
@@ -22,6 +21,7 @@ module.exports = {
     const publicid = findOptionString(interaction, "publicid");
     const user = findOption(interaction, "user");
     const hide = findOption(interaction, "hide");
+    if (user && (!interaction.member || !checkVIP([...interaction.member.roles]))) return response(notVIP);
     // only hide command
     if (!publicid && !user) return response(noOptions);
     // invalid publicID

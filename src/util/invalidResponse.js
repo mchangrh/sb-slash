@@ -21,6 +21,9 @@ const segmentNotFound = defaultResponse("Sorry, there doesn't seem to be any seg
 // timeout
 const timeoutResponse = defaultResponse("Error: connection timed out");
 
+// not VIP
+const notVIP = defaultResponse("Sorry, this is only available to VIP users");
+
 module.exports = {
   defaultResponse,
   timeoutResponse,
@@ -31,5 +34,6 @@ module.exports = {
   segmentNotFound,
   usernameNotFound,
   videoIDNotFound,
-  noOptions
+  noOptions,
+  notVIP
 };

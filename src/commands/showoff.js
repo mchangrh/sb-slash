@@ -2,12 +2,12 @@ const { formatShowoff } = require("../util/formatResponse.js");
 const { invalidPublicID, timeoutResponse } = require("../util/invalidResponse.js");
 const { getUserInfoShowoff, timeout } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
-const { publicIDOption, findOptionString } = require("../util/commandOptions.js");
+const { publicIDOptionRequired, findOptionString } = require("../util/commandOptions.js");
 
 module.exports = {
   name: "showoff",
   description: "Show off your stats",
-  options: [ publicIDOption ],
+  options: [ publicIDOptionRequired ],
   execute: async ({ interaction, response }) => {
     // get params from discord
     const publicid = findOptionString(interaction, "publicid");
