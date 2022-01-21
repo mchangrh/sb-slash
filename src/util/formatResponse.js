@@ -17,6 +17,7 @@ const minutesReadable = (minutes) => {
 };
 
 const secondsToTime = (e, showMs=true) => {
+  if (e == 0) return "None";
   const h = Math.floor(e / 3600).toString().padStart(1,"0"),
     m = Math.floor(e % 3600 / 60).toString().padStart(2,"0"),
     s = Math.floor(e % 60).toString().padStart(2,"0"),
@@ -71,11 +72,13 @@ const totalPages = (total) => {
   return rem === 0 ? quo-1 : Math.floor(quo);
 };
 
-const actionType = (type) => (type == "mute") ? "🔇" : "⏭️";
+const actionType = (type) => { return { "mute": "🔇", "skip": "⏭️", "full": "♾️", "poi": "📌" }[type]; };
 
 const segmentTimes = (start, end) =>
   (start == end)
-    ? `${secondsToTime(start)}`
+    ? (start == 0)
+      ? "Full Video"
+      : `${secondsToTime(start)}`
     : `${secondsToTime(start)} - ${secondsToTime(end)}`;
 
 const categoryColour = {
@@ -88,6 +91,7 @@ const categoryColour = {
   "music_offtopic": 16750848,
   "poi_highlight": 16717444,
   "filler": 7536895,
+  "exclusive_access": 35420,
   "default": 16711680
 };
 
@@ -366,13 +370,12 @@ const formatUserStats = (publicID, data, sort, piechart) => {
 
 const formatUnsubmittedTemplate = (s) => {
   const videoLink = `[${s.videoID}](https://youtu.be/${s.videoID})`;
-  const actionType = (s.type === "skip" ? "⏭️" : "🔇");
   const category = (s.category === "chooseACategory" ? "?" : s.category);
   const times = s.times
     .map((time) =>
       `\`${secondsToTime(time)}\``)
     .join(" - ");
-  return `${videoLink} | ${actionType} | ${category} | ${times}`;
+  return `${videoLink} | ${actionType(s.type)} | ${category} | ${times}`;
 };
 
 const formatUnsubmitted = (debugObj) => {
