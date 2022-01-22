@@ -8,6 +8,7 @@
         "sourceType": "module",
         "ecmaFeatures": {}
     },
+    "ignorePatterns": ["build/**", "build-dev/**"],
     "rules": {
         "constructor-super": 2,
         "for-direction": 2,

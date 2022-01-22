@@ -408,6 +408,19 @@ const contentResponse = (content, hide) => {
   };
 };
 
+const axiosResponse = async (result) => {
+  const data = await result.text();
+  return `${result.status} | ${jsonBody(data)}`;
+};
+
+const jsonBody = (body) => {
+  try {
+    return JSON.parse(body).message;
+  } catch {
+    return body.length > 0 ? body : "OK";
+  }
+};
+
 module.exports = {
   formatShowoff,
   formatSegment,
@@ -422,5 +435,6 @@ module.exports = {
   formatResponseTime,
   formatUserStats,
   formatUnsubmitted,
-  contentResponse
+  contentResponse,
+  axiosResponse
 };

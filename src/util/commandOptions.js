@@ -53,6 +53,35 @@ const pieChartOption = {
   type: ApplicationCommandOptionType.BOOLEAN,
   required: false
 };
+const uuidOption = {
+  name: "uuid",
+  description: "UUID of the segment",
+  type: ApplicationCommandOptionType.STRING,
+  required: true
+};
+const categoryOption = {
+  name: "category",
+  description: "Category to change to",
+  type: ApplicationCommandOptionType.STRING,
+  required: true,
+  choices: [{
+    name: "Sponsor", value: "sponsor"
+  }, {
+    name: "Unpaid/ Self Promotion", value: "selfpromo"
+  }, {
+    name: "Interaction Reminder", value: "interaction"
+  }, {
+    name: "Intermission/ Intro Animation", value: "intro"
+  }, {
+    name: "Endcards/ Outro", value: "outro"
+  }, {
+    name: "Preview/ Recap", value: "preview"
+  }, {
+    name: "Music: Non-Music", value: "music_offtopic"
+  }, {
+    name: "Filler", value: "filler"
+  }]
+};
 
 module.exports = {
   hideOption,
@@ -63,6 +92,8 @@ module.exports = {
   userOptionOptional,
   userOptionRequired,
   pieChartOption,
+  uuidOption,
+  categoryOption,
   findOption,
   findOptionString
 };

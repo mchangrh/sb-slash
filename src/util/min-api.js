@@ -56,6 +56,32 @@ const getResponseTime = () => {
   return fetch(url).then((res) => res.json());
 };
 
+// vip endpoints
+const postPurgeSegments = (videoID) => {
+  const url = `${BASEURL}/purgeAllSegments`;
+  const req = {
+    body: `{
+      "videoID": "${videoID}",
+      "userID": "${VIP_USER_ID}"
+    }`,
+    headers: { "content-type": "application/json;charset=UTF-8" },
+    method: "POST"
+  };
+  return fetch(url, req);
+};
+const postClearCache = (videoID) => {
+  const url = `${BASEURL}/clearCache?videoID=${videoID}&userID=${VIP_USER_ID}`;
+  return fetch(url, { method: "POST" });
+};
+const postChangeCategory = (UUID, category) => {
+  const url = `${BASEURL}/voteOnSponsorTime?UUID=${UUID}&category=${category}&userID=${VIP_USER_ID}`;
+  return fetch(url, { method: "POST" });
+};
+const postVoteOnSegment = (UUID, type) => {
+  const url = `${BASEURL}/voteOnSponsorTime?UUID=${UUID}&type=${type}&userID=${VIP_USER_ID}`;
+  return fetch(url, { method: "POST" });
+};
+
 module.exports = {
   timeout,
   getResponseTime,
@@ -68,5 +94,11 @@ module.exports = {
   getLockCategories,
   getLockReason,
   getStatus,
-  getUserStats
+  getUserStats,
+  vip: {
+    postPurgeSegments,
+    postClearCache,
+    postChangeCategory,
+    postVoteOnSegment
+  }
 };

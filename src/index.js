@@ -5,6 +5,7 @@ const commands = ["userinfo", "showoff", "userstats", "me",
   "lockcategories", "lockreason", "searchsegments",
   "status", "responsetime",
   "github", "invite",
+  "vip",
   "formatunsubmitted"
 ];
 const buttons = ["lookupuser", "lookupsegment"];
