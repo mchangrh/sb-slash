@@ -81,6 +81,10 @@ const postVoteOnSegment = (UUID, type) => {
   const url = `${BASEURL}/voteOnSponsorTime?UUID=${UUID}&type=${type}&userID=${VIP_USER_ID}`;
   return fetch(url, { method: "POST" });
 };
+const postAddTempVIP = (userID, videoID) => {
+  const url = `${BASEURL}/addUserAsTempVIP?adminUserID=${VIP_USER_ID}&userID=${userID}&channelVideoID=${videoID}&enabled=true`;
+  return fetch(url, { method: "POST"});
+};
 
 module.exports = {
   timeout,
@@ -99,6 +103,7 @@ module.exports = {
     postPurgeSegments,
     postClearCache,
     postChangeCategory,
-    postVoteOnSegment
+    postVoteOnSegment,
+    postAddTempVIP
   }
 };

@@ -1,7 +1,7 @@
-const log = (user, cmdname, uuid) => {
+const log = (user, cmdname, target) => {
   const username = `${user.username}#${user.discriminator}`;
   const avatar = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`;
-  const rawText = `${cmdname} | \`${uuid}\``;
+  const rawText = `${cmdname} | \`${target}\``;
   const request = {
     body: `{
       "content": "${rawText}",

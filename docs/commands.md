@@ -78,6 +78,8 @@ upload the debug here (https://mchangrh.github.io/cfkv-bin/)
 
 - binid: bin ID to fetch debug from
 
+### [/vip](./vip.md)
+
 # Message Commands
 ### Lookup Segments
 find videoIDs in a message and lookup segments for that video.

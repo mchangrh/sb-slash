@@ -410,7 +410,9 @@ const contentResponse = (content, hide) => {
 
 const axiosResponse = async (result) => {
   const data = await result.text();
-  return `${result.status} | ${jsonBody(data)}`;
+  return result.status == 200
+    ? `| ${jsonBody(data)}`
+    : `${result.status} | ${jsonBody(data)}`;
 };
 
 const jsonBody = (body) => {

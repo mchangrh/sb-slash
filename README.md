@@ -28,6 +28,14 @@ userstats
 # misc
 /formatunsubmitted binid:
 
+# /vip
+category uuid: category:
+cache videoid:
+purge videoid:
+downvote uuid:
+undovote uuid:
+addvip userID: videoID:
+
 /invite
 /github
 ```
@@ -41,6 +49,8 @@ more details [here](./docs/commands.md)
 ## Cloudflare Environment Variables (Handling Interactions)
 `CLIENT_ID` - Client ID from bot portal  
 `CLIENT_PUBLIC_KEY` - Public Key from bot portal
+`LOGGING_WEBHOOK` - Webhook URL for VIP logging
+`VIP_USER_ID` - Private userID for VIP commands
 
 ## Local Environment Variables (Populating slash commands & options)
 `CLIENT_ID` - Client ID from bot portal  
@@ -53,7 +63,7 @@ If you would like to test your PR on a dev environment, please contact me on dis
 # Credit
 API follows [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) Documentation at [wiki.sponsor.ajay.app](https://wiki.sponsor.ajay.app/index.php/API_Docs)
 
-/src/util/sbc-util.js from [MRuy/sponsorBlockControl](https://github.com/MRuy/sponsorBlockControl/blob/master/src/utils.js)
+sbc-util.js from [MRuy/sponsorBlockControl](https://github.com/MRuy/sponsorBlockControl/blob/master/src/utils.js)
 
 Logo from [ajayyy/SponsorBlock](https://github.com/ajayyy/SponsorBlock/tree/master/public/icons), created by [@munadikieh](https://github.com/munadikieh)
 
