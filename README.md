@@ -41,10 +41,9 @@ addvip userID: videoID:
 ```
 more details [here](./docs/commands.md)
 
-- Other commands were not added since a local ID is required, this is for quickly retreiving general stats and checking segments.
 - Mass stat related commands were not included  
 - Anonymous lookup was not included
-- All commands can have their response be ephemeral by setting the hide parameter to true
+- Most commands can have their response be ephemeral by setting the hide parameter to true
 
 ## Cloudflare Environment Variables (Handling Interactions)
 `CLIENT_ID` - Client ID from bot portal  
