@@ -1,8 +1,8 @@
 const { axiosResponse } = require("../util/formatResponse.js");
 const { notVIP } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
-const { videoIDOption, uuidOption, categoryOption } = require("../util/commandOptions.js");
-const { checkVIP } = require("../util/cfkv.js");
+const { videoIDOption, uuidOption, userOptionRequired, categoryOption } = require("../util/commandOptions.js");
+const { checkVIP, getSBID } = require("../util/cfkv.js");
 const { log } = require("../util/log.js");
 
 module.exports = {
@@ -37,12 +37,7 @@ module.exports = {
     name: "addvip",
     description: "Grant temporary VIP to a user",
     type: 1,
-    options: [{
-      name: "userid",
-      description: "Public userID of user to grant VIP to",
-      type: 3,
-      required: true
-    }, {
+    options: [userOptionRequired, {
       name: "videoid",
       description: "Video ID from channel to grant VIP on",
       type: 3,
@@ -101,10 +96,11 @@ module.exports = {
           throw "api error";
         });
     } else if (cmdName === "addvip") {
-      const publicID = nested("userid");
+      const user = nested("user");
+      const SBID = await getSBID(user);
       const videoID = nested("videoid");
-      await log(dUser.user, cmdName, publicID);
-      result = await vip.postAddTempVIP(publicID, videoID)
+      //await log(dUser.user, cmdName, SBID);
+      result = await vip.postAddTempVIP(SBID, videoID)
         .catch((err) => {
           console.log(err);
           throw "api error";
