@@ -99,7 +99,7 @@ module.exports = {
       const user = nested("user");
       const SBID = await getSBID(user);
       const videoID = nested("videoid");
-      //await log(dUser.user, cmdName, SBID);
+      await log(dUser.user, cmdName, SBID);
       result = await vip.postAddTempVIP(SBID, videoID)
         .catch((err) => {
           console.log(err);
