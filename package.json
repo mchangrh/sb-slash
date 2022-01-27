@@ -34,8 +34,8 @@
   },
   "devDependencies": {
     "deep-equal": "^2.0.5",
-    "dotenv": "10.0.0",
-    "eslint": "^8.6.0",
-    "webpack": "^5.65.0"
+    "dotenv": "^14.3.2",
+    "eslint": "^8.7.0",
+    "webpack": "^5.67.0"
   }
 }
