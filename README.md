@@ -47,8 +47,8 @@ more details [here](./docs/commands.md)
 
 ## Cloudflare Environment Variables (Handling Interactions)
 `CLIENT_ID` - Client ID from bot portal  
-`CLIENT_PUBLIC_KEY` - Public Key from bot portal
-`LOGGING_WEBHOOK` - Webhook URL for VIP logging
+`CLIENT_PUBLIC_KEY` - Public Key from bot portal  
+`LOGGING_WEBHOOK` - Webhook URL for VIP logging  
 `VIP_USER_ID` - Private userID for VIP commands
 
 ## Local Environment Variables (Populating slash commands & options)
