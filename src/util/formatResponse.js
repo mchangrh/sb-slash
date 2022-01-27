@@ -320,7 +320,27 @@ const formatResponseTime = (data) => {
   return embed;
 };
 
+const userStatsJankMath = (data) => {
+  const total = data.overallStats.segmentCount;
+  const totalCategoryCount = Object.values(data.categoryCount).reduce((t, n) => t += n);
+  const totalTypeCount = Object.values(data.actionTypeCount).reduce((t, n) => t += n);
+  const poiCount = data.categoryCount.poi_highlight;
+
+  data.categoryCount = {
+    ...data.categoryCount,
+    "exclusive_access": total - totalCategoryCount
+  };
+  data.actionTypeCount = {
+    ...data.actionTypeCount,
+    "poi": poiCount,
+    "full": total - totalTypeCount - poiCount
+  };
+
+  return data;
+};
+
 const formatUserStats = (publicID, data, sort, piechart) => {
+  data = userStatsJankMath(data);
   // format response
   const total = data.overallStats.segmentCount;
   const timeSaved = minutesReadable(data.overallStats.minutesSaved);
