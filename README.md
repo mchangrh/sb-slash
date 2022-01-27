@@ -66,4 +66,4 @@ sbc-util.js from [MRuy/sponsorBlockControl](https://github.com/MRuy/sponsorBlock
 
 Logo from [ajayyy/SponsorBlock](https://github.com/ajayyy/SponsorBlock/tree/master/public/icons), created by [@munadikieh](https://github.com/munadikieh)
 
-Formatting and Links from [Lartza/SBTools](https://github.com/Lartza/SBtools)
+Formatting and Links from [Lartza/SBbrowser](https://github.com/Lartza/SBbrowser)
