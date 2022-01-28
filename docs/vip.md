@@ -27,6 +27,10 @@ add a temporary vip for a certain channel
 - userID - publicID of user to grant temp VIP to
 - videoID - videoID from channel to grant temp VIP for
 
+### lookup
+lookup discord ID from publicID
+- publicID - publicID to lookup
+
 ## Logging
 downvote, undovote, purge, and addvip are all logged to a VIP-only channel since otherwise, these command executions could not be traced back to the VIP user.
 

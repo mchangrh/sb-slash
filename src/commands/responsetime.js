@@ -13,7 +13,6 @@ module.exports = {
     const responseRes = await Promise.race([getResponseTime(), timeout]);
     if (!responseRes) return response(timeoutResponse);
     const embed = formatResponseTime(responseRes);
-    console.log(embed);
     return response({
       type: 4,
       data: {

@@ -1,8 +1,8 @@
 const { axiosResponse } = require("../util/formatResponse.js");
 const { notVIP } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
-const { videoIDOption, uuidOption, userOptionRequired, categoryOption } = require("../util/commandOptions.js");
-const { checkVIP, getSBID } = require("../util/cfkv.js");
+const { videoIDOption, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired } = require("../util/commandOptions.js");
+const { checkVIP, getSBID, vipMap } = require("../util/cfkv.js");
 const { log } = require("../util/log.js");
 
 module.exports = {
@@ -43,6 +43,11 @@ module.exports = {
       type: 3,
       required: true
     }]
+  }, {
+    name: "lookup",
+    description: "Look up Discord ID from SBID",
+    type: 1,
+    options: [ publicIDOptionRequired ]
   }],
   execute: async ({ interaction, response }) => {
     // check that user is VIP
@@ -105,6 +110,17 @@ module.exports = {
           console.log(err);
           throw "api error";
         });
+    } else if (cmdName === "lookup") {
+      const SBID = nested("publicid");
+      const dID = await vipMap(SBID);
+      return response({
+        type: 4,
+        data: {
+          content: dID ? `<@!${dID}>` : "Not found",
+          allowed_mentions: { parse: [] },
+          flags: 64
+        }
+      });
     }
 
     // response

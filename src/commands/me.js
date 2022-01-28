@@ -75,6 +75,9 @@ module.exports = {
       if (!userStrictCheck(SBID)) return response(invalidPublicID);
       // set associated publicID and return confirmation
       await NAMESPACE.put(dID, SBID);
+      const oldmap = await NAMESPACE.get("vipmap", { type: "json" });
+      const newmap = JSON.stringify({ ...oldmap, [SBID]: dID });
+      await NAMESPACE.put("vipmap", newmap);
       return response(format.contentResponse(`Associated \`${SBID}\` with **\`${dUserName}\`**`, false));
     } else {
       let embed;
