@@ -82,10 +82,10 @@ upload the debug here (https://mchangrh.github.io/cfkv-bin/)
 
 # Message Commands
 ### Lookup Segments
-find videoIDs in a message and lookup segments for that video.
+find videoIDs or sb.mchang.xyz links in a message and lookup segments for that video.
 
 ### Open in sb.ltn.fi
-find videoIDs in a message and create a link for sb.ltn.fi
+find videoIDs or sb.mchang.xyz links in a message and create a link for sb.ltn.fi
 
 # Misc Endpoints
 ### /ping

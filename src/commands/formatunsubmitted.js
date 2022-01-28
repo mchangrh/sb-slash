@@ -1,4 +1,4 @@
-const { findOptionString } = require("../util/commandOptions.js");
+const { hideOption, findOptionString } = require("../util/commandOptions.js");
 const { ApplicationCommandOptionType } = require("slash-commands");
 const { formatUnsubmitted } = require("../util/formatResponse.js");
 const { defaultResponse } = require("../util/invalidResponse.js");
@@ -12,11 +12,12 @@ module.exports = {
     description: "bin ID for raw debug text (https://bin.mchang.xyz/upload)",
     type: ApplicationCommandOptionType.STRING,
     required: true
-  }],
+  }, hideOption],
   execute: async ({ interaction, response }) => {
     // get params from discord
     let binID = findOptionString(interaction, "binid");
     if (regex.test(binID)) binID = binID.match(regex)[1];
+    const hide = findOption(interaction, "hide");
     const url = `https://bin.mchang.xyz/b/${binID}`;
     // fetch
     const result = await fetch(url);
@@ -28,7 +29,7 @@ module.exports = {
         type: 4,
         data: {
           embeds: [formatUnsubmitted(json)],
-          flags: 64 // hide
+          flags: (hide == true ? 0 : 0) // hide
         }
       });
     } catch (error) {
