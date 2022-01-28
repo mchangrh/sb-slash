@@ -14,8 +14,8 @@ module.exports = {
     const searchString = msg.content || searchEmbed.title || searchEmbed.description || "";
     const segmentUUID = findSblookupSegment(searchString);
     // query the video ID from the segment UUID, if one was found
-    const segmentData = segmentUUID !== null ? await getSegmentInfo(segmentUUID) : [];
-    const videoID = segmentData[0]?.videoID ?? findVideoID(searchString);
+    const segmentData = segmentUUID ? await getSegmentInfo(segmentUUID) : null;
+    const videoID = segmentData ? segmentData[0].videoID : findVideoID(searchString);
     if (!videoID) return response(videoIDNotFound);
     // fetch
     const body = await getSkipSegments(videoID, CATEGORIES_STRING);
