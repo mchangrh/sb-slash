@@ -1,6 +1,6 @@
-const { findVideoID } = require("../util/validation.js");
+const { findVideoID, findSblookupSegment } = require("../util/validation.js");
 const { videoIDNotFound } = require("../util/invalidResponse.js");
-const { getSkipSegments } = require("../util/min-api.js");
+const { getSkipSegments, getSegmentInfo } = require("../util/min-api.js");
 const { formatSkipSegments } = require("../util/formatResponse.js");
 const { CATEGORIES_STRING } = require("../util/categories.js");
 
@@ -12,7 +12,10 @@ module.exports = {
     const msg = Object.values(interaction.data.resolved.messages)[0];
     const searchEmbed = msg.embeds[0] || {};
     const searchString = msg.content || searchEmbed.title || searchEmbed.description || "";
-    const videoID = findVideoID(searchString);
+    const segmentUUID = findSblookupSegment(searchString);
+    // query the video ID from the segment UUID, if one was found
+    const segmentData = segmentUUID !== null ? await getSegmentInfo(segmentUUID) : [];
+    const videoID = segmentData[0]?.videoID ?? findVideoID(searchString);
     if (!videoID) return response(videoIDNotFound);
     // fetch
     const body = await getSkipSegments(videoID, CATEGORIES_STRING);
