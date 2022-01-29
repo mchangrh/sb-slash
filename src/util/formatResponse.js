@@ -234,7 +234,7 @@ const formatSearchSegments = (videoID, result) => {
   if (result === "Not Found") return segmentsNotFoundEmbed(videoID);
   const embed = emptyVideoEmbed(videoID);
   const parsed = JSON.parse(result);
-  embed.description = `**Segments:** ${parsed.segmentCount} | **Page:**: ${parsed.page}/${totalPages(parsed.segmentCount)}`;
+  embed.description = `**Segments:** ${parsed.segmentCount} | **Page:**: ${parsed.page+1}/${totalPages(parsed.segmentCount)+1}`;
   const segments = parsed.segments;
   for (const segment of segments) {
     const { startTime, endTime } = segment;

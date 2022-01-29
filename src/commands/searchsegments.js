@@ -12,7 +12,8 @@ module.exports = {
     videoIDOption, {
       name: "page",
       description: "Page of response",
-      type: INTEGER
+      type: INTEGER,
+      min_value: 1
     }, {
       name: "minvotes",
       description: "Minimum Vote Threshold",
@@ -23,12 +24,14 @@ module.exports = {
       type: INTEGER
     }, {
       name: "minviews",
-      description: "Minimum Vote Threshold",
-      type: INTEGER
+      description: "Minimum Views Threshold",
+      type: INTEGER,
+      min_value: 0
     }, {
       name: "maxviews",
-      description: "Maximum Vote Threshold",
-      type: INTEGER
+      description: "Maximum Views Threshold",
+      type: INTEGER,
+      min_value: 0
     }, {
       name: "locked",
       description: "include locked segments",
@@ -51,7 +54,7 @@ module.exports = {
   execute: async ({ interaction, response }) => {
     // get params from discord
     let videoID = findOptionString(interaction, "videoid");
-    const page = findOption(interaction, "page") || 0;
+    const page = findOption(interaction, "page")-1 || 0;
     const hide = findOption(interaction, "hide");
     const json = findOption(interaction, "json");
     // construct URL with filters
