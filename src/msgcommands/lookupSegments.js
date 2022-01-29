@@ -1,8 +1,7 @@
 const { findVideoID, findSblookupSegment } = require("../util/validation.js");
 const { videoIDNotFound } = require("../util/invalidResponse.js");
-const { getSkipSegments, getSegmentInfo } = require("../util/min-api.js");
-const { formatSkipSegments } = require("../util/formatResponse.js");
-const { CATEGORIES_STRING } = require("../util/categories.js");
+const { getSearchSegments, getSegmentInfo } = require("../util/min-api.js");
+const { formatSearchSegments } = require("../util/formatResponse.js");
 
 module.exports = {
   type: 3, // message command
@@ -18,12 +17,11 @@ module.exports = {
     const videoID = segmentData ? segmentData[0].videoID : findVideoID(searchString);
     if (!videoID) return response(videoIDNotFound);
     // fetch
-    const body = await getSkipSegments(videoID, CATEGORIES_STRING);
-    const embed = formatSkipSegments(videoID, body);
+    const body = await getSearchSegments(videoID, 0, "");
     return response({
       type: 4,
       data: {
-        embeds: [embed],
+        embeds: [formatSearchSegments(videoID, body)],
         flags: 64
       }
     });
