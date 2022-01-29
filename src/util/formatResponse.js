@@ -230,11 +230,12 @@ const formatSkipSegments = (videoID, result) => {
   return embed;
 };
 
-const formatSearchSegments = (videoID, result) => {
+const formatSearchSegments = (videoID, result, buttonOverrides) => {
   if (result === "Not Found") return segmentsNotFoundEmbed(videoID);
   const embed = emptyVideoEmbed(videoID);
   const parsed = JSON.parse(result);
   embed.description = `**Segments:** ${parsed.segmentCount} | **Page:**: ${parsed.page+1}/${totalPages(parsed.segmentCount)+1}`;
+  embed.footer = {text: JSON.stringify(buttonOverrides || {})};
   const segments = parsed.segments;
   for (const segment of segments) {
     const { startTime, endTime } = segment;
