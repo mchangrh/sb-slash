@@ -23,12 +23,14 @@ module.exports = {
       type: INTEGER
     }, {
       name: "minviews",
-      description: "Minimum Vote Threshold",
-      type: INTEGER
+      description: "Minimum Views Threshold",
+      type: INTEGER,
+      min_value: 0
     }, {
       name: "maxviews",
-      description: "Maximum Vote Threshold",
-      type: INTEGER
+      description: "Maximum Views Threshold",
+      type: INTEGER,
+      min_value: 0
     }, {
       name: "locked",
       description: "include locked segments",
