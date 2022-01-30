@@ -12,7 +12,7 @@ const uaArray = {
   node: "node_sponsorblock"
 };
 
-exports.parseUserAgent = (userAgent) => {
+export const parseUserAgent = (userAgent) => {
   const ua = userAgent.toLowerCase();
   if (ua.startsWith(uaArray.chromium)) {
     return `<:chromium:882089632731369522>/${versionRegex(ua, uaArray.chromium)}`;
