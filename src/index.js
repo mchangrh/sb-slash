@@ -8,7 +8,7 @@ const commands = ["userinfo", "showoff", "userstats", "me",
   "vip",
   "formatunsubmitted"
 ];
-const buttons = ["lookupuser", "lookupsegment"];
+const buttons = ["lookupuser", "lookupsegment", "searchsegments_next", "searchsegments_prev"];
 const messageCmd = {
   "Lookup Segments": "lookupSegments",
   "Open in sb.ltn.fi": "openinsbltnfi",

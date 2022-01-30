@@ -2,6 +2,7 @@ const { findVideoID, findSblookupSegment } = require("../util/validation.js");
 const { videoIDNotFound } = require("../util/invalidResponse.js");
 const { getSearchSegments, getSegmentInfo } = require("../util/min-api.js");
 const { formatSearchSegments } = require("../util/formatResponse.js");
+const { searchSegmentsComponents } = require("../util/components.js");
 
 module.exports = {
   type: 3, // message command
@@ -21,8 +22,9 @@ module.exports = {
     return response({
       type: 4,
       data: {
-        embeds: [formatSearchSegments(videoID, body)],
-        flags: 64
+        embeds: [formatSearchSegments(videoID, body, {page: 0, videoID})],
+        flags: 64,
+        components: searchSegmentsComponents(body)
       }
     });
   }

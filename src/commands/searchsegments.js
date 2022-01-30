@@ -3,6 +3,7 @@ const { formatSearchSegments } = require("../util/formatResponse.js");
 const { findVideoID } = require("../util/validation.js");
 const { videoIDOption, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
 const { invalidVideoID, timeoutResponse } = require("../util/invalidResponse.js");
+const { searchSegmentsComponents } = require("../util/components.js");
 const [ INTEGER, BOOLEAN ] = [4, 5];
 
 module.exports = {
@@ -59,10 +60,10 @@ module.exports = {
     const json = findOption(interaction, "json");
     // construct URL with filters
     const filterObj = {
-      minVotes: findOption(interaction, "minVotes"),
-      maxVotes: findOption(interaction, "maxVotes"),
-      minViews: findOption(interaction, "minViews"),
-      maxViews: findOption(interaction, "maxViews"),
+      minVotes: findOption(interaction, "minvotes"),
+      maxVotes: findOption(interaction, "maxvotes"),
+      minViews: findOption(interaction, "minviews"),
+      maxViews: findOption(interaction, "maxviews"),
       locked: findOption(interaction, "locked"),
       hidden: findOption(interaction, "hidden"),
       ignored: findOption(interaction, "ignored")
@@ -85,7 +86,8 @@ module.exports = {
       const stringified = (body === "Not Found" ? body : JSON.stringify(JSON.parse(body), null, 4));
       responseTemplate.data.content = "```json\n"+stringified+"```";
     } else {
-      responseTemplate.data.embeds = [formatSearchSegments(videoID, body)];
+      responseTemplate.data.embeds = [formatSearchSegments(videoID, body, {...filterObj, page, videoID})];
+      if (body && JSON.parse(body).segmentCount > 10) responseTemplate.data.components = searchSegmentsComponents(body);
     }
     return response(responseTemplate);
   }
