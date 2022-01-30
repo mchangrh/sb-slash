@@ -93,7 +93,7 @@ module.exports = {
         return response({
           type: 4,
           data: {
-            content: format.formatUser(res, timeSubmitted),
+            embeds: [format.formatUser(res, timeSubmitted)],
             components: userComponents(SBID, false),
             flags: (hide ? 64 : 0)
           }

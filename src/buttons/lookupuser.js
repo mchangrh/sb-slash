@@ -16,7 +16,7 @@ module.exports = {
     return response({
       type: 4,
       data: {
-        content: formatUser(parsedUser, timeSubmitted),
+        embeds: [formatUser(parsedUser, timeSubmitted)],
         components: userComponents(publicid, true),
         flags: 64
       }
