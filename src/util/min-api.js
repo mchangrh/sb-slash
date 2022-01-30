@@ -85,6 +85,19 @@ const postAddTempVIP = (userID, videoID) => {
   const url = `${BASEURL}/addUserAsTempVIP?adminUserID=${VIP_USER_ID}&userID=${userID}&channelVideoID=${videoID}&enabled=true`;
   return fetch(url, { method: "POST"});
 };
+const deleteWarning = (userID) => {
+  const url = `${BASEURL}/warnUser`;
+  const req = {
+    body: `{
+      "issuerUserID": "${VIP_USER_ID}",
+      "userID": "${userID}",
+      "enabled": false
+    }`,
+    headers: { "content-type": "application/json;charset=UTF-8" },
+    method: "POST"
+  };
+  return fetch(url, req);
+};
 
 module.exports = {
   timeout,
@@ -104,6 +117,7 @@ module.exports = {
     postClearCache,
     postChangeCategory,
     postVoteOnSegment,
-    postAddTempVIP
+    postAddTempVIP,
+    deleteWarning
   }
 };

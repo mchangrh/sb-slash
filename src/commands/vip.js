@@ -48,6 +48,11 @@ module.exports = {
     description: "Look up Discord ID from SBID",
     type: 1,
     options: [ publicIDOptionRequired ]
+  }, {
+    name: "unwarn",
+    description: "Remove warning from a user",
+    type: 1,
+    options: [ publicIDOptionRequired ]
   }],
   execute: async ({ interaction, response }) => {
     // check that user is VIP
@@ -121,6 +126,14 @@ module.exports = {
           flags: 64
         }
       });
+    } else if (cmdName === "unwarn") {
+      const SBID = nested("publicid");
+      //await log(dUser.user, cmdName, SBID);
+      result = await vip.deleteWarning(SBID)
+        .catch((err) => {
+          console.log(err);
+          throw "api error";
+        });
     }
 
     // response

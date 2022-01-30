@@ -30,6 +30,10 @@ add a temporary vip for a certain channel
 ### lookup
 lookup discord ID from publicID
 - publicID - publicID to lookup
+  
+### unwarn
+Remove warning from a user
+- publicID - publicID to unwarn
 
 ## Logging
 downvote, undovote, purge, and addvip are all logged to a VIP-only channel since otherwise, these command executions could not be traced back to the VIP user.
