@@ -22,6 +22,17 @@ const common = async ({ interaction, response, offset }) => {
     }
   };
   if (body && JSON.parse(body).segmentCount > 10) responseTemplate.data.components = searchSegmentsComponents(body);
+  // Determine if the current user is the one who originally used the slash or message-command
+  // If not, respond in a new, hidden message
+  if (!(interaction.message.flags & 64)) {
+    const currentDiscordUserID = interaction.user ? interaction.user.id : interaction.member.user.id;
+    const previousInteraction = interaction.message.interaction;
+    const previousDiscordUserID = previousInteraction.user ? previousInteraction.user.id : previousInteraction.member.user.id;
+    if (currentDiscordUserID !== previousDiscordUserID) {
+      responseTemplate.type = 4;
+      responseTemplate.data.flags = 64;
+    }
+  }
   return response(responseTemplate);
 };
 
