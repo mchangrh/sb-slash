@@ -128,7 +128,7 @@ module.exports = {
       });
     } else if (cmdName === "unwarn") {
       const SBID = nested("publicid");
-      //await log(dUser.user, cmdName, SBID);
+      await log(dUser.user, cmdName, SBID);
       result = await vip.deleteWarning(SBID)
         .catch((err) => {
           console.log(err);
