@@ -97,18 +97,22 @@ const categoryColour = {
 
 const timeStamp = (time) => `<t:${(""+time).substring(0,10)}:R>`;
 
-const formatUser = (result, submitted) =>
-  `${userName(result)}
-  **Submitted:** ${result.segmentCount.toLocaleString("en-US")}
+const formatUser = (result, submitted) => {
+  const embed = emptyEmbed();
+  embed.title = userName(result);
+  embed.url = `https://sb.ltn.fi/userid/${result.userID}/`;
+  embed.description = `**Submitted:** ${result.segmentCount.toLocaleString("en-US")}
   **Reputation:** ${result.reputation.toFixed(2)}
   **Segment Views:** ${result.viewCount.toLocaleString("en-US")}
   **Time Saved:** ${minutesReadable(result.minutesSaved)}
   **Current Warnings:** ${result.warnings}
   **Ignored Submissions:** ${result.ignoredSegmentCount}
   **Ignored Views:** ${result.ignoredViewCount}
-  **Last Submission:** \`${result.lastSegmentID}\`
-  **Last Submission Time:** ${timeStamp(submitted)}
+  **Last Submission:** ${timeStamp(submitted)}
+  \`${result.lastSegmentID}\`
   `;
+  return embed;
+};
 
 const formatSegment = (result) => {
   const embed = emptyEmbed();
