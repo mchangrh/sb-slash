@@ -87,7 +87,7 @@ module.exports = {
       responseTemplate.data.content = "```json\n"+stringified+"```";
     } else {
       responseTemplate.data.embeds = [formatSearchSegments(videoID, body, {...filterObj, page, videoID})];
-      if (body && JSON.parse(body).segmentCount > 10) responseTemplate.data.components = searchSegmentsComponents(body);
+      responseTemplate.data.components = searchSegmentsComponents(body);
     }
     return response(responseTemplate);
   }
