@@ -2,7 +2,7 @@ const { getSearchSegments, timeout } = require("../util/min-api.js");
 const { formatSearchSegments } = require("../util/formatResponse.js");
 const { findVideoID } = require("../util/validation.js");
 const { videoIDOption, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
-const { invalidVideoID, timeoutResponse } = require("../util/invalidResponse.js");
+const { invalidVideoID, timeoutResponse, noSegments } = require("../util/invalidResponse.js");
 const { searchSegmentsComponents } = require("../util/components.js");
 const [ INTEGER, BOOLEAN ] = [4, 5];
 
@@ -83,9 +83,10 @@ module.exports = {
       data: { flags: (hide ? 64 : 0) }
     };
     if (json) {
-      const stringified = (body === "Not Found" ? body : JSON.stringify(JSON.parse(body), null, 4));
+      const stringified = (body == "Not Found" ? body : JSON.stringify(JSON.parse(body), null, 4));
       responseTemplate.data.content = "```json\n"+stringified+"```";
     } else {
+      if (body == "Not Found") return response(noSegments);
       responseTemplate.data.embeds = [formatSearchSegments(videoID, body, {...filterObj, page, videoID})];
       if (body && JSON.parse(body).segmentCount > 10) responseTemplate.data.components = searchSegmentsComponents(body);
     }
