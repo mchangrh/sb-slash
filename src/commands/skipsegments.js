@@ -1,6 +1,6 @@
 const { ApplicationCommandOptionType } = require("slash-commands");
-const { CATEGORIES_ARR, CATEGORIES_STRING } = require("../util/categories.js");
-const CATEGORY_CHOICES = ["all", ...CATEGORIES_ARR];
+const { CATEGORY_NAMES, ALL_CATEGORIES } = require("../util/categories.js");
+const CATEGORY_CHOICES = ["all", ...CATEGORY_NAMES];
 const { getSkipSegments, timeout } = require("../util/min-api.js");
 const { formatSkipSegments } = require("../util/formatResponse.js");
 const { invalidVideoID, timeoutResponse } = require("../util/invalidResponse.js");
@@ -37,7 +37,7 @@ module.exports = {
     const hide = findOption(interaction, "hide");
     const json = findOption(interaction, "json");
     // construct URL
-    const categoryParam = (category === "all") ? CATEGORIES_STRING : `category=${category}`;
+    const categoryParam = (category === "all") ? ALL_CATEGORIES : `category=${category}`;
     // check for video ID
     videoID = findVideoID(videoID) || videoID;
     if (!videoID) return response(invalidVideoID);

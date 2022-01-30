@@ -1,7 +1,7 @@
 const columnify = require("columnify");
 const { getSegmentInfo } = require("./min-api.js");
 const { parseUserAgent } = require("./parseUserAgent.js");
-const { CATEGORIES_ARR } = require("./categories.js");
+const { CATEGORY_NAMES, COLOUR_MAP, EMOJI_MAP } = require("./categories.js");
 
 // https://github.com/MRuy/sponsorBlockControl/blob/61f0585c9bff9c46f6fde06bb613aadeffb7e189/src/utils.js
 const minutesReadable = (minutes) => {
@@ -58,7 +58,7 @@ const visibility = (result) =>
   (result.hidden) ? "❌ Hidden"
     : (result.shadowHidden) ? "🚫 Shadowhidden"
       : (result.votes <= -2) ? "👎 Downvoted"
-        :"Visible";
+        :"✅ Visible";
 
 const formatVote = (result) =>
   (result.hidden) ? "❌"
@@ -80,20 +80,6 @@ const segmentTimes = (start, end) =>
       ? "Full Video"
       : `${secondsToTime(start)}`
     : `${secondsToTime(start)} - ${secondsToTime(end)}`;
-
-const categoryColour = {
-  "sponsor": 54272,
-  "selfpromo": 16776960,
-  "interaction": 13369599,
-  "intro": 65535,
-  "outro": 131821,
-  "preview": 36822,
-  "music_offtopic": 16750848,
-  "poi_highlight": 16717444,
-  "filler": 7536895,
-  "exclusive_access": 35420,
-  "default": 16711680
-};
 
 const timeStamp = (time) => `<t:${(""+time).substring(0,10)}:R>`;
 
@@ -120,7 +106,7 @@ const formatSegment = (result) => {
   const videoLink = videoTimeLink(videoID, startTime, UUID);
   embed.title = videoID;
   embed.url = `https://sb.ltn.fi/video/${videoID}/`;
-  embed.color = categoryColour[category] || categoryColour["default"];
+  embed.color = COLOUR_MAP[category] || COLOUR_MAP["default"];
   embed.description = `[${category}](${videoLink}) | ${actionType(result.actionType)} | **Submitted:** ${timeStamp(result.timeSubmitted)}
   ${segmentTimes(startTime, endTime)} **Length:** ${secondsToTime((endTime - startTime), false)}
   **Votes:** ${formatVote(result)} | **Views:** ${result.views.toLocaleString("en-US")} | **Visibility:** ${visibility(result)}
@@ -183,7 +169,7 @@ const formatLockCategories = (videoID, result) => {
   const { categories, reason } = JSON.parse(result);
   embed.fields.push({
     name: "Locked Categories",
-    value: (deepEquals(categories, CATEGORIES_ARR)) ? "All" : `${categories.join("\n")}`
+    value: (deepEquals(categories, CATEGORY_NAMES)) ? "All" : `${categories.join("\n")}`
   }, {
     name: "Reason",
     value: (reason ? reason : "None")
@@ -228,7 +214,7 @@ const formatSkipSegments = (videoID, result) => {
     const name = segment.UUID;
     embed.fields.push({
       name,
-      value: `[${segment.category}](${videoTimeLink(videoID, startTime, name)}) | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
+      value: `${EMOJI_MAP[segment.category]} [${segment.category}](${videoTimeLink(videoID, startTime, name)}) | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
     });
   }
   return embed;
@@ -246,7 +232,7 @@ const formatSearchSegments = (videoID, result, buttonOverrides) => {
     const name = segment.UUID;
     embed.fields.push({
       name,
-      value: `[${segment.category}](${videoTimeLink(videoID, startTime, name)}) | ${formatVote(segment)} | ${`👀 ${segment.views}`} | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
+      value: `${EMOJI_MAP[segment.category]} [${segment.category}](${videoTimeLink(videoID, startTime, name)}) | ${formatVote(segment)} | ${`👀 ${segment.views}`} | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
     });
   }
   return embed;
