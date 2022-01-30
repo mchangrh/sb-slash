@@ -110,7 +110,7 @@ const formatUser = (result, submitted) =>
   **Last Submission Time:** ${timeStamp(submitted)}
   `;
 
-const formatSegment = (result) => {
+const formatSegment = (result, user) => {
   const embed = emptyEmbed();
   const { videoID, category, startTime, endTime, UUID } = result;
   const videoLink = videoTimeLink(videoID, startTime, UUID);
@@ -124,6 +124,7 @@ const formatSegment = (result) => {
   **Video Duration:** ${secondsToTime(result.videoDuration)}
   **User ID:** \`${result.userID}\`
   `;
+  if (user && user.userID !== user.userName) embed.description += `**Username:** ${userName(user)}`;
   return embed;
 };
 

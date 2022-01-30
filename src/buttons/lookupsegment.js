@@ -2,7 +2,7 @@ const { segmentStrictCheck } = require("../util/validation.js");
 const { formatSegment } = require("../util/formatResponse.js");
 const { segmentComponents } = require("../util/components.js");
 const { invalidSegment, segmentNotFound } = require("../util/invalidResponse.js");
-const { getSegmentInfo } = require("../util/min-api.js");
+const { getSegmentInfo, getUserInfo } = require("../util/min-api.js");
 
 module.exports = {
   name: "lookupsegment",
@@ -12,10 +12,11 @@ module.exports = {
     // fetch
     const parsed = await getSegmentInfo(segmentid);
     if (parsed[0] === null) return response(segmentNotFound);
+    const user = await getUserInfo(parsed[0].userID);
     return response({
       type: 4,
       data: {
-        embeds: [formatSegment(parsed[0])],
+        embeds: [formatSegment(parsed[0], user)],
         components: segmentComponents(parsed[0].videoID, true),
         flags: 64
       }
