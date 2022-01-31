@@ -1,4 +1,4 @@
-const { findVideoID, findSblookupSegment } = require("../util/validation.js");
+const { findVideoID, findSegmentUUID } = require("../util/validation.js");
 const { videoIDNotFound } = require("../util/invalidResponse.js");
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     const msg = Object.values(interaction.data.resolved.messages)[0];
     const embedTitle = (msg.embeds !== undefined && msg.embeds.length ) ? msg.embeds[0].title : "";
     const searchString = msg.content || embedTitle;
-    const segmentUUID = findSblookupSegment(searchString);
+    const segmentUUID = findSegmentUUID(searchString);
     const videoID = findVideoID(searchString);
     if (!segmentUUID && !videoID) return response(videoIDNotFound);
     return response({
