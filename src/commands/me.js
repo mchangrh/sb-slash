@@ -54,7 +54,7 @@ module.exports = {
   }],
   execute: async ({ interaction, response }) => {
     // set up constants
-    const dUser = (interaction.member) ? interaction.member.user : interaction.user;
+    const dUser = interaction?.member?.user || interaction.user;
     const dID = dUser.id;
     const dUserName = `${dUser.username}#${dUser.discriminator}`;
     const rootOptions = interaction.data.options[0];
@@ -101,7 +101,7 @@ module.exports = {
       } else if (cmdName === "showoff") { // showoff
         const res = await Promise.race([api.getUserInfoShowoff(SBID), api.timeout]);
         if (!res) return response(timeoutResponse);
-        embed = format.formatShowoff(SBID,res);
+        embed = format.formatShowoff(SBID, res);
       } else if (cmdName === "userstats") { // userstats
         const sort = findNestedOption(rootOptions, "sort");
         const res = await Promise.race([api.getUserStats(SBID), api.timeout]);

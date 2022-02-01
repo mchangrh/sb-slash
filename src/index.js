@@ -22,9 +22,7 @@ const messageCmd = {
 
 // Util to send a JSON response
 const jsonResponse = (obj) => new Response(JSON.stringify(obj), {
-  headers: {
-    "Content-Type": "application/json"
-  }
+  headers: { "Content-Type": "application/json" }
 });
 
 const textResponse = (str) => new Response(str, {

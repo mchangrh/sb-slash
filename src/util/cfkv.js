@@ -6,7 +6,7 @@ const getSBID = (dID) => NAMESPACE.get(dID, {cacheTtl: 86400});
 const checkVIP = (roles) => VIPROLES.some((viprole) => roles.includes(viprole));
 const vipMap = async (SBID) => {
   const map = await NAMESPACE.get("vipmap", { type: "json"});
-  return map[SBID] || null;
+  return map?.[SBID];
 };
 
 module.exports = {

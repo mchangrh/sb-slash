@@ -112,7 +112,7 @@ const cannedReason = {
     value: "full", label: "Full Video",
     emoji: { name: "♾️" }
   }]
-}
+};
 
 const submitButton = {
   // submit button

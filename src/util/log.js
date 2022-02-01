@@ -1,4 +1,4 @@
-const log = (user, cmdname, target) => {
+exports.log = (user, cmdname, target) => {
   const username = `${user.username}#${user.discriminator}`;
   const avatar = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`;
   const rawText = `${cmdname} | \`${target}\``;
@@ -12,8 +12,4 @@ const log = (user, cmdname, target) => {
     headers: { "content-type": "application/json;charset=UTF-8" }
   };
   return fetch(LOGGING_WEBHOOK, request);
-};
-
-module.exports = {
-  log
 };

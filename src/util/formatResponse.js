@@ -315,6 +315,7 @@ const userStatsJankMath = (data) => {
   const total = data.overallStats.segmentCount;
   const totalCategoryCount = Object.values(data.categoryCount).reduce((t, n) => t += n);
   const totalTypeCount = Object.values(data.actionTypeCount).reduce((t, n) => t += n);
+  // temporary workaround
   const poiCount = data.categoryCount.poi_highlight;
 
   data.categoryCount = {
@@ -361,15 +362,13 @@ const formatUserStats = (publicID, data, sort, piechart) => {
   embed.title = data.userName;
   embed.url = `https://sb.ltn.fi/userid/${publicID}/`;
   embed.description = `**Total Segments:** ${total}\n **Time Saved:** ${timeSaved}`;
-  embed.fields.push(
-    {
-      name: "Category Breakdown",
-      value: "```"+columnify(categoryData, columnifyConfig)+"```"
-    }, {
-      name: "Type Breakdown",
-      value: "```"+columnify(typeData, typeConfig)+"```"
-    }
-  );
+  embed.fields.push({
+    name: "Category Breakdown",
+    value: "```"+columnify(categoryData, columnifyConfig)+"```"
+  }, {
+    name: "Type Breakdown",
+    value: "```"+columnify(typeData, typeConfig)+"```"
+  });
   if (piechart) {
     const rand = Math.random().toString(16).substring(2,6);
     embed.image = {

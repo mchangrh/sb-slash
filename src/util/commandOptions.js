@@ -1,4 +1,4 @@
-const findOption = (interaction, optName) => ((interaction.data.options.find((opt) => opt.name === optName) || {}).value);
+const findOption = (interaction, optName) => (interaction.data.options.find((opt) => opt.name === optName)?.value);
 const findOptionString = (interaction, optName, fallback="") => ((findOption(interaction, optName) || fallback).trim());
 
 const hideOption = {

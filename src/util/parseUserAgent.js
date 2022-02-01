@@ -27,6 +27,6 @@ exports.parseUserAgent = (userAgent) => {
   } else if (ua.startsWith(uaArray.node)) {
     return `Node/${versionRegex(ua, uaArray.node)}`;
   } else {
-    return ua ? ua : "none";
+    return ua || "none";
   }
 };

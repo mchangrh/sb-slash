@@ -6,20 +6,17 @@ const { hideOption, findOption, findOptionString } = require("../util/commandOpt
 module.exports = {
   name: "userid",
   description: "get ID from username",
-  options: [
-    {
-      name: "username",
-      description: "username",
-      type: 3,
-      required: true
-    },
-    {
-      name: "exact",
-      description: "search for exact username",
-      type: 5,
-      required: false
-    },
-    hideOption
+  options: [{
+    name: "username",
+    description: "username",
+    type: 3,
+    required: true
+  }, {
+    name: "exact",
+    description: "search for exact username",
+    type: 5,
+    required: false
+  }, hideOption
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord

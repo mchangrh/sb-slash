@@ -1,4 +1,4 @@
-const { hideOption, findOptionString } = require("../util/commandOptions.js");
+const { hideOption, findOptionString, findOption } = require("../util/commandOptions.js");
 const { formatUnsubmitted } = require("../util/formatResponse.js");
 const { defaultResponse } = require("../util/invalidResponse.js");
 const regex = new RegExp(/(?:https:\/\/bin\.mchang\.xyz\/b\/)(.+)/);
@@ -28,7 +28,7 @@ module.exports = {
         type: 4,
         data: {
           embeds: [formatUnsubmitted(json)],
-          flags: (hide == true ? 0 : 0) // hide
+          flags: (hide == true ? 64 : 0) // hide
         }
       });
     } catch (error) {

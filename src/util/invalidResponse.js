@@ -1,9 +1,6 @@
 const defaultResponse = (content) => ({
   type: 4,
-  data: {
-    content,
-    flags: 64
-  }
+  data: { content, flags: 64 }
 });
 
 // invalid input

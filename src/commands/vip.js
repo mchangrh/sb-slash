@@ -66,13 +66,12 @@ module.exports = {
   }],
   execute: async ({ interaction, response }) => {
     // check that user is VIP
-    const dUser = interaction.member;
-    if (!dUser || !checkVIP(dUser.roles)) return response(notVIP);
+    const dUser = interaction?.member;
+    if (!dUser || !checkVIP(dUser?.roles)) return response(notVIP);
     // setup
     const rootOptions = interaction.data.options[0];
     const cmdName = rootOptions.name;
-    const objCheck = (rootOptions && ("options" in rootOptions));
-    const nested = (name) => (objCheck && (rootOptions.options.find((opt) => opt.name === name).value || null));
+    const nested = (name) => (rootOptions?.options.find((opt) => opt?.name === name).value || null);
 
     let result;
     // command switch

@@ -11,12 +11,11 @@ module.exports = {
   execute: async ({ interaction, response }) => {
     // parse videoid from description
     const msg = Object.values(interaction.data.resolved.messages)[0];
-    const searchEmbed = msg.embeds[0] || {};
-    const searchString = msg.content || searchEmbed.title || searchEmbed.description || "";
+    const searchString = msg.content || msg.embeds?.[0]?.title || msg.embeds?.[0]?.description || "";
     const segmentUUID = findSegmentUUID(searchString);
     // query the video ID from the segment UUID, if one was found
     const segmentData = segmentUUID ? await getSegmentInfo(segmentUUID) : null;
-    const videoID = segmentData ? segmentData[0].videoID : findVideoID(searchString);
+    const videoID = segmentData?.[0].videoID || findVideoID(searchString);
     if (!videoID) return response(videoIDNotFound);
     // fetch
     const body = await getSearchSegments(videoID, 0, "");

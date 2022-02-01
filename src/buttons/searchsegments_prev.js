@@ -38,8 +38,6 @@ const common = async ({ interaction, response, offset }) => {
 
 module.exports = {
   name: "searchsegments_prev",
-  execute: ({ interaction, response }) => {
-    return common({ interaction, response, offset: -1 });
-  },
+  execute: ({ interaction, response }) => common({ interaction, response, offset: -1 }),
   common
 };
