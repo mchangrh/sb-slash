@@ -1,5 +1,6 @@
 const { InteractionType, InteractionResponseType, InteractionResponseFlags, verifyKey } = require("discord-interactions");
-const commands = ["userinfo", "showoff", "userstats", "me",
+const commands = [
+  "userinfo", "showoff", "userstats", "me",
   "skipsegments",
   "segmentinfo", "userid",
   "lockcategories", "lockreason", "searchsegments",
@@ -8,7 +9,11 @@ const commands = ["userinfo", "showoff", "userstats", "me",
   "vip",
   "formatunsubmitted"
 ];
-const buttons = ["lookupuser", "lookupsegment", "searchsegments_next", "searchsegments_prev"];
+const buttons = [
+  "lookupuser", "lookupsegment",
+  "searchsegments_next", "searchsegments_prev",
+  "lock_submit", "lock_category_select", "lock_type_select"
+];
 const messageCmd = {
   "Lookup Segments": "lookupSegments",
   "Open in sb.ltn.fi": "openinsbltnfi",

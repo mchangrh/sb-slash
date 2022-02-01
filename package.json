@@ -5,8 +5,9 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node src/build/index.js",
-    "build:dev": "node src/build-dev/index.js",
+    "discord": "node src/build/index.js",
+    "discord:dev": "node src/build-dev/index.js",
+    "build": "webpack --config webpack.config.js",
     "lint": "npx eslint src/"
   },
   "repository": {
@@ -29,13 +30,18 @@
   "homepage": "https://github.com/mchangrh/sb-slash#readme",
   "dependencies": {
     "columnify": "^1.5.4",
-    "discord-interactions": "^2.4.1",
-    "slash-commands": "^1.5.0"
+    "discord-interactions": "^2.4.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "babel-loader": "^8.2.3",
+    "core-js": "^3.20.3",
     "deep-equal": "^2.0.5",
     "dotenv": "^14.3.2",
     "eslint": "^8.8.0",
-    "webpack": "^5.67.0"
+    "slash-commands": "^1.5.0",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^4.9.2"
   }
 }

@@ -1,4 +1,3 @@
-const { ApplicationCommandOptionType } = require("slash-commands");
 const { CATEGORY_NAMES, ALL_CATEGORIES } = require("../util/categories.js");
 const CATEGORY_CHOICES = ["all", ...CATEGORY_NAMES];
 const { getSkipSegments, timeout } = require("../util/min-api.js");
@@ -15,7 +14,7 @@ module.exports = {
     {
       name: "category",
       description: "category of segment",
-      type: ApplicationCommandOptionType.STRING,
+      type: 3,
       required: false,
       choices: CATEGORY_CHOICES.map((category) => ({
         name: category,
@@ -25,7 +24,7 @@ module.exports = {
     {
       name: "json",
       description: "output as JSON",
-      type: ApplicationCommandOptionType.BOOLEAN,
+      type: 5,
       required: false
     },
     hideOption
