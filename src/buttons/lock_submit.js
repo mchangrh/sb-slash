@@ -1,4 +1,4 @@
-const { submit } = require("../util/lock_common.js");
+const { submit } = require("../util/lockCommon.js");
 
 module.exports = {
   name: "lock_submit",

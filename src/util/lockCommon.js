@@ -96,29 +96,21 @@ const typeComponent = {
   }]
 };
 
-const cannedReason = {
+const submitButton = {
   // canned reason
-  type: 3,
-  custom_id: "lock_reason_select",
-  placeholder: "Choose Skip Type",
-  min_values: 0,
-  options:[{
-    value: "skip", label: "Skip",
-    emoji: { name: "⏩" }
-  }, {
-    value: "mute", label: "Mute",
-    emoji: { name: "🔇" }
-  }, {
-    value: "full", label: "Full Video",
-    emoji: { name: "♾️" }
-  }]
+  type: 2,
+  style: 1,
+  label: "Submit Lock",
+  custom_id: "lock_submit"
 };
 
-const submitButton = {
+const cannedReason = {
   // submit button
   type: 3,
   label: "Canned Lock Reason",
   custom_id: "lock_reason",
+  placeholder: "Choose Canned Lock Reason",
+  min_options: 0,
   options:[{
     value: "Entire video is sponsor", label: "Entire video is sponsor",
     emoji: {
@@ -167,7 +159,7 @@ const categorySelect = ({ interaction, response }) => {
 const typeSelect = ({ interaction, response }) => {
   const lockOptions = JSON.parse(interaction.message.content);
   lockOptions.actionType = interaction.data.values;
-  const nextComponent = lockOptions.reason ? cannedReason : submitButton;
+  const nextComponent = lockOptions.reason ? submitButton : cannedReason;
   return response({
     type: 7,
     data: {
@@ -179,7 +171,10 @@ const typeSelect = ({ interaction, response }) => {
 
 const cannedReasonSelect = ({ interaction, response }) => {
   const lockOptions = JSON.parse(interaction.message.content);
-  lockOptions.reason = interaction.data.values;
+  console.log("filler");
+  console.log(lockOptions);
+  console.log(interaction.data);
+  lockOptions.reason = interaction.data.value;
   return response({
     type: 7,
     data: {
@@ -191,13 +186,17 @@ const cannedReasonSelect = ({ interaction, response }) => {
 
 const submit = async ({ interaction, response }) => {
   const lockOptions = JSON.parse(interaction.message.content);
+  console.log(interaction.member.user.username);
+  // lockOptions.reason = interaction.data.values;
   //const result = vip.lockCategories(lockOptions);
   //const resResponse = await axiosResponse(result);
   const resResponse = `test response: ${JSON.stringify(lockOptions)}`;
   return response({
     type: 7,
     data: {
-      content: resResponse
+      content: resResponse,
+      components: [],
+      flags: 0
     }
   });
 };

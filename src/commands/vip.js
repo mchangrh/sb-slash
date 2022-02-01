@@ -3,7 +3,7 @@ const { notVIP } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
 const { videoIDOption, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired } = require("../util/commandOptions.js");
 const { checkVIP, getSBID, vipMap } = require("../util/cfkv.js");
-const { actionRow, categoryComponent } = require("../util/lock_common.js");
+const { actionRow, categoryComponent } = require("../util/lockCommon.js");
 const { log } = require("../util/log.js");
 
 module.exports = {
@@ -71,7 +71,7 @@ module.exports = {
     // setup
     const rootOptions = interaction.data.options[0];
     const cmdName = rootOptions.name;
-    const nested = (name) => (rootOptions?.options.find((opt) => opt?.name === name).value || null);
+    const nested = (name) => (rootOptions?.options.find((opt) => opt?.name === name)?.value || null);
 
     let result;
     // command switch
@@ -146,11 +146,13 @@ module.exports = {
     } else if (cmdName === "lock") {
       const videoID = nested("videoid");
       const reason = nested("reason");
+      const lockOptions = { videoID };
+      if (reason) lockOptions.reason = reason;
       //await log(dUser.user, cmdName);
       return response({
         type: 4,
         data: {
-          content: JSON.stringify({ videoID, reason }),
+          content: JSON.stringify(lockOptions),
           components: actionRow(categoryComponent),
           flags: 64
         }

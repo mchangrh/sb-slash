@@ -1,4 +1,4 @@
-const { categorySelect } = require("../util/lock_common.js");
+const { categorySelect } = require("../util/lockCommon.js");
 
 module.exports = {
   name: "lock_category_select",

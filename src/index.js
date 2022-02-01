@@ -12,7 +12,7 @@ const commands = [
 const buttons = [
   "lookupuser", "lookupsegment",
   "searchsegments_next", "searchsegments_prev",
-  "lock_submit", "lock_category_select", "lock_type_select"
+  "lock_submit", "lock_category_select", "lock_type_select", "lock_reason"
 ];
 const messageCmd = {
   "Lookup Segments": "lookupSegments",

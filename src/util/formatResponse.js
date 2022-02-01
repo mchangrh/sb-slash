@@ -97,6 +97,7 @@ const formatUser = (result, submitted) => {
   **Last Submission:** ${timeStamp(submitted)}
   \`${result.lastSegmentID}\`
   `;
+  if (result.vip) embed.color = 0x1abc9c;
   return embed;
 };
 

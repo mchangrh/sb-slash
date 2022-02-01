@@ -1,8 +1,6 @@
-const { cannedReasonSelect } = require("../util/lock_common.js");
+const { cannedReasonSelect } = require("../util/lockCommon.js");
 
 module.exports = {
   name: "lock_reason",
-  execute: ({ interaction, response }) => {
-    return cannedReasonSelect({ interaction, response });
-  }
+  execute: ({ interaction, response }) => cannedReasonSelect({ interaction, response })
 };
