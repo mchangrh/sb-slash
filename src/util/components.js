@@ -1,4 +1,4 @@
-const SBTOOLSURL = "https://sb.ltn.fi";
+const SBBROWSERURL = "https://sb.ltn.fi";
 
 exports.userComponents = (publicid, ephemeral) => {
   const components = [{
@@ -7,7 +7,7 @@ exports.userComponents = (publicid, ephemeral) => {
       type: 2,
       label: "Open in Browser",
       style: 5,
-      url: `${SBTOOLSURL}/userid/${publicid}/`
+      url: `${SBBROWSERURL}/userid/${publicid}/`
     }]
   }];
   const lookupButton = {
@@ -27,7 +27,7 @@ exports.segmentComponents = (videoID, ephemeral) => {
       type: 2,
       label: "Open Video",
       style: 5,
-      url: `${SBTOOLSURL}/video/${videoID}/`
+      url: `${SBBROWSERURL}/video/${videoID}/`
     }]
   }];
   const lookupButton = {
@@ -47,29 +47,26 @@ exports.searchSegmentsComponents = (result) => {
   if (lastPage == 0) return [];
   return [{
     type: 1,
-    components: [
-      {
-        type: 2,
-        label: "Previous page",
-        style: 2,
-        custom_id: "searchsegments_prev",
-        emoji: {
-          id: null,
-          name: "◀️"
-        },
-        disabled: page <= 0
+    components: [{
+      type: 2,
+      label: "Previous page",
+      style: 2,
+      custom_id: "searchsegments_prev",
+      emoji: {
+        id: null,
+        name: "◀️"
       },
-      {
-        type: 2,
-        label: "Next page",
-        style: 2,
-        custom_id: "searchsegments_next",
-        emoji: {
-          id: null,
-          name: "▶️"
-        },
-        disabled: page >= lastPage
-      }
-    ]
+      disabled: page <= 0
+    }, {
+      type: 2,
+      label: "Next page",
+      style: 2,
+      custom_id: "searchsegments_next",
+      emoji: {
+        id: null,
+        name: "▶️"
+      },
+      disabled: page >= lastPage
+    }]
   }];
 };

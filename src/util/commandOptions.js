@@ -1,30 +1,28 @@
-const { ApplicationCommandOptionType } = require("slash-commands");
-
 const findOption = (interaction, optName) => ((interaction.data.options.find((opt) => opt.name === optName) || {}).value);
 const findOptionString = (interaction, optName, fallback="") => ((findOption(interaction, optName) || fallback).trim());
 
 const hideOption = {
   name: "hide",
   description: "Only you can see the response",
-  type: ApplicationCommandOptionType.BOOLEAN,
+  type: 5,
   required: false
 };
 const videoIDOption = {
   name: "videoid",
   description: "Video ID",
-  type: ApplicationCommandOptionType.STRING,
+  type: 3,
   required: true
 };
 const segmentIDOption = {
   name: "segmentid",
   description: "UUID of segment to look up",
-  type: ApplicationCommandOptionType.STRING,
+  type: 3,
   required: true
 };
 const publicIDOption = {
   name: "publicid",
   description: "Public User ID",
-  type: ApplicationCommandOptionType.STRING
+  type: 3
 };
 const publicIDOptionRequired = {
   ...publicIDOption,
@@ -37,7 +35,7 @@ const publicIDOptionOptional = {
 const userOption = {
   name: "user",
   description: "The user to get info for",
-  type: ApplicationCommandOptionType.USER
+  type: 6
 };
 const userOptionOptional = {
   ...userOption,
@@ -50,19 +48,19 @@ const userOptionRequired = {
 const pieChartOption = {
   name: "piechart",
   description: "Pie chart to visualize the stats",
-  type: ApplicationCommandOptionType.BOOLEAN,
+  type: 5,
   required: false
 };
 const uuidOption = {
   name: "uuid",
   description: "UUID of the segment",
-  type: ApplicationCommandOptionType.STRING,
+  type: 3,
   required: true
 };
 const categoryOption = {
   name: "category",
   description: "Category to change to",
-  type: ApplicationCommandOptionType.STRING,
+  type: 3,
   required: true,
   choices: [{
     name: "Sponsor", value: "sponsor"

@@ -1,5 +1,4 @@
 const { hideOption, findOptionString } = require("../util/commandOptions.js");
-const { ApplicationCommandOptionType } = require("slash-commands");
 const { formatUnsubmitted } = require("../util/formatResponse.js");
 const { defaultResponse } = require("../util/invalidResponse.js");
 const regex = new RegExp(/(?:https:\/\/bin\.mchang\.xyz\/b\/)(.+)/);
@@ -10,7 +9,7 @@ module.exports = {
   options: [{
     name: "binid",
     description: "bin ID for raw debug text (https://bin.mchang.xyz/upload)",
-    type: ApplicationCommandOptionType.STRING,
+    type: 3,
     required: true
   }, hideOption],
   execute: async ({ interaction, response }) => {

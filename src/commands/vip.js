@@ -3,6 +3,7 @@ const { notVIP } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
 const { videoIDOption, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired } = require("../util/commandOptions.js");
 const { checkVIP, getSBID, vipMap } = require("../util/cfkv.js");
+const { actionRow, categoryComponent } = require("../util/lock_common.js");
 const { log } = require("../util/log.js");
 
 module.exports = {
@@ -53,6 +54,15 @@ module.exports = {
     description: "Remove warning from a user",
     type: 1,
     options: [ publicIDOptionRequired ]
+  }, {
+    name: "lock",
+    description: "Lock categories",
+    type: 1,
+    options: [ videoIDOption, {
+      name: "reason",
+      description: "Custom lock reason",
+      type: 3
+    }]
   }],
   execute: async ({ interaction, response }) => {
     // check that user is VIP
@@ -62,7 +72,7 @@ module.exports = {
     const rootOptions = interaction.data.options[0];
     const cmdName = rootOptions.name;
     const objCheck = (rootOptions && ("options" in rootOptions));
-    const nested = (name) => (objCheck && (rootOptions.options.find((opt) => opt.name === name).value));
+    const nested = (name) => (objCheck && (rootOptions.options.find((opt) => opt.name === name).value || null));
 
     let result;
     // command switch
@@ -134,6 +144,18 @@ module.exports = {
           console.log(err);
           throw "api error";
         });
+    } else if (cmdName === "lock") {
+      const videoID = nested("videoid");
+      const reason = nested("reason");
+      //await log(dUser.user, cmdName);
+      return response({
+        type: 4,
+        data: {
+          content: JSON.stringify({ videoID, reason }),
+          components: actionRow(categoryComponent),
+          flags: 64
+        }
+      });
     }
 
     // response

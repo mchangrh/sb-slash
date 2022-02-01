@@ -98,6 +98,15 @@ const deleteWarning = (userID) => {
   };
   return fetch(url, req);
 };
+const lockCategories = (body) => {
+  const url = `${BASEURL}/lockCategories`;
+  const req = {
+    body,
+    headers: { "content-type": "application/json;charset=UTF-8" },
+    method: "POST"
+  };
+  return fetch(url, req);
+};
 
 module.exports = {
   timeout,
@@ -118,6 +127,7 @@ module.exports = {
     postChangeCategory,
     postVoteOnSegment,
     postAddTempVIP,
-    deleteWarning
+    deleteWarning,
+    lockCategories
   }
 };

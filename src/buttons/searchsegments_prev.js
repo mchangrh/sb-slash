@@ -37,7 +37,7 @@ const common = async ({ interaction, response, offset }) => {
 };
 
 module.exports = {
-  name: "lookupsegment",
+  name: "searchsegments_prev",
   execute: ({ interaction, response }) => {
     return common({ interaction, response, offset: -1 });
   },
