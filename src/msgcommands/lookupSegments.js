@@ -2,6 +2,7 @@ const { findVideoID, findSblookupSegment } = require("../util/validation.js");
 const { videoIDNotFound } = require("../util/invalidResponse.js");
 const { getSearchSegments, getSegmentInfo } = require("../util/min-api.js");
 const { formatSearchSegments } = require("../util/formatResponse.js");
+const { noSegments } = require("../util/invalidResponse.js");
 const { searchSegmentsComponents } = require("../util/components.js");
 
 module.exports = {
@@ -19,6 +20,7 @@ module.exports = {
     if (!videoID) return response(videoIDNotFound);
     // fetch
     const body = await getSearchSegments(videoID, 0, "");
+    if (body == "Not Found") return response(noSegments);
     return response({
       type: 4,
       data: {
