@@ -7,8 +7,8 @@ const userLinkExtract = (str) => str.match(userLinkRegex)[1];
 // segment
 const segmentRegex = new RegExp(/^[a-f0-9]{64,65}$/);
 const segmentStrictCheck = (str) => segmentRegex.test(str);
-const sblookupSegmentRegex = new RegExp(/sb.mchang.xyz\/([a-f0-9]{64,65})/);
-const findSblookupSegment = (str) => sblookupSegmentRegex.test(str) ? str.match(sblookupSegmentRegex)[1] : null;
+const segmentLinkRegex = new RegExp(/(?:sb.mchang.xyz|sb.ltn.fi\/uuid)\/([a-f0-9]{64,65})/);
+const findSegmentUUID = (str) => segmentLinkRegex.test(str) ? str.match(segmentLinkRegex)[1] : null;
 // video ID
 const videoRegex = "([0-9A-Za-z_-]{11})"; // group to always be index 1
 const urlVideoRegexp = new RegExp(`(?:v=|/)${videoRegex}(?:$|/$|[?&]t=\\d+$)`);
@@ -34,7 +34,7 @@ module.exports = {
   userLinkExtract,
   // segment
   segmentStrictCheck,
-  findSblookupSegment,
+  findSegmentUUID,
   // videoID
   findVideoID,
   strictVideoID
