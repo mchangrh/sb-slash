@@ -40,8 +40,6 @@
     "deep-equal": "^2.0.5",
     "dotenv": "^14.3.2",
     "eslint": "^8.8.0",
-    "slash-commands": "^1.5.0",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^4.9.2"
+    "slash-commands": "^1.5.0"
   }
 }
