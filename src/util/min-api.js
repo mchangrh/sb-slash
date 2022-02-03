@@ -59,11 +59,12 @@ const getResponseTime = () => {
 // vip endpoints
 const postPurgeSegments = (videoID) => {
   const url = `${BASEURL}/purgeAllSegments`;
+  const JSONBody = {
+    videoID,
+    userID: VIP_USER_ID
+  };
   const req = {
-    body: `{
-      "videoID": "${videoID}",
-      "userID": "${VIP_USER_ID}"
-    }`,
+    body: JSON.stringify(JSONBody),
     headers: { "content-type": "application/json;charset=UTF-8" },
     method: "POST"
   };
@@ -87,12 +88,13 @@ const postAddTempVIP = (userID, videoID) => {
 };
 const deleteWarning = (userID) => {
   const url = `${BASEURL}/warnUser`;
+  const JSONBody = {
+    userID,
+    issuerUserID: VIP_USER_ID,
+    enabled: false
+  };
   const req = {
-    body: `{
-      "issuerUserID": "${VIP_USER_ID}",
-      "userID": "${userID}",
-      "enabled": false
-    }`,
+    body: JSON.stringify(JSONBody),
     headers: { "content-type": "application/json;charset=UTF-8" },
     method: "POST"
   };
@@ -100,8 +102,10 @@ const deleteWarning = (userID) => {
 };
 const lockCategories = (body) => {
   const url = `${BASEURL}/lockCategories`;
+  // append userID to budy
+  body.userID = VIP_USER_ID;
   const req = {
-    body,
+    body: JSON.stringify(body),
     headers: { "content-type": "application/json;charset=UTF-8" },
     method: "POST"
   };

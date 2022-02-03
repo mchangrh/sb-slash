@@ -1,10 +1,11 @@
 const { axiosResponse } = require("../util/formatResponse.js");
-const { notVIP } = require("../util/invalidResponse.js");
+const { notVIP, invalidVideoID } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
 const { videoIDOption, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired } = require("../util/commandOptions.js");
 const { checkVIP, getSBID, vipMap } = require("../util/cfkv.js");
-const { actionRow, categoryComponent } = require("../util/lockCommon.js");
+const { actionRow, lockResponse, categoryComponent } = require("../util/lockCommon.js");
 const { log } = require("../util/log.js");
+const { findVideoID } = require("../util/validation.js");
 
 module.exports = {
   name: "vip",
@@ -144,15 +145,19 @@ module.exports = {
           throw "api error";
         });
     } else if (cmdName === "lock") {
-      const videoID = nested("videoid");
+      // videoid validation
+      let videoID = nested("videoid");
+      videoID = findVideoID(videoID) || videoID;
+      if (!videoID) return response(invalidVideoID);
       const reason = nested("reason");
+      // body lockOptions creation
       const lockOptions = { videoID };
       if (reason) lockOptions.reason = reason;
-      //await log(dUser.user, cmdName);
+      const embeds = lockResponse(lockOptions);
       return response({
         type: 4,
         data: {
-          content: JSON.stringify(lockOptions),
+          embeds,
           components: actionRow(categoryComponent),
           flags: 64
         }

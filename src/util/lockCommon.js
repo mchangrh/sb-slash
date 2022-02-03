@@ -1,4 +1,3 @@
-const { axiosResponse } = require("./formatResponse.js");
 const { vip } = require("./min-api.js");
 
 function actionRow(component) {
@@ -7,6 +6,40 @@ function actionRow(component) {
     components: [component]
   }];
 }
+
+const lockResponse = (body, footer = true) => {
+  const embeds = [{
+    title: "Lock Video",
+    url: `https://www.youtube.com/watch?v=${body.videoID}`,
+    color: 0xffc83d,
+    fields: [],
+    footer: {}
+  }];
+  Object.entries(body).forEach(([key, value]) => {
+    embeds[0].fields.push({
+      name: key,
+      value: `\`${value}\``
+    });
+  });
+  if (footer) embeds[0].footer.text = JSON.stringify(body);
+  return embeds;
+};
+
+const lockLog = (user, embeds) => {
+  const username = `${user.username}#${user.discriminator}`;
+  const avatar_url = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`;
+  const webhookBody = {
+    username,
+    avatar_url,
+    embeds
+  };
+  const request = {
+    body: JSON.stringify(webhookBody),
+    method: "POST",
+    headers: { "content-type": "application/json;charset=UTF-8" }
+  };
+  return fetch(LOGGING_WEBHOOK, request);
+};
 const categoryComponent = {
   // category select
   type: 3,
@@ -112,6 +145,9 @@ const cannedReason = {
   placeholder: "Choose Canned Lock Reason",
   min_options: 0,
   options:[{
+    value: "no_reason", label: "No Reason",
+    emoji: { name: "❌" }
+  }, {
     value: "Entire video is sponsor", label: "Entire video is sponsor",
     emoji: {
       name: "sponsor",
@@ -145,64 +181,70 @@ const cannedReason = {
 };
 
 const categorySelect = ({ interaction, response }) => {
-  const lockOptions = JSON.parse(interaction.message.content);
+  const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
   lockOptions.categories = interaction.data.values;
+  const embeds = lockResponse(lockOptions);
   return response({
     type: 7,
     data: {
-      content: JSON.stringify(lockOptions),
+      embeds,
       components: actionRow(typeComponent)
     }
   });
 };
 
 const typeSelect = ({ interaction, response }) => {
-  const lockOptions = JSON.parse(interaction.message.content);
+  const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
   lockOptions.actionType = interaction.data.values;
   const nextComponent = lockOptions.reason ? submitButton : cannedReason;
+  const embeds = lockResponse(lockOptions);
   return response({
     type: 7,
     data: {
-      content: JSON.stringify(lockOptions),
+      embeds,
       components: actionRow(nextComponent)
     }
   });
 };
 
 const cannedReasonSelect = ({ interaction, response }) => {
-  const lockOptions = JSON.parse(interaction.message.content);
-  console.log("filler");
-  console.log(lockOptions);
-  console.log(interaction.data);
-  lockOptions.reason = interaction.data.value;
+  const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
+  const lockReason = interaction.data.values[0];
+  if (lockReason !== "no_reason") lockOptions.reason = lockReason;
+  const embeds = lockResponse(lockOptions);
   return response({
     type: 7,
     data: {
-      content: JSON.stringify(lockOptions),
+      embeds,
       components: actionRow(submitButton)
     }
   });
 };
 
 const submit = async ({ interaction, response }) => {
-  const lockOptions = JSON.parse(interaction.message.content);
-  console.log(interaction.member.user.username);
-  // lockOptions.reason = interaction.data.values;
-  //const result = vip.lockCategories(lockOptions);
-  //const resResponse = await axiosResponse(result);
-  const resResponse = `test response: ${JSON.stringify(lockOptions)}`;
+  const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
+  const embeds = lockResponse(lockOptions, false);
+  await lockLog(interaction.member.user, embeds);
+  const result = await vip.lockCategories(lockOptions);
+  if (result.ok) {
+    embeds[0].description = `Successfully locked \`${lockOptions.videoID}\``;
+    embeds[0].color = 0x00ff00;
+  } else {
+    embeds[0].description = `error: ${result.statusText}`;
+    embeds[0].color = 0xff0000;
+  }
   return response({
     type: 7,
     data: {
-      content: resResponse,
-      components: [],
-      flags: 0
+      embeds,
+      components: []
     }
   });
 };
 
 module.exports = {
   actionRow,
+  lockResponse,
   categoryComponent,
   categorySelect,
   typeSelect,
