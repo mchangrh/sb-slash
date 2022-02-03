@@ -1,6 +1,6 @@
 {
   "name": "sb-slash",
-  "version": "1.6.2",
+  "version": "1.7.0",
   "description": "sponsorblock over slash commands",
   "main": "webpack.config.js",
   "scripts": {
@@ -32,12 +32,12 @@
     "discord-interactions": "^2.4.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.12",
+    "@babel/core": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "babel-loader": "^8.2.3",
-    "core-js": "^3.20.3",
+    "core-js": "^3.21.0",
     "deep-equal": "^2.0.5",
-    "dotenv": "^14.3.2",
+    "dotenv": "^16.0.0",
     "eslint": "^8.8.0",
     "slash-commands": "^1.5.0"
   }
