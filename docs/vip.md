@@ -35,7 +35,12 @@ lookup discord ID from publicID
 Remove warning from a user
 - publicID - publicID to unwarn
 
+### lock
+Lock a video
+- videoID - ID or YouTube URL of video to lock
+- reason (optional) - custom reason for locking
+
 ## Logging
-downvote, undovote, purge, and addvip are all logged to a VIP-only channel since otherwise, these command executions could not be traced back to the VIP user.
+all commands but category, cache and lookup are all logged to a VIP-only channel since otherwise, these command executions could not be traced back to the VIP user.
 
 If you would like to retain your vote anonymity, [SponsorBlockControl](https://mruy.github.io/sponsorBlockControl/) offers more features without the semi-public logging.
