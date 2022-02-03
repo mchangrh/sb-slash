@@ -21,7 +21,7 @@ module.exports = {
     const publicid = findOptionString(interaction, "publicid");
     const user = findOption(interaction, "user");
     const hide = findOption(interaction, "hide");
-    if (user && !checkVIP([interaction?.member?.roles])) return response(notVIP);
+    if (user && !checkVIP(interaction?.member?.roles)) return response(notVIP);
     // only hide command
     if (!publicid && !user) return response(noOptions);
     // invalid publicID
