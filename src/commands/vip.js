@@ -64,6 +64,11 @@ module.exports = {
       description: "Custom lock reason",
       type: 3
     }]
+  }, {
+    name: "banstatus",
+    description: "Get ban status of user",
+    type: 1,
+    options: [ publicIDOptionRequired]
   }],
   execute: async ({ interaction, response }) => {
     // check that user is VIP
@@ -159,6 +164,20 @@ module.exports = {
         data: {
           embeds,
           components: actionRow(categoryComponent),
+          flags: 64
+        }
+      });
+    } else if (cmdName === "banstatus") {
+      const publicid = nested("publicid");
+      const res = await vip.getBanStatus(publicid)
+        .catch((err) => {
+          console.log(err);
+          throw "api error";
+        });
+      return response({
+        type: 4,
+        data: {
+          content: res.banned ? "🔨 Banned" : "Not Banned",
           flags: 64
         }
       });

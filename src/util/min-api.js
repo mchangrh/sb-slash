@@ -111,6 +111,10 @@ const lockCategories = (body) => {
   };
   return fetch(url, req);
 };
+const getBanStatus = (publicid) => {
+  const url = `${BASEURL}/userInfo?publicUserID=${publicid}&value=banned`;
+  return fetch(url).then((res) => res.json());
+};
 
 module.exports = {
   timeout,
@@ -132,6 +136,7 @@ module.exports = {
     postVoteOnSegment,
     postAddTempVIP,
     deleteWarning,
-    lockCategories
+    lockCategories,
+    getBanStatus
   }
 };
