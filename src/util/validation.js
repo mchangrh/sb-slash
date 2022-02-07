@@ -11,7 +11,7 @@ const segmentLinkRegex = new RegExp(/(?:sb.mchang.xyz|sb.ltn.fi\/uuid)\/([a-f0-9
 const findSegmentUUID = (str) => segmentLinkRegex.test(str) ? str.match(segmentLinkRegex)[1] : null;
 // video ID
 const videoRegex = "([0-9A-Za-z_-]{11})"; // group to always be index 1
-const urlVideoRegexp = new RegExp(`(?:v=|/)${videoRegex}(?:$|/$|[?&]t=\\d+$)`);
+const urlVideoRegexp = new RegExp(`(?:v=|/|youtu.be/)${videoRegex}(?:$|/$|[?&]t=\\d+$|\\s)`);
 const onlyVideoRegexp = new RegExp(`^${videoRegex}$`);
 const findVideoID = (str) => {
   if (urlVideoRegexp.test(str)) {
