@@ -423,17 +423,14 @@ const formatAutomod = (aiResults) => {
   embed.url = url;
   embed.fields = [];
   for (const result of aiResults?.missed ?? []) {
-    embed.fields.push(formatAutoModFieldMissed(result, videoID));
-  }
-  for (const result of aiResults?.incorrect ?? []) {
-    embed.fields.push(formatAutoModFieldIncorrect(result));
+    embed.fields.push(formatAutoModField(result, videoID));
   }
   return embed;
 };
 
 const intPercent = (int) => `${(int*100).toPrecision(2)}%`;
 
-const formatAutoModFieldMissed = (aiResult, videoID) => {
+const formatAutoModField = (aiResult, videoID) => {
   const submitLink = `https://www.youtube.com/watch?v=${videoID}#segments=[{"segment":[${aiResult.start}, ${aiResult.end}],"category":"${aiResult.category}","actionType":"skip"}]`;
   const slicedText = aiResult.text.length >= 500 ? aiResult.text.slice(0, 500) + "..." : aiResult.text;
   const field = {
@@ -441,17 +438,6 @@ const formatAutoModFieldMissed = (aiResult, videoID) => {
     value: `<:sponsor:936878146156892240> ${intPercent(aiResult.probabilities.SPONSOR)} | <:selfpromo:936878146228207636> ${intPercent(aiResult.probabilities.SELFPROMO)} | <:interaction_reminder:936878145993322557> ${intPercent(aiResult.probabilities.INTERACTION)} | ❌ ${intPercent(aiResult.probabilities.null)}
     ${tripleTick+slicedText+tripleTick}
     [submit](${encodeURI(submitLink)})`
-  };
-  return field;
-};
-
-const formatAutoModFieldIncorrect = (aiResult) => {
-  const slicedText = aiResult.text.length >= 500 ? aiResult.text.slice(0, 500) + "..." : aiResult.text;
-  const field = {
-    name: "Incorrect Segment",
-    value: `UUID: ${tripleTick+aiResult.uuid+tripleTick}
-    ${tripleTick+slicedText+tripleTick}
-    [link](https://sb.mchang.xyz/${UUID})`
   };
   return field;
 };

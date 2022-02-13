@@ -68,6 +68,7 @@ module.exports = {
       if (regex.test(binID)) binID = binID.match(regex)[1];
       const url = `https://bin.mchang.xyz/b/${binID}`;
       const acceptedSuggestions = [];
+      const incorrectSubmissions = [];
       const suggestArray = await fetch(url)
         .then((result) => result.text())
         .then((text) => text.split("\n"));
@@ -75,15 +76,21 @@ module.exports = {
       for (const suggest of suggestArray) {
         try {
           const result = JSON.parse(suggest);
-          acceptedSuggestions.push(result);
+          if (!result?.missed?.length) {
+            incorrectSubmissions.push(result);
+          } else {
+            acceptedSuggestions.push(result);
+          }
         } catch (err) {
           console.log(err);
         }
       }
       const promiseArray = acceptedSuggestions
-        .flatMap((suggest) => XENOVA_ML.put(suggest.video_id, JSON.stringify(suggest)));
+        .flatMap((suggest) => XENOVA_ML.put("missed:"+suggest.video_id, JSON.stringify(suggest)));
+      promiseArray.push(incorrectSubmissions
+        .flatMap((suggest) => XENOVA_ML.put("incorrect:"+suggest.video_id, JSON.stringify(suggest))));
       await Promise.all(promiseArray);
-      return response(format.contentResponse(JSON.stringify(acceptedSuggestions[0])));
+      return response(format.contentResponse(`✅ Loaded ${acceptedSuggestions?.length} missed suggestions and ${incorrectSubmissions?.length} incorrect submissions from ${suggestArray.length} lines`, true));
     }
   }
 };
