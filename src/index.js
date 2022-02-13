@@ -7,12 +7,13 @@ const commands = [
   "status", "responsetime",
   "github", "invite",
   "vip",
-  "formatunsubmitted"
+  "formatunsubmitted", "automod"
 ];
 const buttons = [
   "lookupuser", "lookupsegment",
   "searchsegments_next", "searchsegments_prev",
-  "lock_submit", "lock_category_select", "lock_type_select", "lock_reason"
+  "lock_submit", "lock_category_select", "lock_type_select", "lock_reason",
+  "automod_done", "automod_reject", "automod_skip"
 ];
 const messageCmd = {
   "Lookup Segments": "lookupSegments",

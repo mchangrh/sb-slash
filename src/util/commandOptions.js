@@ -7,6 +7,12 @@ const hideOption = {
   type: 5,
   required: false
 };
+const videoIDOptional = {
+  name: "videoid",
+  description: "Video ID",
+  type: 3,
+  required: false
+};
 const videoIDOption = {
   name: "videoid",
   description: "Video ID",
@@ -84,6 +90,7 @@ const categoryOption = {
 module.exports = {
   hideOption,
   videoIDOption,
+  videoIDOptional,
   segmentIDOption,
   publicIDOptionRequired,
   publicIDOptionOptional,

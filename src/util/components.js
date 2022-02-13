@@ -70,3 +70,28 @@ exports.searchSegmentsComponents = (result) => {
     }]
   }];
 };
+
+exports.automodComponents = () => {
+  return [{
+    type: 1,
+    components: [{
+      type: 2,
+      label: "Done",
+      style: 1,
+      custom_id: "automod_done",
+      emoji: { name: "✅" }
+    }, {
+      type: 2,
+      label: "Skip",
+      style: 2,
+      custom_id: "automod_skip",
+      emoji: { name: "♻️"}
+    }, {
+      type: 2,
+      label: "Reject",
+      style: 4,
+      custom_id: "automod_reject",
+      emoji: { name: "👎"}
+    }]
+  }];
+};

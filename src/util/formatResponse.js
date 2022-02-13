@@ -2,6 +2,7 @@ const columnify = require("columnify");
 const { getSegmentInfo } = require("./min-api.js");
 const { parseUserAgent } = require("./parseUserAgent.js");
 const { CATEGORY_NAMES, COLOUR_MAP, EMOJI_MAP } = require("./categories.js");
+const tripleTick = "```";
 
 // https://github.com/MRuy/sponsorBlockControl/blob/61f0585c9bff9c46f6fde06bb613aadeffb7e189/src/utils.js
 const minutesReadable = (minutes) => {
@@ -312,28 +313,7 @@ const formatResponseTime = (data) => {
   return embed;
 };
 
-const userStatsJankMath = (data) => {
-  const total = data.overallStats.segmentCount;
-  const totalCategoryCount = Object.values(data.categoryCount).reduce((t, n) => t += n);
-  const totalTypeCount = Object.values(data.actionTypeCount).reduce((t, n) => t += n);
-  // temporary workaround
-  const poiCount = data.categoryCount.poi_highlight;
-
-  data.categoryCount = {
-    ...data.categoryCount,
-    "exclusive_access": total - totalCategoryCount
-  };
-  data.actionTypeCount = {
-    ...data.actionTypeCount,
-    "poi": poiCount,
-    "full": total - totalTypeCount - poiCount
-  };
-
-  return data;
-};
-
 const formatUserStats = (publicID, data, sort, piechart) => {
-  data = userStatsJankMath(data);
   // format response
   const total = data.overallStats.segmentCount;
   const timeSaved = minutesReadable(data.overallStats.minutesSaved);
@@ -434,6 +414,37 @@ const jsonBody = (body) => {
   }
 };
 
+const formatAutomod = (aiResults) => {
+  const embed = emptyEmbed();
+  const videoID = aiResults.video_id;
+  const url = `https://www.youtube.com/watch?v=${videoID}`;
+  // setup embed
+  embed.title = videoID;
+  embed.url = url;
+  embed.fields = [];
+  for (const result of aiResults?.missed ?? []) {
+    embed.fields.push(formatAutoModField(result, videoID, "Missed"));
+  }
+  for (const result of aiResults?.incorrect ?? []) {
+    embed.fields.push(formatAutoModField(result, videoID, "Incorrect"));
+  }
+  return embed;
+};
+
+const intPercent = (int) => `${(int*100).toPrecision(2)}%`;
+
+const formatAutoModField = (aiResult, videoID, type) => {
+  const submitLink = `https://www.youtube.com/watch?v=${videoID}#segments=[{"segment":[${aiResult.start}, ${aiResult.end}],"category":"${aiResult.category}","actionType":"skip"}]`;
+  const slicedText = aiResult.text.length >= 500 ? aiResult.text.slice(0, 500) + "..." : aiResult.text;
+  const field = {
+    name: `${secondsToTime(aiResult.start)}-${secondsToTime(aiResult.end)} | ${type}`,
+    value: `<:sponsor:936878146156892240> ${intPercent(aiResult.probabilities.SPONSOR)} | <:selfpromo:936878146228207636> ${intPercent(aiResult.probabilities.SELFPROMO)} | <:interaction_reminder:936878145993322557> ${intPercent(aiResult.probabilities.INTERACTION)} | ❌ ${intPercent(aiResult.probabilities.null)}
+    ${tripleTick+slicedText+tripleTick}
+    [submit](${encodeURI(submitLink)})`
+  };
+  return field;
+};
+
 module.exports = {
   formatShowoff,
   formatSegment,
@@ -449,5 +460,6 @@ module.exports = {
   formatUserStats,
   formatUnsubmitted,
   contentResponse,
-  axiosResponse
+  axiosResponse,
+  formatAutomod
 };
