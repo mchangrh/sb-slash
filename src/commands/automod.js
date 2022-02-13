@@ -13,6 +13,10 @@ module.exports = {
     description: "Get segment suggestion",
     type: 1
   }, {
+    name: "acceptterms",
+    description: "Accept terms",
+    type: 1
+  }, {
     name: "load",
     description: "Load segment suggestion (Admin only)",
     type: 1,
@@ -27,13 +31,35 @@ module.exports = {
   execute: async ({ interaction, response }) => {
     const rootOptions = interaction.data.options[0];
     const cmdName = rootOptions.name;
-    if (cmdName === "get") {
-      const message = await sendAutoMod(false);
-      return response(message);
+    const dID = interaction?.member?.user.id || interaction.user.id;
+    if (cmdName === "acceptterms") {
+      return response({
+        type: 4,
+        data: {
+          content: "Please read over the disclaimers regarding [Automating Submissions](https://wiki.sponsor.ajay.app/w/Automating_Submissions). Your publicID will be allowlisted",
+          flags: 64,
+          components: [{
+            type: 1,
+            components: [{
+              type: 2,
+              label: "I have read over the disclaimers",
+              style: 4,
+              custom_id: "automod_accept"
+            }]
+          }]
+        }
+      });
+    } else if (cmdName === "get") {
+      const allowList = await NAMESPACE.get("ml_allow", { type: "json" });
+      if (allowList.allow.includes(dID)) {
+        const message = await sendAutoMod(false);
+        return response(message);
+      } else {
+        return response(format.contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));
+      }
     } else if (cmdName === "load") {
       // Xenova, blab, E.Coli
       const authorizedLoaders = ["234763281749770243", "162333087621971979", "323277403608580097"];
-      const dID = interaction?.member?.user.id || interaction.user.id;
       if (!authorizedLoaders.includes(dID)) {
         return response(format.contentResponse("You are not authorized to use this command.", true));
       }

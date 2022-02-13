@@ -6,6 +6,15 @@ exports.sendAutoMod = async(edit = true) => {
   const videoChoiceList = videoChoice.keys;
   const chosenVideo = videoChoiceList[Math.floor(Math.random() * videoChoiceList.length)];
   const chosenVideObj = await XENOVA_ML.get(chosenVideo.name, { type: "json"});
+  if (videoChoiceList.length === 0) {
+    return {
+      type: edit ? 7 : 4,
+      data: {
+        content: "No suggested segments available",
+        flags: 64
+      }
+    };
+  }
   return {
     type: edit ? 7 : 4,
     data: {
