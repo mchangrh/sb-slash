@@ -71,6 +71,12 @@ run commands agianst your stored userID
 
 To delete the assocation with your discord ID, run `/me userid set delete` or replace your publicID with delete.
 
+### /automod
+Get segment suggestions from [Xenova's Sponsorblock ML](https://github.com/xenova/sponsorblock-ml)
+- get - get suggestions for a video
+- load - load suggestions from AI evaluation
+- acceptterms - Accept [disclaimer](https://wiki.sponsor.ajay.app/w/Automating_Submissions) for automated/ segments
+
 ### /formatunsubmitted
 format unsubmitted segments from debug log
 

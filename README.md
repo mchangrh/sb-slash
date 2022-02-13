@@ -27,6 +27,7 @@ userstats
 
 # misc
 /formatunsubmitted binid:
+/automod get / acceptterms
 
 # /vip
 category uuid: category:
