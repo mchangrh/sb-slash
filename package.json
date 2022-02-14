@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node src/build/index.js",
     "build:dev": "node src/build-dev/index.js",
-    "lint": "npx eslint src/"
+    "lint": "npx eslint src/",
+    "bulk:build": "node src/automod-bulk/index.js",
+    "build:upload": "wrangler kv:bulk put --binding=XENOVA_ML src/automod-bulk/upload.json"
   },
   "repository": {
     "type": "git",
@@ -34,6 +36,7 @@
   "devDependencies": {
     "@babel/core": "^7.17.2",
     "@babel/preset-env": "^7.16.11",
+    "axios": "^0.26.0",
     "babel-loader": "^8.2.3",
     "core-js": "^3.21.0",
     "deep-equal": "^2.0.5",
