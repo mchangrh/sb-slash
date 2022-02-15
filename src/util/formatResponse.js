@@ -428,14 +428,22 @@ const formatAutomod = (aiResults) => {
   return embed;
 };
 
+// add to emoji map
+EMOJI_MAP["null"] = "❌";
 const intPercent = (int) => `${(int*100).toPrecision(2)}%`;
+const sortProbabilites = (prob) =>
+  Object.entries(prob)
+    .sort((a,b) => b[1]-a[1])
+    .map((e) => [EMOJI_MAP[e[0].toLowerCase()], intPercent(e[1])] );
 
 const formatAutoModField = (aiResult, videoID) => {
-  const submitLink = `https://www.youtube.com/watch?v=${videoID}&t=${aiResult.start-2}s#segments=[{"segment":[${aiResult.start}, ${aiResult.end}],"category":"${aiResult.category}","actionType":"skip"}]`;
   const slicedText = aiResult.text.length >= 500 ? aiResult.text.slice(0, 500) + "..." : aiResult.text;
+  const probSorted = sortProbabilites(aiResult.probabilities);
+  const submitLink = `https://www.youtube.com/watch?v=${videoID}&t=${aiResult.start-2}s#segments=[{"segment":[${aiResult.start}, ${aiResult.end}],"category":"${probSorted[0]}","actionType":"skip"}]`;
+  const topCategory = `${probSorted[0][0]}: ${probSorted[0][1]}`;
   const field = {
-    name: `${secondsToTime(aiResult.start)}-${secondsToTime(aiResult.end)} | Missed Segment`,
-    value: `<:sponsor:936878146156892240> ${intPercent(aiResult.probabilities.SPONSOR)} | <:selfpromo:936878146228207636> ${intPercent(aiResult.probabilities.SELFPROMO)} | <:interaction_reminder:936878145993322557> ${intPercent(aiResult.probabilities.INTERACTION)} | ❌ ${intPercent(aiResult.probabilities.null)}
+    name: `${secondsToTime(aiResult.start)}-${secondsToTime(aiResult.end)} | Missed ${topCategory}`,
+    value: `${probSorted.flat().join(" | ")}
     ${tripleTick+slicedText+tripleTick}
     [submit](${encodeURI(submitLink)})`
   };

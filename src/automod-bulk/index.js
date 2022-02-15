@@ -37,4 +37,4 @@ const load = async (url) => {
   });
   await fs.writeFile(path.join(__dirname, "upload.json"), JSON.stringify(bulkJSON, null, 2));
 };
-load("https://bin.mchang.xyz/b/ctjrG");
+load("");

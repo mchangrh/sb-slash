@@ -9,7 +9,7 @@
     "build:dev": "node src/build-dev/index.js",
     "lint": "npx eslint src/",
     "bulk:build": "node src/automod-bulk/index.js",
-    "build:upload": "wrangler kv:bulk put --binding=XENOVA_ML src/automod-bulk/upload.json"
+    "bulk:upload": "wrangler kv:bulk put --binding=XENOVA_ML src/automod-bulk/upload.json"
   },
   "repository": {
     "type": "git",
