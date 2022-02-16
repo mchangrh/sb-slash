@@ -1,6 +1,7 @@
 const format = require("../util/formatResponse.js");
 const { sendAutoMod } = require("../util/automod.js");
 const regex = new RegExp(/(?:https:\/\/bin\.mchang\.xyz\/b\/)(.+)/);
+const { videoIDOptional } = require("../util/commandOptions.js");
 
 const findNestedOption = (rootOptions, name) => ((objCheck(rootOptions) && (rootOptions.options.find((opt) => opt.name === name))) || false);
 const objCheck = (rootOptions) => (rootOptions && ("options" in rootOptions));
@@ -11,7 +12,8 @@ module.exports = {
   options: [{
     name: "get",
     description: "Get segment suggestion",
-    type: 1
+    type: 1,
+    options: [videoIDOptional]
   }, {
     name: "acceptterms",
     description: "Accept terms",
@@ -57,7 +59,8 @@ module.exports = {
     } else if (cmdName === "get") {
       const allowList = await NAMESPACE.get("ml_allow", { type: "json" });
       if (allowList.allow.includes(dID)) {
-        const message = await sendAutoMod(false);
+        const videoID = findNestedOption(rootOptions, "videoid")?.value;
+        const message = await sendAutoMod(false, videoID);
         return response(message);
       } else {
         return response(format.contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));

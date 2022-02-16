@@ -6,10 +6,9 @@ const { secondsToTime } = require("./formatResponse.js");
 EMOJI_MAP["null"] = "❌";
 const tripleTick = "```";
 
-
-exports.sendAutoMod = async(edit = true) => {
-  const videoChoice = await chooseSuggestion();
-  if (videoChoice === false) {
+exports.sendAutoMod = async(edit = true, videoID = null) => {
+  const videoChoice = videoID ? await XENOVA_ML.get(`missed:${videoID}`, { type: "json"}) : await chooseSuggestion();
+  if (!videoChoice) {
     return {
       type: edit ? 7 : 4,
       data: {
@@ -18,6 +17,10 @@ exports.sendAutoMod = async(edit = true) => {
       }
     };
   }
+  return formatVideoChoice(videoChoice, edit);
+};
+
+const formatVideoChoice = (videoChoice, edit) => {
   // construct embed
   const videoID = videoChoice.video_id;
   const url = `https://www.youtube.com/watch?v=${videoID}`;
