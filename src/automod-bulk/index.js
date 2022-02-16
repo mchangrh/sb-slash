@@ -8,22 +8,22 @@ const load = async (url) => {
   const suggestArray = await axios(url)
     .then((result) => result.data)
     .then((text) => text.split("\n"));
-  const acceptedSuggestions = [];
+  const missedSuggestions = [];
   const incorrectSubmissions = [];
   // try parse json
   for (const suggest of suggestArray) {
     try {
       const result = JSON.parse(suggest);
       if (!result?.missed?.length) {
-        incorrectSubmissions.push(result);
+        missedSuggestions.push(result);
       } else {
-        acceptedSuggestions.push(result);
+        incorrectSubmissions.push(result);
       }
     } catch (err) {
       console.log(err);
     }
   }
-  acceptedSuggestions.forEach((suggest) => {
+  missedSuggestions.forEach((suggest) => {
     bulkJSON.push({
       key: "missed:"+suggest.video_id,
       value: JSON.stringify(suggest)
@@ -31,10 +31,10 @@ const load = async (url) => {
   });
   incorrectSubmissions.forEach((suggest) => {
     bulkJSON.push({
-      key: "missed:"+suggest.video_id,
+      key: "incorrect:"+suggest.video_id,
       value: JSON.stringify(suggest)
     });
   });
   await fs.writeFile(path.join(__dirname, "upload.json"), JSON.stringify(bulkJSON, null, 2));
 };
-load("");
+load("https://bin.mchang.xyz/b/DZDpQ");

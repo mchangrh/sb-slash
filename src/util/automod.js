@@ -23,7 +23,7 @@ exports.sendAutoMod = async(edit = true) => {
 };
 
 const chooseSuggestion = async() => {
-  const videoChoice = await XENOVA_ML.list({ limit: 20, prefix: "missed:" });
+  const videoChoice = await XENOVA_ML.list({ limit: 100, prefix: "missed:" });
   const videoChoiceList = videoChoice.keys;
   const chosenVideo = videoChoiceList[Math.floor(Math.random() * videoChoiceList.length)];
   const chosenVideObj = await XENOVA_ML.get(chosenVideo.name, { type: "json"});
