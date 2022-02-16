@@ -6,9 +6,9 @@ module.exports = {
     const doneVideoID = interaction.message.embeds[0].title;
     const aiRecommends = await XENOVA_ML.get(doneVideoID);
     if (aiRecommends) {
-      await XENOVA_ML_REJECT.put(doneVideoID, aiRecommends);
+      XENOVA_ML_REJECT.put(doneVideoID, aiRecommends);
     }
-    await XENOVA_ML.delete(doneVideoID);
+    XENOVA_ML.delete(doneVideoID);
     const message = await sendAutoMod();
     return response(message);
   }

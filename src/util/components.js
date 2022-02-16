@@ -71,10 +71,17 @@ exports.searchSegmentsComponents = (result) => {
   }];
 };
 
-exports.automodComponents = () => {
+exports.automodComponents = (videoID, submitArr) => {
+  const submitUrl = encodeURI(`https://www.youtube.com/watch?v=${videoID}#segments=${JSON.stringify(submitArr)}`);
   return [{
     type: 1,
     components: [{
+      type: 2,
+      label: "Submit All",
+      style: 5,
+      url: submitUrl,
+      emoji: { name: "🌐" }
+    }, {
       type: 2,
       label: "Done",
       style: 1,
@@ -85,13 +92,13 @@ exports.automodComponents = () => {
       label: "Skip",
       style: 2,
       custom_id: "automod_skip",
-      emoji: { name: "♻️"}
+      emoji: { name: "♻️" }
     }, {
       type: 2,
       label: "Reject",
       style: 4,
       custom_id: "automod_reject",
-      emoji: { name: "👎"}
+      emoji: { name: "👎" }
     }]
   }];
 };

@@ -2,7 +2,6 @@ const columnify = require("columnify");
 const { getSegmentInfo } = require("./min-api.js");
 const { parseUserAgent } = require("./parseUserAgent.js");
 const { CATEGORY_NAMES, COLOUR_MAP, EMOJI_MAP } = require("./categories.js");
-const tripleTick = "```";
 
 // https://github.com/MRuy/sponsorBlockControl/blob/61f0585c9bff9c46f6fde06bb613aadeffb7e189/src/utils.js
 const minutesReadable = (minutes) => {
@@ -414,43 +413,6 @@ const jsonBody = (body) => {
   }
 };
 
-const formatAutomod = (aiResults) => {
-  const embed = emptyEmbed();
-  const videoID = aiResults.video_id;
-  const url = `https://www.youtube.com/watch?v=${videoID}`;
-  // setup embed
-  embed.title = videoID;
-  embed.url = url;
-  embed.fields = [];
-  for (const result of aiResults?.missed ?? []) {
-    embed.fields.push(formatAutoModField(result, videoID));
-  }
-  return embed;
-};
-
-// add to emoji map
-EMOJI_MAP["null"] = "❌";
-const intPercent = (int) => `${(int*100).toPrecision(2)}%`;
-const sortProbabilites = (prob) =>
-  Object.entries(prob)
-    .sort((a,b) => b[1]-a[1])
-    .map((e) => [EMOJI_MAP[e[0].toLowerCase()], intPercent(e[1])] );
-
-const formatAutoModField = (aiResult, videoID) => {
-  const slicedText = aiResult.text.length >= 500 ? aiResult.text.slice(0, 500) + "..." : aiResult.text;
-  const probSorted = sortProbabilites(aiResult.probabilities);
-  const submitLink = `https://www.youtube.com/watch?v=${videoID}&t=${aiResult.start-2}s#segments=[{"segment":[${aiResult.start}, ${aiResult.end}],"category":"${probSorted[0]}","actionType":"skip"}]`;
-  const topCategory = `${probSorted[0][0]}: ${probSorted[0][1]}`;
-  const field = {
-    name: `${secondsToTime(aiResult.start)}-${secondsToTime(aiResult.end)} | Missed ${topCategory}`,
-    value: `${probSorted.flat().join(" | ")}
-    ${tripleTick+slicedText+tripleTick}
-    [submit](${encodeURI(submitLink)})`
-  };
-  return field;
-};
-
-
 module.exports = {
   formatShowoff,
   formatSegment,
@@ -467,5 +429,5 @@ module.exports = {
   formatUnsubmitted,
   contentResponse,
   axiosResponse,
-  formatAutomod
+  secondsToTime
 };

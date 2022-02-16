@@ -42,6 +42,11 @@ module.exports = {
             type: 1,
             components: [{
               type: 2,
+              label: "Continue",
+              style: 1,
+              custom_id: "automod_deny"
+            }, {
+              type: 2,
               label: "I have read over the disclaimers",
               style: 4,
               custom_id: "automod_accept"
@@ -67,7 +72,7 @@ module.exports = {
       let binID = findNestedOption(rootOptions, "binid")?.value;
       if (regex.test(binID)) binID = binID.match(regex)[1];
       const url = `https://bin.mchang.xyz/b/${binID}`;
-      const acceptedSuggestions = [];
+      const missedSuggestions = [];
       const incorrectSubmissions = [];
       const suggestArray = await fetch(url)
         .then((result) => result.text())
@@ -77,15 +82,15 @@ module.exports = {
         try {
           const result = JSON.parse(suggest);
           if (!result?.missed?.length) {
-            incorrectSubmissions.push(result);
+            missedSuggestions.push(result);
           } else {
-            acceptedSuggestions.push(result);
+            incorrectSubmissions.push(result);
           }
         } catch (err) {
           console.log(err);
         }
       }
-      const promiseArray = acceptedSuggestions
+      const promiseArray = missedSuggestions
         .flatMap((suggest) => XENOVA_ML.put("missed:"+suggest.video_id, JSON.stringify(suggest)));
       promiseArray.push(incorrectSubmissions
         .flatMap((suggest) => XENOVA_ML.put("incorrect:"+suggest.video_id, JSON.stringify(suggest))));
