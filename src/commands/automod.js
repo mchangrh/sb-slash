@@ -34,6 +34,14 @@ module.exports = {
     const rootOptions = interaction.data.options[0];
     const cmdName = rootOptions.name;
     const dID = interaction?.member?.user.id || interaction.user.id;
+    return response ({
+      type: 4,
+      data: {
+        content: "DISABLED FOR MIGRATION",
+        type: 64
+      }
+    });
+    /*
     if (cmdName === "acceptterms") {
       return response({
         type: 4,
@@ -100,5 +108,6 @@ module.exports = {
       await Promise.all(promiseArray);
       return response(format.contentResponse(`✅ Loaded ${acceptedSuggestions?.length} missed suggestions and ${incorrectSubmissions?.length} incorrect submissions from ${suggestArray.length} lines`, true));
     }
+    */
   }
 };

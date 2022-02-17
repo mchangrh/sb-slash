@@ -1,4 +1,5 @@
 const { vip } = require("./min-api.js");
+const { EMOJI_ID_MAP } = require("sb-category-type");
 
 function actionRow(component) {
   return [{
@@ -8,29 +9,27 @@ function actionRow(component) {
 }
 
 const lockResponse = (body, footer = true) => {
-  const embeds = [{
+  const embed = {
     title: "Lock Video",
     url: `https://www.youtube.com/watch?v=${body.videoID}`,
     color: 0xffc83d,
     fields: [],
     footer: {}
-  }];
+  };
   Object.entries(body).forEach(([key, value]) => {
-    embeds[0].fields.push({
+    embed.fields.push({
       name: key,
       value: `\`${value}\``
     });
   });
   if (footer) embeds[0].footer.text = JSON.stringify(body);
-  return embeds;
+  return embed;
 };
 
 const lockLog = (user, embeds) => {
-  const username = `${user.username}#${user.discriminator}`;
-  const avatar_url = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`;
   const webhookBody = {
-    username,
-    avatar_url,
+    username: `${user.username}#${user.discriminator}`,
+    avatar_url: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`,
     embeds
   };
   const request = {
@@ -49,64 +48,34 @@ const categoryComponent = {
   max_values: 10,
   options:[{
     value: "sponsor", label: "Sponsor",
-    emoji: {
-      name: "sponsor",
-      id: "936878146156892240"
-    }
+    emoji: EMOJI_ID_MAP["sponsor"]
   }, {
     value: "selfpromo", label: "Unpaid/Self Promotion",
-    emoji: {
-      name: "selfpromo",
-      id: "936878146228207636"
-    }
+    emoji: EMOJI_ID_MAP["selfpromo"]
   }, {
     value: "interaction", label: "Interaction Reminder (Subscribe)",
-    emoji: {
-      name: "interaction_reminder",
-      id: "936878145993322557"
-    }
+    emoji: EMOJI_ID_MAP["interaction_reminder"]
   }, {
     value: "intro", label: "Intermission/Intro Animation",
-    emoji: {
-      name: "intro",
-      id: "936878146391769108"
-    }
+    emoji: EMOJI_ID_MAP["intro"]
   }, {
     value: "outro", label: "Endcards/Credits (Outro)",
-    emoji: {
-      name: "outro",
-      id: "936878146135920700"
-    }
+    emoji: EMOJI_ID_MAP["outro"]
   }, {
     value: "preview", label: "Preview/Recap",
-    emoji: {
-      name: "preview",
-      id: "936878146190471178"
-    }
+    emoji: EMOJI_ID_MAP["preview"]
   }, {
     value: "music_offtopic", label: "Music: Non-Music Section",
-    emoji: {
-      name: "nonmusic",
-      id: "936878146186252288"
-    }
+    emoji: EMOJI_ID_MAP["nonmusic"]
   }, {
     value: "poi_highlight", label: "Highlight",
-    emoji: {
-      name: "poi_highlight",
-      id: "936878146316292106"
-    }
+    emoji: EMOJI_ID_MAP["highlight"]
   }, {
-    value: "filler", label: "Filler Tangent",
-    emoji: {
-      name: "filler",
-      id: "936878145812971581"
-    }
+    value: "filler", label: "Filler Tangent/ Jokes",
+    emoji: EMOJI_ID_MAP["filler"]
   }, {
     value: "exclusive_access", label: "Exclusive Access",
-    emoji: {
-      name: "exclusive_access",
-      id: "936878145909424179"
-    }
+    emoji: EMOJI_ID_MAP["exclusive_access"]
   }]
 };
 
@@ -149,45 +118,30 @@ const cannedReason = {
     emoji: { name: "❌" }
   }, {
     value: "Entire video is sponsor", label: "Entire video is sponsor",
-    emoji: {
-      name: "sponsor",
-      id: "936878146156892240"
-    }
+    emoji: EMOJI_ID_MAP["sponsor"]
   }, {
     value: "Entire video is selfpromo", label: "Entire video is selfpromo",
-    emoji: {
-      name: "selfpromo",
-      id: "936878146228207636"
-    }
+    emoji: EMOJI_ID_MAP["selfpromo"]
   }, {
     value: "Intermission used as Highlight", label: "Intermission used as Highlight",
-    emoji: {
-      name: "poi_highlight",
-      id: "936878146316292106"
-    }
+    emoji: EMOJI_ID_MAP["highlight"]
   }, {
     value: "Preview over spoken summary", label: "Preview over spoken summary",
-    emoji: {
-      name: "preview",
-      id: "936878146190471178"
-    }
+    emoji: EMOJI_ID_MAP["preview"]
   }, {
     value: "Disclaimer should not be marked", label: "Disclaimer should not be marked",
-    emoji: {
-      name: "intro",
-      id: "936878146391769108"
-    }
+    emoji: EMOJI_ID_MAP["intro"]
   }]
 };
 
 const categorySelect = ({ interaction, response }) => {
   const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
   lockOptions.categories = interaction.data.values;
-  const embeds = lockResponse(lockOptions);
+  const embed = lockResponse(lockOptions);
   return response({
     type: 7,
     data: {
-      embeds,
+      embeds: [embed],
       components: actionRow(typeComponent)
     }
   });
@@ -197,11 +151,11 @@ const typeSelect = ({ interaction, response }) => {
   const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
   lockOptions.actionType = interaction.data.values;
   const nextComponent = lockOptions.reason ? submitButton : cannedReason;
-  const embeds = lockResponse(lockOptions);
+  const embed = lockResponse(lockOptions);
   return response({
     type: 7,
     data: {
-      embeds,
+      embeds: [embed],
       components: actionRow(nextComponent)
     }
   });
@@ -211,11 +165,11 @@ const cannedReasonSelect = ({ interaction, response }) => {
   const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
   const lockReason = interaction.data.values[0];
   if (lockReason !== "no_reason") lockOptions.reason = lockReason;
-  const embeds = lockResponse(lockOptions);
+  const embed = lockResponse(lockOptions);
   return response({
     type: 7,
     data: {
-      embeds,
+      embeds: [embed],
       components: actionRow(submitButton)
     }
   });
@@ -223,20 +177,20 @@ const cannedReasonSelect = ({ interaction, response }) => {
 
 const submit = async ({ interaction, response }) => {
   const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
-  const embeds = lockResponse(lockOptions, false);
+  const embed = lockResponse(lockOptions, false);
   await lockLog(interaction.member.user, embeds);
   const result = await vip.lockCategories(lockOptions);
   if (result.ok) {
-    embeds[0].description = `Successfully locked \`${lockOptions.videoID}\``;
-    embeds[0].color = 0x00ff00;
+    embed.description = `Successfully locked \`${lockOptions.videoID}\``;
+    embed.color = 0x00ff00;
   } else {
-    embeds[0].description = `error: ${result.statusText}`;
-    embeds[0].color = 0xff0000;
+    embed.description = `error: ${result.statusText}`;
+    embed.color = 0xff0000;
   }
   return response({
     type: 7,
     data: {
-      embeds,
+      embeds: [embed],
       components: []
     }
   });

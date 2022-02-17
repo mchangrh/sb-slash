@@ -1,5 +1,6 @@
-const { CATEGORY_NAMES, ALL_CATEGORIES } = require("../util/categories.js");
+const { CATEGORY_NAMES } = require("sb-category-type");
 const CATEGORY_CHOICES = ["all", ...CATEGORY_NAMES];
+const ALL_CATEGORIES = `categories=${JSON.stringify(CATEGORY_NAMES)}`;
 const { getSkipSegments, timeout } = require("../util/min-api.js");
 const { formatSkipSegments } = require("../util/formatResponse.js");
 const { invalidVideoID, timeoutResponse } = require("../util/invalidResponse.js");

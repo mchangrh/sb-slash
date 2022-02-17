@@ -1,5 +1,5 @@
 const { automodComponents } = require("./components.js");
-const { EMOJI_MAP } = require("./categories.js");
+const { EMOJI_MAP } = require("sb-category-type");
 const { secondsToTime } = require("./formatResponse.js");
 
 // add to emoji map

@@ -1,7 +1,10 @@
 const columnify = require("columnify");
 const { getSegmentInfo } = require("./min-api.js");
 const { parseUserAgent } = require("./parseUserAgent.js");
-const { CATEGORY_NAMES, COLOUR_MAP, EMOJI_MAP } = require("./categories.js");
+const { CATEGORY_NAMES, COLOUR_MAP, EMOJI_MAP } = require("sb-category-type");
+
+// constant modifications
+COLOUR_MAP.default = 0xFF0000;
 
 // https://github.com/MRuy/sponsorBlockControl/blob/61f0585c9bff9c46f6fde06bb613aadeffb7e189/src/utils.js
 const minutesReadable = (minutes) => {
@@ -102,12 +105,14 @@ const formatUser = (result, submitted) => {
 };
 
 const formatSegment = (result) => {
-  const embed = emptyEmbed();
   const { videoID, category, startTime, endTime, UUID } = result;
   const videoLink = videoTimeLink(videoID, startTime, UUID);
-  embed.title = videoID;
-  embed.url = `https://sb.ltn.fi/video/${videoID}/`;
-  embed.color = COLOUR_MAP[category] || COLOUR_MAP["default"];
+  const embed = {
+    ...emptyEmbed(),
+    title: videoID,
+    url: `https://sb.ltn.fi/video/${videoID}/`,
+    color: COLOUR_MAP[category] || COLOUR_MAP["default"]
+  };
   embed.description = `[${category}](${videoLink}) | ${actionType(result.actionType)} | **Submitted:** ${timeStamp(result.timeSubmitted)}
   ${segmentTimes(startTime, endTime)} **Length:** ${secondsToTime((endTime - startTime), false)}
   **Votes:** ${formatVote(result)} | **Views:** ${result.views.toLocaleString("en-US")} | **Visibility:** ${visibility(result)}
@@ -119,20 +124,18 @@ const formatSegment = (result) => {
 };
 
 const formatShowoff = (publicID, result) => {
-  const embed = emptyEmbed();
-  embed.title = userName(result);
-  embed.url = `https://sb.ltn.fi/userid/${publicID}/`;
-  embed.description = `**Submissions:** ${result.segmentCount.toLocaleString("en-US")}
+  return {
+    ...emptyEmbed(),
+    title: userName(result),
+    url: `https://sb.ltn.fi/userid/${publicID}/`,
+    description: `**Submissions:** ${result.segmentCount.toLocaleString("en-US")}
   You've saved people from **${result.viewCount.toLocaleString("en-US")}** segments
-  (**${minutesReadable(result.minutesSaved)}** of their lives)`;
-  return embed;
+  (**${minutesReadable(result.minutesSaved)}** of their lives)`
+  };
 };
 
 const formatUserID = (result) => {
-  const embed = {
-    color: 0xff0000,
-    fields: []
-  };
+  const embed = emptyEmbed();
   for (const user of result) {
     const userIDUrl = `https://sb.ltn.fi/userid/${user.userID}/`;
     embed.fields.push({
@@ -223,11 +226,13 @@ const formatSkipSegments = (videoID, result) => {
 
 const formatSearchSegments = (videoID, result, buttonOverrides) => {
   if (result === "Not Found") return segmentsNotFoundEmbed(videoID);
-  const embed = emptyVideoEmbed(videoID);
   const parsed = JSON.parse(result);
-  embed.description = `**Segments:** ${parsed.segmentCount} | **Page:**: ${parsed.page+1}/${totalPages(parsed.segmentCount)+1}`;
-  embed.footer = {text: JSON.stringify(buttonOverrides || {})};
   const segments = parsed.segments;
+  const embed = {
+    ...emptyVideoEmbed(videoID),
+    description: `**Segments:** ${parsed.segmentCount} | **Page:**: ${parsed.page+1}/${totalPages(parsed.segmentCount)+1}`,
+    footer: { text: JSON.stringify(buttonOverrides || {}) }
+  };
   for (const segment of segments) {
     const { startTime, endTime } = segment;
     const name = segment.UUID;
@@ -240,9 +245,11 @@ const formatSearchSegments = (videoID, result, buttonOverrides) => {
 };
 
 const formatStatus = async (res) => {
-  const embed = emptyEmbed();
-  embed.title = "SponsorBlock Server Status";
-  embed.url = "https://status.sponsor.ajay.app/";
+  const embed = {
+    ...emptyEmbed(),
+    title: "SponsorBlock Server Status",
+    url: "https://status.sponsor.ajay.app/"
+  };
   if (!res.ok) {
     embed.description = `Server Unavailable: ${res.status} ${res.statusText}`;
   } else {
@@ -295,10 +302,12 @@ const formatResponseTime = (data) => {
   processTimes = processTimes.map((x) => x.toFixed(2) + "ms");
   responseTimes = responseTimes.map((x) => x.toFixed(2) + "ms");
   skipResponseTimes = skipResponseTimes.map((x) => x.toFixed(2) + "ms");
-  const embed = emptyEmbed();
-  embed.title = "SB Server Response Time";
-  embed.url = "https://mchangrh.github.io/sb-status-chart";
-  embed.description = "Last | 5 Minute Average | 15 Minute Average";
+  const embed = {
+    ...emptyEmbed(),
+    title: "SB Server Response Time",
+    url: "https://mchangrh.github.io/sb-status-chart",
+    description: "Last | 5 Minute Average | 15 Minute Average"
+  };
   embed.fields.push({
     name: "Process Time",
     value: processTimes.join(" | ")
@@ -338,10 +347,12 @@ const formatUserStats = (publicID, data, sort, piechart) => {
   // sort categorydata
   if (sort) categoryData = categoryData.sort((a,b) => b.value-a.value);
   // send result
-  const embed = emptyEmbed();
-  embed.title = data.userName;
-  embed.url = `https://sb.ltn.fi/userid/${publicID}/`;
-  embed.description = `**Total Segments:** ${total}\n **Time Saved:** ${timeSaved}`;
+  const embed = {
+    ...emptyEmbed(),
+    title: data.userName,
+    url: `https://sb.ltn.fi/userid/${publicID}/`,
+    description: `**Total Segments:** ${total}\n **Time Saved:** ${timeSaved}`
+  };
   embed.fields.push({
     name: "Category Breakdown",
     value: "```"+columnify(categoryData, columnifyConfig)+"```"
@@ -351,9 +362,7 @@ const formatUserStats = (publicID, data, sort, piechart) => {
   });
   if (piechart) {
     const rand = Math.random().toString(16).substring(2,6);
-    embed.image = {
-      url: `https://sb-img.mchang.xyz/pie?userID=${publicID}&value=${rand}`
-    };
+    embed.image = { url: `https://sb-img.mchang.xyz/pie?userID=${publicID}&value=${rand}` };
   }
   return embed;
 };
@@ -381,9 +390,11 @@ const formatUnsubmitted = (debugObj) => {
         times: e[1][0].segment
       };
     });
-  const embed = emptyEmbed();
-  embed.title = "Unsubmitted Segments";
-  embed.description = mapped.map((s) => formatUnsubmittedTemplate(s)).join("\n");
+  const embed = {
+    ...emptyEmbed(),
+    title: "Unsubmitted Segments",
+    description: mapped.map((s) => formatUnsubmittedTemplate(s)).join("\n")
+  };
   embed.description += `\n\n[Playlist](https://www.youtube.com/watch_videos?video_ids=${mapped.map((s) => s.videoID).join(",")})`;
   return embed;
 };
@@ -398,9 +409,21 @@ const contentResponse = (content, hide) => {
   };
 };
 
+const embedResponse = (content, hide) => {
+  const embed = emptyEmbed();
+  embed.description = content;
+  return {
+    type: 4,
+    data: {
+      embeds: [embed],
+      flags: (hide ? 64 : 0)
+    }
+  };
+};
+
 const axiosResponse = async (result) => {
   const data = await result.text();
-  return result.status == 200
+  return result.ok
     ? `| ${jsonBody(data)}`
     : `${result.status} | ${jsonBody(data)}`;
 };
@@ -428,6 +451,7 @@ module.exports = {
   formatUserStats,
   formatUnsubmitted,
   contentResponse,
+  embedResponse,
   axiosResponse,
   secondsToTime
 };
