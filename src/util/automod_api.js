@@ -1,4 +1,4 @@
-const ML_URL = "https://sb-ml.mchang.xyz/";
+const ML_URL = "https://sb-ml.mchang.xyz";
 
 exports.get = (videoID = null) => {
   const url = videoID ? `${ML_URL}/get?auth=${ML_AUTH}&video_id=${videoID}` : `${ML_URL}/get?auth=${ML_AUTH}`;
