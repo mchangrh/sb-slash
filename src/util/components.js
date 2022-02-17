@@ -79,8 +79,7 @@ exports.automodComponents = (videoID, submitArr) => {
       type: 2,
       label: "Submit All",
       style: 5,
-      url: submitUrl,
-      emoji: { name: "🌐" }
+      url: submitUrl
     }, {
       type: 2,
       label: "Done",

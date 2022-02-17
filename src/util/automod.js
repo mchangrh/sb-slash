@@ -17,7 +17,9 @@ exports.sendAutoMod = async(edit = true, videoID = null) => {
       type: edit ? 7 : 4,
       data: {
         content: "No suggested segments available",
-        flags: 64
+        flags: 64,
+        fields: [],
+        components: []
       }
     };
   } else {
@@ -26,7 +28,9 @@ exports.sendAutoMod = async(edit = true, videoID = null) => {
       type: edit ? 7 : 4,
       data: {
         content: "Error getting suggested segments" + body,
-        flags: 64
+        flags: 64,
+        fields: [],
+        components: []
       }
     };
   }
