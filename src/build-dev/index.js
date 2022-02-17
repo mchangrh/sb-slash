@@ -21,6 +21,7 @@ const setup = async function() {
   await fs.writeFile(path.join(__dirname, "data", "commands.json"), JSON.stringify(discordCommandsObj, null, 2));
 
   // Done
+  // eslint-disable-next-line no-console
   console.log("Commands data ready to go!");
 };
 setup();

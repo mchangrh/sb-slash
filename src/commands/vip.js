@@ -85,51 +85,33 @@ module.exports = {
       const uuid = nested("uuid");
       const category = nested("category");
       result = await vip.postChangeCategory(uuid, category)
-        .catch((err) => {
-          console.log(err);
-          throw "api error";
-        });
+        .catch((err) => apiErr(err));
     } else if (cmdName === "cache") {
       const videoID = nested("videoid");
       result = await vip.postClearCache(videoID)
-        .catch((err) => {
-          console.log(err);
-          throw "api error";
-        });
+        .catch((err) => apiErr(err));
     } else if (cmdName === "purge") {
       const videoID = nested("videoid");
       await log(dUser.user, cmdName, videoID);
       result = await vip.postPurgeSegments(videoID)
-        .catch((err) => {
-          console.log(err);
-          throw "api error";
-        });
+        .catch((err) => apiErr(err));
     } else if (cmdName === "downvote") {
       const uuid = nested("uuid");
       await log(dUser.user, cmdName, uuid);
       result = await vip.postVoteOnSegment(uuid, 0)
-        .catch((err) => {
-          console.log(err);
-          throw "api error";
-        });
+        .catch((err) => apiErr(err));
     } else if (cmdName === "undovote") {
       const uuid = nested("uuid");
       await log(dUser.user, cmdName, uuid);
       result = await vip.postVoteOnSegment(uuid, 20)
-        .catch((err) => {
-          console.log(err);
-          throw "api error";
-        });
+        .catch((err) => apiErr(err));
     } else if (cmdName === "addvip") {
       const user = nested("user");
       const SBID = await getSBID(user);
       const videoID = nested("videoid");
       await log(dUser.user, cmdName, SBID);
       result = await vip.postAddTempVIP(SBID, videoID)
-        .catch((err) => {
-          console.log(err);
-          throw "api error";
-        });
+        .catch((err) => apiErr(err));
     } else if (cmdName === "lookup") {
       const SBID = nested("publicid");
       const dID = await vipMap(SBID);
@@ -145,10 +127,7 @@ module.exports = {
       const SBID = nested("publicid");
       await log(dUser.user, cmdName, SBID);
       result = await vip.deleteWarning(SBID)
-        .catch((err) => {
-          console.log(err);
-          throw "api error";
-        });
+        .catch((err) => apiErr(err));
     } else if (cmdName === "lock") {
       // videoid validation
       let videoID = nested("videoid");
@@ -170,10 +149,7 @@ module.exports = {
     } else if (cmdName === "banstatus") {
       const publicid = nested("publicid");
       const res = await vip.getBanStatus(publicid)
-        .catch((err) => {
-          console.log(err);
-          throw "api error";
-        });
+        .catch((err) => apiErr(err));
       return response({
         type: 4,
         data: {
@@ -190,4 +166,10 @@ module.exports = {
       data: { content: `${cmdName} ${resResponse}`}
     });
   }
+};
+
+const apiErr = (error) => {
+  // eslint-disable-next-line no-console
+  console.log(error);
+  throw "api error";
 };

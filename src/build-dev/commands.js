@@ -86,6 +86,7 @@ module.exports.registerCommands = async (commands) => {
 
   // Define the commands and get what Discord currently has
   const discordCommands = await interaction.getApplicationCommands(guildID);
+  // eslint-disable-next-line no-console
   console.log(discordCommands);
 
   // Remove old commands

@@ -87,6 +87,7 @@ const handleInteraction = async ({ request, wait }) => {
     }
   } catch (err) {
     // Catch & log any errors
+    // eslint-disable-next-line no-console
     console.log(err);
 
     // Send an ephemeral message to the user
@@ -143,6 +144,7 @@ addEventListener("fetch", (event) => {
     wait: event.waitUntil.bind(event)
   }).catch((err) => {
     // Log & re-throw any errors
+    // eslint-disable-next-line no-console
     console.log(err);
     throw err;
   }));

@@ -4,8 +4,6 @@ account_id = "d5ccf1d783709bbdc23fc29786f38736"
 workers_dev = true
 webpack_config = "webpack.config.js"
 kv_namespaces = [
-  { binding = "NAMESPACE", id="fa509cd9887c42df8967b891d4cb420a" },
-  { binding = "XENOVA_ML", id="0b137e0861744f6c85c41110d87fc89e" },
-  { binding = "XENOVA_ML_REJECT", id="7e3c4958125e410cbca43d908b0f750b" }
+  { binding = "NAMESPACE", id="fa509cd9887c42df8967b891d4cb420a" }
 ]
-compatibility_date = "2021-12-10"
+compatibility_date = "2022-02-17"

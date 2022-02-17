@@ -20,6 +20,7 @@
         "arrow-parens": 2,
         "no-trailing-spaces": 2,
         "require-await": 2,
-        "no-undef": "off" // cloudflare workers
+        "no-undef": "off", // cloudflare workers
+        "no-console": 2
     }
 }

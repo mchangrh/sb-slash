@@ -1,5 +1,6 @@
 const { automodComponents } = require("./components.js");
 const { EMOJI_MAP } = require("sb-category-type");
+const { get } = require("./automod_api.js");
 const { secondsToTime } = require("./formatResponse.js");
 
 // add to emoji map
@@ -7,8 +8,11 @@ EMOJI_MAP["null"] = "❌";
 const tripleTick = "```";
 
 exports.sendAutoMod = async(edit = true, videoID = null) => {
-  const videoChoice = videoID ? await XENOVA_ML.get(`missed:${videoID}`, { type: "json"}) : await chooseSuggestion();
-  if (!videoChoice) {
+  const videoChoice = await get(videoID);
+  if (videoChoice.ok) {
+    const videoChoiceObj = await videoChoice.json();
+    return formatVideoChoice(videoChoiceObj, edit);
+  } else if (videoChoice.status === 404) {
     return {
       type: edit ? 7 : 4,
       data: {
@@ -16,8 +20,16 @@ exports.sendAutoMod = async(edit = true, videoID = null) => {
         flags: 64
       }
     };
+  } else {
+    const body = await videoChoice.text();
+    return {
+      type: edit ? 7 : 4,
+      data: {
+        content: "Error getting suggested segments" + body,
+        flags: 64
+      }
+    };
   }
-  return formatVideoChoice(videoChoice, edit);
 };
 
 const formatVideoChoice = (videoChoice, edit) => {
@@ -34,7 +46,7 @@ const formatVideoChoice = (videoChoice, edit) => {
   };
   for (const result of videoChoice?.missed ?? []) {
     const prob = sortProbabilites(result.probabilities);
-    submitAllArr.push({segment: [result.start, result.end], category: prob[0][0]});
+    submitAllArr.push({segment: [result.start, result.end], category: result.category.toLowerCase()});
     embed.fields.push(formatAutoModField(result, videoID, prob));
   }
   return {
@@ -52,23 +64,17 @@ const sortProbabilites = (prob) =>
   Object.entries(prob)
     .sort((a,b) => b[1]-a[1]);
 
-const chooseSuggestion = async() => {
-  const videoChoice = await XENOVA_ML.list({ limit: 100, prefix: "missed:" });
-  const videoChoiceList = videoChoice.keys;
-  const chosenVideo = videoChoiceList[Math.floor(Math.random() * videoChoiceList.length)];
-  const chosenVideObj = await XENOVA_ML.get(chosenVideo.name, { type: "json"});
-  if (videoChoice.length === 0) return false;
-  return chosenVideObj;
-};
-
 const formatAutoModField = (aiResult, videoID, prob) => {
-  const probEmoji = prob.map((e) => [EMOJI_MAP[e[0].toLowerCase()], intPercent(e[1])] );
-  const slicedText = aiResult.text.length >= 800 ? aiResult.text.slice(0, 800) + "..." : aiResult.text;
-  const submitLink = `https://www.youtube.com/watch?v=${videoID}&t=${aiResult.start-2}s#segments=[{"segment":[${aiResult.start}, ${aiResult.end}],"category":"${prob[0][0]}","actionType":"skip"}]`;
-  const topCategory = `${probEmoji[0][0]}: ${probEmoji[0][1]}`;
+  const probEmoji = prob.map((e) =>
+    [EMOJI_MAP[e[0].toLowerCase()] + ": " + intPercent(e[1])]
+  ).flat().join(" | ");
+  const topCategoryName = aiResult.category.toLowerCase();
+  const slicedText = aiResult.text.length >= 500 ? aiResult.text.slice(0, 500) + "..." : aiResult.text;
+  const submitLink = `https://www.youtube.com/watch?v=${videoID}&t=${aiResult.start-2}s#segments=[{"segment":[${aiResult.start}, ${aiResult.end}],"category":"${topCategoryName}","actionType":"skip"}]`;
+  const topCategory = `${EMOJI_MAP[topCategoryName]}: ${intPercent(aiResult.probability)}`;
   const field = {
     name: `${secondsToTime(aiResult.start)}-${secondsToTime(aiResult.end)} | Missed ${topCategory}`,
-    value: `${probEmoji.flat().join(" | ")}
+    value: `${probEmoji}
     ${tripleTick+slicedText+tripleTick}
     [submit](${encodeURI(submitLink)})`
   };
