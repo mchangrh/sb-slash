@@ -7,8 +7,7 @@ const { hideOption, publicIDOptionRequired, pieChartOption } = require("../util/
 const { getSBID } = require("../util/cfkv.js");
 const [SUBCOMMAND, GROUP] = [1, 2];
 
-const findNestedOption = (rootOptions, name) => ((objCheck(rootOptions) && (rootOptions.options.find((opt) => opt.name === name))) || false);
-const objCheck = (rootOptions) => (rootOptions && ("options" in rootOptions));
+const findNestedOption = (rootOptions, name) => (rootOptions?.options.find((opt) => opt.name === name))?.value;
 
 module.exports = {
   name: "me",

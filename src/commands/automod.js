@@ -2,8 +2,7 @@ const format = require("../util/formatResponse.js");
 const { sendAutoMod } = require("../util/automod.js");
 const { videoIDOptional } = require("../util/commandOptions.js");
 
-const findNestedOption = (rootOptions, name) => ((objCheck(rootOptions) && (rootOptions.options.find((opt) => opt.name === name))) || false);
-const objCheck = (rootOptions) => (rootOptions && ("options" in rootOptions));
+const findNestedOption = (rootOptions, name) => (rootOptions?.options.find((opt) => opt.name === name))?.value;
 
 module.exports = {
   name: "automod",
