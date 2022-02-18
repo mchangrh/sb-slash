@@ -137,11 +137,11 @@ module.exports = {
       // body lockOptions creation
       const lockOptions = { videoID };
       if (reason) lockOptions.reason = reason;
-      const embeds = lockResponse(lockOptions);
+      const embed = lockResponse(lockOptions);
       return response({
         type: 4,
         data: {
-          embeds,
+          embeds: [embed],
           components: actionRow(categoryComponent),
           flags: 64
         }

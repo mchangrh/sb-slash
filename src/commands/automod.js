@@ -1,6 +1,7 @@
-const format = require("../util/formatResponse.js");
+const { contentResponse, formatAutomodInfo } = require("../util/formatResponse.js");
 const { sendAutoMod } = require("../util/automod.js");
 const { videoIDOptional } = require("../util/commandOptions.js");
+const { info } = require("../util/automod_api.js");
 
 const findNestedOption = (rootOptions, name) => (rootOptions?.options.find((opt) => opt.name === name))?.value;
 
@@ -12,6 +13,10 @@ module.exports = {
     description: "Get segment suggestion",
     type: 1,
     options: [videoIDOptional]
+  }, {
+    name: "info",
+    description: "Get database stats",
+    type: 1
   }, {
     name: "acceptterms",
     description: "Accept terms",
@@ -50,8 +55,17 @@ module.exports = {
         const message = await sendAutoMod(false, videoID);
         return response(message);
       } else {
-        return response(format.contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));
+        return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));
       }
+    } else if (cmdName === "info") {
+      const data = await info().then((res) => res.json());
+      const embed = await formatAutomodInfo(data);
+      return response({
+        type: 4,
+        data: {
+          embeds: [embed]
+        }
+      });
     }
   }
 };

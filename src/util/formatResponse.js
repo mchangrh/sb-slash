@@ -436,6 +436,38 @@ const jsonBody = (body) => {
   }
 };
 
+const formatAutomodInfo = (data) => {
+  // format response
+  const { total, batches } = data;
+  delete data.total;
+  delete data.batches;
+  const percentage = (value) => total ? ((value/total)*100).toFixed(2)+"%" : "0%";
+  const columnifyConfig = {
+    columnSplitter: " | ",
+    showHeaders: false
+  };
+  let dbStats = [];
+  for (const [key, value] of Object.entries(data)) {
+    dbStats.push({key, value, a:percentage(value)});
+  }
+  // sort
+  dbStats = dbStats.sort((a,b) => b.value-a.value);
+  // send result
+  const embed = {
+    ...emptyEmbed(),
+    title: "Automod Database Stats",
+    description: `**Total**: ${total}
+    **Accuracy**: ${((1-data.rejected/data.done)*100).toFixed(2)}%
+    **Batches**: ${batches}
+    `,
+    fields: [{
+      name: "Breakdown",
+      value: "```"+columnify(dbStats, columnifyConfig)+"```"
+    }]
+  };
+  return embed;
+};
+
 module.exports = {
   formatShowoff,
   formatSegment,
@@ -453,5 +485,6 @@ module.exports = {
   contentResponse,
   embedResponse,
   axiosResponse,
-  secondsToTime
+  secondsToTime,
+  formatAutomodInfo
 };

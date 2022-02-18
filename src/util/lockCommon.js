@@ -22,7 +22,7 @@ const lockResponse = (body, footer = true) => {
       value: `\`${value}\``
     });
   });
-  if (footer) embeds[0].footer.text = JSON.stringify(body);
+  if (footer) embed.footer.text = JSON.stringify(body);
   return embed;
 };
 
