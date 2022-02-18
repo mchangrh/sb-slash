@@ -51,7 +51,7 @@ module.exports = {
     } else if (cmdName === "get") {
       const allowList = await NAMESPACE.get("ml_allow", { type: "json" });
       if (allowList.allow.includes(dID)) {
-        const videoID = findNestedOption(rootOptions, "videoid")?.value;
+        const videoID = findNestedOption(rootOptions, "videoid");
         const message = await sendAutoMod(false, videoID);
         return response(message);
       } else {
