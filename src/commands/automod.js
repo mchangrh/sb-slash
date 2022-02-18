@@ -3,7 +3,19 @@ const { sendAutoMod } = require("../util/automod.js");
 const { videoIDOptional } = require("../util/commandOptions.js");
 const { info } = require("../util/automod_api.js");
 
-const findNestedOption = (rootOptions, name) => (rootOptions?.options.find((opt) => opt.name === name))?.value;
+const automodCategory = {
+  name: "category",
+  description: "Category to get suggestions for",
+  type: 3,
+  required: false,
+  choices: [{
+    name: "Sponsor", value: "sponsor"
+  }, {
+    name: "Unpaid/ Self Promotion", value: "selfpromo"
+  }, {
+    name: "Interaction Reminder", value: "interaction"
+  }]
+};
 
 module.exports = {
   name: "automod",
@@ -12,7 +24,7 @@ module.exports = {
     name: "get",
     description: "Get segment suggestion",
     type: 1,
-    options: [videoIDOptional]
+    options: [videoIDOptional, automodCategory]
   }, {
     name: "info",
     description: "Get database stats",
@@ -24,6 +36,7 @@ module.exports = {
   }],
   execute: async ({ interaction, response }) => {
     const rootOptions = interaction.data.options[0];
+    const findNestedOption = (name) => (rootOptions?.options.find((opt) => opt.name === name))?.value;
     const cmdName = rootOptions.name;
     const dID = interaction?.member?.user.id || interaction.user.id;
     if (cmdName === "acceptterms") {
@@ -51,8 +64,9 @@ module.exports = {
     } else if (cmdName === "get") {
       const allowList = await NAMESPACE.get("ml_allow", { type: "json" });
       if (allowList.allow.includes(dID)) {
-        const videoID = findNestedOption(rootOptions, "videoid");
-        const message = await sendAutoMod(false, videoID);
+        const videoID = findNestedOption("videoid");
+        const category = findNestedOption("category");
+        const message = await sendAutoMod({edit: false, videoID, category});
         return response(message);
       } else {
         return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));

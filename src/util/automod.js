@@ -1,17 +1,21 @@
 const { automodComponents } = require("./components.js");
 const { EMOJI_MAP } = require("sb-category-type");
-const { get } = require("./automod_api.js");
+const api = require("./automod_api.js");
 const { secondsToTime } = require("./formatResponse.js");
 
 // add to emoji map
 EMOJI_MAP["null"] = "❌";
 const tripleTick = "```";
 
-exports.sendAutoMod = async(edit = true, videoID = null) => {
-  const videoChoice = await get(videoID);
+exports.sendAutoMod = async(options={}) => {
+  const { category, videoID } = options;
+  const edit = options?.edit ?? true;
+  const videoChoice = videoID ? await api.getVideo(videoID)
+    : category ? await api.getCategory(category)
+      : await api.get();
   if (videoChoice.ok) {
     const videoChoiceObj = await videoChoice.json();
-    return formatVideoChoice(videoChoiceObj, edit);
+    return formatVideoChoice(videoChoiceObj, edit, category);
   } else if (videoChoice.status === 404) {
     return {
       type: edit ? 7 : 4,
@@ -36,7 +40,7 @@ exports.sendAutoMod = async(edit = true, videoID = null) => {
   }
 };
 
-const formatVideoChoice = (videoChoice, edit) => {
+const formatVideoChoice = (videoChoice, edit, category) => {
   // construct embed
   const videoID = videoChoice.video_id;
   const url = `https://www.youtube.com/watch?v=${videoID}`;
@@ -46,8 +50,12 @@ const formatVideoChoice = (videoChoice, edit) => {
     title: videoID,
     color: 0xff0000,
     url,
-    fields: []
+    fields: [],
+    footer: {
+      text: ""
+    }
   };
+  if (category) embed.footer.text = category;
   for (const result of videoChoice?.missed ?? []) {
     const prob = sortProbabilites(result.probabilities);
     submitAllArr.push({segment: [result.start, result.end], category: result.category.toLowerCase()});

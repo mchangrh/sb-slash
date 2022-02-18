@@ -4,8 +4,10 @@ const { done } = require("../util/automod_api.js");
 module.exports = {
   name: "automod_done",
   execute: async ({ interaction, response }) => {
-    await done(interaction.message.embeds[0].title);
-    const message = await sendAutoMod();
+    const embed = interaction.message.embeds[0];
+    await done(embed.title);
+    const category = embed.footer.text;
+    const message = await sendAutoMod({category});
     return response(message);
   }
 };
