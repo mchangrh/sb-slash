@@ -441,7 +441,7 @@ const formatAutomodInfo = (data) => {
   const { total, batches } = data;
   delete data.total;
   delete data.batches;
-  const percentage = (value) => total ? Number.parseFloat((value/total)*100).toFixed(1)+"%" : "0%";
+  const percentage = (value) => total ? ((value/total)*100).toFixed(2)+"%" : "0%";
   const columnifyConfig = {
     columnSplitter: " | ",
     showHeaders: false

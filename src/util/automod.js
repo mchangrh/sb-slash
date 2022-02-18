@@ -71,7 +71,7 @@ const formatVideoChoice = (videoChoice, edit, category) => {
   };
 };
 
-const intPercent = (int) => `${(int*100).toPrecision(2)}%`;
+const intPercent = (int) => `${(int*100).toFixed(1)}%`;
 const sortProbabilites = (prob) =>
   Object.entries(prob)
     .sort((a,b) => b[1]-a[1]);
