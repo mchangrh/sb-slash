@@ -6,7 +6,7 @@ module.exports = {
   execute: async ({ interaction, response }) => {
     const embed = interaction.message.embeds[0];
     await done(embed.title);
-    const category = embed.footer.text;
+    const category = embed.footer?.text;
     const message = await sendAutoMod({category});
     return response(message);
   }
