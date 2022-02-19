@@ -378,24 +378,25 @@ const formatUnsubmittedTemplate = (s) => {
 };
 
 const formatUnsubmitted = (debugObj) => {
-  const segments = debugObj.config.segmentTimes;
   // filtered and remapped
   const filtered = [];
-  for (const [key, value] of Object.entries(segments)) {
-    if (value.source !== 1) continue;
-    filtered.push({
-      videoID: key,
-      type: value.actionType,
-      category: value.category,
-      times: value.segment
-    });
+  for (const [key, value] of Object.entries(debugObj)) {
+    for (const segment of value) {
+      if (segment.source !== 1) continue;
+      filtered.push({
+        videoID: key,
+        type: segment.actionType,
+        category: segment.category,
+        times: segment.segment
+      });
+    }
   }
   const embed = {
     ...emptyEmbed(),
     title: "Unsubmitted Segments",
-    description: mapped.map((s) => formatUnsubmittedTemplate(s)).join("\n")
+    description: filtered.map((s) => formatUnsubmittedTemplate(s)).join("\n")
   };
-  embed.description += `\n\n[Playlist](https://www.youtube.com/watch_videos?video_ids=${mapped.map((s) => s.videoID).join(",")})`;
+  embed.description += `\n\n[Playlist](https://www.youtube.com/watch_videos?video_ids=${filtered.map((s) => s.videoID).join(",")})`;
   return embed;
 };
 

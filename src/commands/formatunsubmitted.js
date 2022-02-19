@@ -23,11 +23,12 @@ module.exports = {
     if (!result.ok) return response(defaultResponse("Failed to fetch, maybe try reuploading\n https://bin.mchang.xyz/upload"));
     try {
       const json = await result.json();
-      if (json.config.unsubmittedSegments.length === 0) return response(defaultResponse("No unsubmitted segments"));
+      const unsubmitted = json.config.unsubmittedSegments;
+      if (Object.keys(unsubmitted).length === 0) return response(defaultResponse("No unsubmitted segments"));
       return response({
         type: 4,
         data: {
-          embeds: [formatUnsubmitted(json)],
+          embeds: [formatUnsubmitted(unsubmitted)],
           flags: (hide == true ? 64 : 0) // hide
         }
       });

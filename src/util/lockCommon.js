@@ -26,11 +26,11 @@ const lockResponse = (body, footer = true) => {
   return embed;
 };
 
-const lockLog = (user, embeds) => {
+const lockLog = (user, embed) => {
   const webhookBody = {
     username: `${user.username}#${user.discriminator}`,
     avatar_url: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`,
-    embeds
+    embeds: [embed]
   };
   const request = {
     body: JSON.stringify(webhookBody),
@@ -178,7 +178,7 @@ const cannedReasonSelect = ({ interaction, response }) => {
 const submit = async ({ interaction, response }) => {
   const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
   const embed = lockResponse(lockOptions, false);
-  await lockLog(interaction.member.user, embeds);
+  await lockLog(interaction.member.user, embed);
   const result = await vip.lockCategories(lockOptions);
   if (result.ok) {
     embed.description = `Successfully locked \`${lockOptions.videoID}\``;
