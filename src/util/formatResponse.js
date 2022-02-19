@@ -380,16 +380,16 @@ const formatUnsubmittedTemplate = (s) => {
 const formatUnsubmitted = (debugObj) => {
   const segments = debugObj.config.segmentTimes;
   // filtered and remapped
-  const mapped = segments
-    .filter((e) => e[1][0].source == 1)
-    .map((e) => {
-      return {
-        videoID: e[0],
-        type: e[1][0].actionType,
-        category: e[1][0].category,
-        times: e[1][0].segment
-      };
+  const filtered = [];
+  for (const [key, value] of Object.entries(segments)) {
+    if (value.source !== 1) continue;
+    filtered.push({
+      videoID: key,
+      type: value.actionType,
+      category: value.category,
+      times: value.segment
     });
+  }
   const embed = {
     ...emptyEmbed(),
     title: "Unsubmitted Segments",
