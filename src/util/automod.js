@@ -7,15 +7,35 @@ const { secondsToTime } = require("./formatResponse.js");
 EMOJI_MAP["null"] = "❌";
 const tripleTick = "```";
 
-exports.sendAutoMod = async(options={}) => {
-  const { category, videoID } = options;
+const errorResponse = (edit, reason) =>{
+  return {
+    type: edit ? 7 : 4,
+    data: {
+      content: "Error getting suggested segments" + reason,
+      flags: 64,
+      fields: [],
+      components: []
+    }
+  };
+};
+
+const getNextFromEmbed = async (embed) => {
+  const options = JSON.parse(embed?.footer?.text)
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      return errorResponse(true, "Syntax Error");
+    });
+  return await sendAutoMod(options);
+};
+
+const sendAutoMod = async (options={}) => {
   const edit = options?.edit ?? true;
-  const videoChoice = videoID ? await api.getVideo(videoID)
-    : category ? await api.getCategory(category)
-      : await api.get();
+  delete options.edit;
+  const videoChoice = await api.get(options);
   if (videoChoice.ok) {
     const videoChoiceObj = await videoChoice.json();
-    return formatVideoChoice(videoChoiceObj, edit, category);
+    return formatVideoChoice(videoChoiceObj, edit, options);
   } else if (videoChoice.status === 404) {
     return {
       type: edit ? 7 : 4,
@@ -28,19 +48,11 @@ exports.sendAutoMod = async(options={}) => {
     };
   } else {
     const body = await videoChoice.text();
-    return {
-      type: edit ? 7 : 4,
-      data: {
-        content: "Error getting suggested segments" + body,
-        flags: 64,
-        fields: [],
-        components: []
-      }
-    };
+    return errorResponse(edit, body);
   }
 };
 
-const formatVideoChoice = (videoChoice, edit, category) => {
+const formatVideoChoice = (videoChoice, edit, options) => {
   // construct embed
   const videoID = videoChoice.video_id;
   const url = `https://www.youtube.com/watch?v=${videoID}`;
@@ -55,7 +67,7 @@ const formatVideoChoice = (videoChoice, edit, category) => {
       text: ""
     }
   };
-  if (category) embed.footer.text = category;
+  if (options) embed.footer.text = JSON.stringify(options);
   for (const result of videoChoice?.missed ?? []) {
     const prob = sortProbabilites(result.probabilities);
     submitAllArr.push({segment: [result.start, result.end], category: result.category.toLowerCase()});
@@ -91,4 +103,9 @@ const formatAutoModField = (aiResult, videoID, prob) => {
     [submit](${encodeURI(submitLink)})`
   };
   return field;
+};
+
+module.exports = {
+  getNextFromEmbed,
+  sendAutoMod
 };

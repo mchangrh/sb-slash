@@ -1,4 +1,4 @@
-const { sendAutoMod } = require("../util/automod.js");
+const { getNextFromEmbed } = require("../util/automod.js");
 const { reject } = require("../util/automod_api.js");
 
 module.exports = {
@@ -6,8 +6,7 @@ module.exports = {
   execute: async ({ interaction, response }) => {
     const embed = interaction.message.embeds[0];
     await reject(embed.title);
-    const category = embed?.footer?.text;
-    const message = await sendAutoMod({category});
+    const message = await getNextFromEmbed(embed);
     return response(message);
   }
 };

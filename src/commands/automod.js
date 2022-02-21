@@ -66,7 +66,8 @@ module.exports = {
       if (allowList.allow.includes(dID)) {
         const videoID = findNestedOption("videoid");
         const category = findNestedOption("category");
-        const message = await sendAutoMod({edit: false, videoID, category});
+        const batch = findNestedOption("batch");
+        const message = await sendAutoMod({edit: false, videoID, category, batch});
         return response(message);
       } else {
         return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));
