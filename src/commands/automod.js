@@ -3,20 +3,6 @@ const { sendAutoMod } = require("../util/automod.js");
 const { videoIDOptional } = require("../util/commandOptions.js");
 const { info } = require("../util/automod_api.js");
 
-const automodCategory = {
-  name: "category",
-  description: "Category to get suggestions for",
-  type: 3,
-  required: false,
-  choices: [{
-    name: "Sponsor", value: "sponsor"
-  }, {
-    name: "Unpaid/ Self Promotion", value: "selfpromo"
-  }, {
-    name: "Interaction Reminder", value: "interaction"
-  }]
-};
-
 module.exports = {
   name: "automod",
   description: "Get segment suggestion from SponsorBlock ML",
@@ -24,7 +10,24 @@ module.exports = {
     name: "get",
     description: "Get segment suggestion",
     type: 1,
-    options: [videoIDOptional, automodCategory]
+    options: [videoIDOptional,{
+      name: "category",
+      description: "Category to get suggestions for",
+      type: 3,
+      required: false,
+      choices: [{
+        name: "Sponsor", value: "sponsor"
+      }, {
+        name: "Unpaid/ Self Promotion", value: "selfpromo"
+      }, {
+        name: "Interaction Reminder", value: "interaction"
+      }]
+    }, {
+      name: "batch",
+      description: "Specify batch",
+      type: 3,
+      required: false
+    }]
   }, {
     name: "info",
     description: "Get database stats",
