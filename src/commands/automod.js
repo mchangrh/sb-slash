@@ -1,6 +1,6 @@
 const { contentResponse, formatAutomodInfo } = require("../util/formatResponse.js");
 const { sendAutoMod } = require("../util/automod.js");
-const { videoIDOptional } = require("../util/commandOptions.js");
+const { videoIDOptional, videoIDOption } = require("../util/commandOptions.js");
 const { info } = require("../util/automod_api.js");
 
 module.exports = {
@@ -28,6 +28,11 @@ module.exports = {
       type: 3,
       required: false
     }]
+  }, {
+    name: "share",
+    description: "Share segment suggestion",
+    type: 1,
+    options: [videoIDOption]
   }, {
     name: "info",
     description: "Get database stats",
@@ -71,6 +76,16 @@ module.exports = {
         const category = findNestedOption("category");
         const batch = findNestedOption("batch");
         const message = await sendAutoMod({edit: false, video_id, category, batch});
+        return response(message);
+      } else {
+        return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));
+      }
+    } else if (cmdName === "share") {
+      const allowList = await NAMESPACE.get("ml_allow", { type: "json" });
+      if (allowList.allow.includes(dID)) {
+        const video_id = findNestedOption("videoid");
+        const message = await sendAutoMod({edit: false, video_id });
+        delete message.data?.components;
         return response(message);
       } else {
         return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));

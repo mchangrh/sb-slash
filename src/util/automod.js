@@ -61,7 +61,7 @@ const formatVideoChoice = (videoChoice, edit, options) => {
   // setup embed
   let embed = {
     title: videoID,
-    description: `batch ${videoChoice.batch}`,
+    description: `batch \`${videoChoice.batch}\``,
     color: 0xff0000,
     url,
     fields: [],
