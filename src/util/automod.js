@@ -101,8 +101,7 @@ const formatAutoModField = (aiResult, videoID, prob) => {
   const field = {
     name: `${secondsToTime(aiResult.start)}-${secondsToTime(aiResult.end)} | Missed ${topCategory}`,
     value: `${probEmoji}
-    ${tripleTick+slicedText+tripleTick}
-    [submit](${encodeURI(submitLink)})`
+    ${tripleTick+slicedText+tripleTick}[submit](${encodeURI(submitLink)})`
   };
   return field;
 };

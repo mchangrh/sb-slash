@@ -86,6 +86,7 @@ module.exports = {
         const video_id = findNestedOption("videoid");
         const message = await sendAutoMod({edit: false, video_id });
         delete message.data?.components;
+        message.data.flags = 0;
         return response(message);
       } else {
         return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));
