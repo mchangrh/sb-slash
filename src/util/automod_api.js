@@ -4,6 +4,7 @@ const AUTH_URL = (path) => new URL(`${ML_URL}/${path}?auth=${ML_AUTH}`);
 exports.get = (options) => {
   const url = AUTH_URL("get");
   for (const [key, value] of Object.entries(options)) {
+    if (!value) continue;
     url.searchParams.append(key, value);
   }
   return fetch(url);

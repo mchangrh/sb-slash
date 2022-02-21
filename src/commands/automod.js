@@ -67,10 +67,10 @@ module.exports = {
     } else if (cmdName === "get") {
       const allowList = await NAMESPACE.get("ml_allow", { type: "json" });
       if (allowList.allow.includes(dID)) {
-        const videoID = findNestedOption("videoid");
+        const video_id = findNestedOption("videoid");
         const category = findNestedOption("category");
         const batch = findNestedOption("batch");
-        const message = await sendAutoMod({edit: false, videoID, category, batch});
+        const message = await sendAutoMod({edit: false, video_id, category, batch});
         return response(message);
       } else {
         return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));

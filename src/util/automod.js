@@ -20,13 +20,14 @@ const errorResponse = (edit, reason) =>{
 };
 
 const getNextFromEmbed = async (embed) => {
-  const options = JSON.parse(embed?.footer?.text)
-    .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.log(err);
-      return errorResponse(true, "Syntax Error");
-    });
-  return await sendAutoMod(options);
+  try {
+    const options = JSON.parse(embed?.footer?.text);
+    return await sendAutoMod(options);
+  } catch(err) {
+    // eslint-disable-next-line no-console
+    console.log(err);
+    return errorResponse(true, "Syntax Error");
+  }
 };
 
 const sendAutoMod = async (options={}) => {
@@ -60,6 +61,7 @@ const formatVideoChoice = (videoChoice, edit, options) => {
   // setup embed
   let embed = {
     title: videoID,
+    description: `batch ${videoChoice.batch}`,
     color: 0xff0000,
     url,
     fields: [],
