@@ -26,6 +26,11 @@ module.exports = {
     type: 1,
     options: [ videoIDOption ]
   }, {
+    name: "upvote",
+    description: "Upvote a segment",
+    type: 1,
+    options: [ uuidOption ]
+  }, {
     name: "downvote",
     description: "Downvote a segment",
     type: 1,
@@ -94,6 +99,11 @@ module.exports = {
       const videoID = nested("videoid");
       await log(dUser.user, cmdName, videoID);
       result = await vip.postPurgeSegments(videoID)
+        .catch((err) => apiErr(err));
+    } else if (cmdName === "upvote") {
+      const uuid = nested("uuid");
+      await log(dUser.user, cmdName, uuid);
+      result = await vip.postVoteOnSegment(uuid, 1)
         .catch((err) => apiErr(err));
     } else if (cmdName === "downvote") {
       const uuid = nested("uuid");
