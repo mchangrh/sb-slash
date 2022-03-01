@@ -149,7 +149,7 @@ const categorySelect = ({ interaction, response }) => {
 
 const typeSelect = ({ interaction, response }) => {
   const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
-  lockOptions.actionType = interaction.data.values;
+  lockOptions.actionTypes = interaction.data.values;
   const nextComponent = lockOptions.reason ? submitButton : cannedReason;
   const embed = lockResponse(lockOptions);
   return response({
