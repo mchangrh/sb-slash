@@ -3,6 +3,11 @@ const defaultResponse = (content) => ({
   data: { content, flags: 64 }
 });
 
+const showResponse = (content) => ({
+  type: 4,
+  data: { content }
+});
+
 // invalid input
 const invalidInput = (property) => defaultResponse(`Sorry, that doesn't appear to be a valid ${property}`);
 const invalidVideoID = invalidInput("Video ID");
@@ -14,10 +19,10 @@ const videoIDNotFound = defaultResponse("Sorry there doesn't seem to be any vide
 const noStoredID = defaultResponse("Sorry, there don't seem to be any set userIDs for this Discord user");
 const usernameNotFound = defaultResponse("Sorry, there doesn't seem to be any users with that username. The search **is** case-sensitive.");
 const segmentNotFound = defaultResponse("Sorry, there doesn't seem to be any segments with that ID");
-const noSegments = defaultResponse("No Segments Found");
+const noSegments = showResponse("No Segments Found");
 
 // timeout
-const timeoutResponse = defaultResponse("Error: connection timed out");
+const timeoutResponse = showResponse("Error: SponsorBlock server timed out");
 
 // not VIP
 const notVIP = defaultResponse("Sorry, this is only available to VIP users");
