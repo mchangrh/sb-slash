@@ -1,22 +1,32 @@
 const findOption = (interaction, optName) => (interaction.data.options.find((opt) => opt.name === optName)?.value);
 const findOptionString = (interaction, optName, fallback="") => ((findOption(interaction, optName) || fallback).trim());
 
+// base options
+const userOption = {
+  name: "user",
+  description: "The user to get info for",
+  type: 6
+};
+const videoID = {
+  name: "videoid",
+  description: "Video ID",
+  type: 3
+};
+
+// exported
 const hideOption = {
   name: "hide",
   description: "Only you can see the response",
   type: 5,
   required: false
 };
+
 const videoIDOptional = {
-  name: "videoid",
-  description: "Video ID",
-  type: 3,
+  ...videoID,
   required: false
 };
-const videoIDOption = {
-  name: "videoid",
-  description: "Video ID",
-  type: 3,
+const videoIDRequired = {
+  ...videoID,
   required: true
 };
 const segmentIDOption = {
@@ -37,11 +47,6 @@ const publicIDOptionRequired = {
 const publicIDOptionOptional = {
   ...publicIDOption,
   required: false
-};
-const userOption = {
-  name: "user",
-  description: "The user to get info for",
-  type: 6
 };
 const userOptionOptional = {
   ...userOption,
@@ -89,7 +94,7 @@ const categoryOption = {
 
 module.exports = {
   hideOption,
-  videoIDOption,
+  videoIDRequired,
   videoIDOptional,
   segmentIDOption,
   publicIDOptionRequired,

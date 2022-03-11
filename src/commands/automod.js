@@ -1,6 +1,6 @@
 const { contentResponse, formatAutomodInfo } = require("../util/formatResponse.js");
 const { sendAutoMod } = require("../util/automod.js");
-const { videoIDOptional, videoIDOption } = require("../util/commandOptions.js");
+const { videoIDOptional, videoIDRequired } = require("../util/commandOptions.js");
 const { info } = require("../util/automod_api.js");
 
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
     name: "share",
     description: "Share segment suggestion",
     type: 1,
-    options: [videoIDOption]
+    options: [videoIDRequired]
   }, {
     name: "info",
     description: "Get database stats",

@@ -1,7 +1,7 @@
 const { axiosResponse } = require("../util/formatResponse.js");
 const { notVIP, invalidVideoID } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
-const { videoIDOption, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired } = require("../util/commandOptions.js");
+const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired } = require("../util/commandOptions.js");
 const { checkVIP, getSBID, vipMap } = require("../util/cfkv.js");
 const { actionRow, lockResponse, categoryComponent } = require("../util/lockCommon.js");
 const { log } = require("../util/log.js");
@@ -19,12 +19,12 @@ module.exports = {
     name: "cache",
     description: "Clear redis cache for a video",
     type: 1,
-    options: [ videoIDOption ]
+    options: [ videoIDRequired ]
   }, {
     name: "purge",
     description: "Purge all segments on a video",
     type: 1,
-    options: [ videoIDOption ]
+    options: [ videoIDRequired ]
   }, {
     name: "upvote",
     description: "Upvote a segment",
@@ -64,7 +64,7 @@ module.exports = {
     name: "lock",
     description: "Lock categories",
     type: 1,
-    options: [ videoIDOption, {
+    options: [ videoIDRequired, {
       name: "reason",
       description: "Custom lock reason",
       type: 3

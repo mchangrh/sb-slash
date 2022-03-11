@@ -1,7 +1,7 @@
 const { getSearchSegments, timeout } = require("../util/min-api.js");
 const { formatSearchSegments } = require("../util/formatResponse.js");
 const { findVideoID } = require("../util/validation.js");
-const { videoIDOption, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { videoIDRequired, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
 const { invalidVideoID, timeoutResponse, noSegments } = require("../util/invalidResponse.js");
 const { searchSegmentsComponents } = require("../util/components.js");
 const [ INTEGER, BOOLEAN ] = [4, 5];
@@ -10,7 +10,7 @@ module.exports = {
   name: "searchsegments",
   description: "Get All Segments on Video",
   options: [
-    videoIDOption, {
+    videoIDRequired, {
       name: "page",
       description: "Page of response",
       type: INTEGER,

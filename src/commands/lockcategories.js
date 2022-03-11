@@ -1,14 +1,14 @@
 const { getLockCategories, timeout } = require("../util/min-api.js");
 const { formatLockCategories } = require("../util/formatResponse.js");
 const { findVideoID } = require("../util/validation.js");
-const { hideOption, videoIDOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { hideOption, videoIDRequired, findOption, findOptionString } = require("../util/commandOptions.js");
 const { timeoutResponse, invalidVideoID } = require("../util/invalidResponse.js");
 
 module.exports = {
   name: "lockcategories",
   description: "retrieves video lock categories",
   options: [
-    videoIDOption,
+    videoIDRequired,
     hideOption
   ],
   execute: async ({ interaction, response }) => {

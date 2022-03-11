@@ -1,14 +1,14 @@
 const { getLockReason, timeout } = require("../util/min-api.js");
 const { formatLockReason } = require("../util/formatResponse.js");
 const { findVideoID } = require("../util/validation.js");
-const { hideOption, videoIDOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { hideOption, videoIDRequired, findOption, findOptionString } = require("../util/commandOptions.js");
 const { timeoutResponse } = require("../util/invalidResponse.js");
 
 module.exports = {
   name: "lockreason",
   description: "retrieves video lock reason & lock uesrs",
   options: [
-    videoIDOption,
+    videoIDRequired,
     hideOption
   ],
   execute: async ({ interaction, response }) => {
