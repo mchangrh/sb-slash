@@ -208,10 +208,8 @@ const segmentsNotFoundEmbed = (videoID) => {
   };
 };
 
-const formatSkipSegments = (videoID, result) => {
-  if (result === "Not Found") return segmentsNotFoundEmbed(videoID);
+const formatSkipSegments = (videoID, parsed) => {
   const embed = emptyVideoEmbed(videoID);
-  const parsed = JSON.parse(result);
   embed.description = `**Segments:** ${parsed.length}`;
   for (const segment of parsed) {
     const [ startTime, endTime ] = segment.segment;
@@ -487,5 +485,6 @@ module.exports = {
   embedResponse,
   axiosResponse,
   secondsToTime,
-  formatAutomodInfo
+  formatAutomodInfo,
+  segmentsNotFoundEmbed
 };

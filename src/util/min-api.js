@@ -1,12 +1,9 @@
 const BASEURL = "https://sponsor.ajay.app/api";
-const timeout = scheduler.wait(2000);
 const { TYPES } = require("sb-category-type");
 const typesString = `&actionTypes=${JSON.stringify(TYPES)}`;
 
-const getSkipSegments = (videoID, categoryParam) => {
-  const url = `${BASEURL}/skipSegments?videoID=${videoID}&${categoryParam}${typesString}`;
-  return fetch(url).then((res) => res.text());
-};
+const getSkipSegments = (videoID, categoryParam) =>
+  fetch(`${BASEURL}/skipSegments?videoID=${videoID}&${categoryParam}${typesString}`);
 
 const getSearchSegments = (videoID, page, filterParam) => {
   const url = `${BASEURL}/searchSegments?videoID=${videoID}${typesString}&page=${page}${filterParam}`;
@@ -119,7 +116,7 @@ const getBanStatus = (publicid) => {
 };
 
 module.exports = {
-  timeout,
+  TIMEOUT: 2500,
   getResponseTime,
   getSkipSegments,
   getSearchSegments,

@@ -22,7 +22,7 @@ const segmentNotFound = defaultResponse("Sorry, there doesn't seem to be any seg
 const noSegments = showResponse("No Segments Found");
 
 // timeout
-const timeoutResponse = showResponse("Error: SponsorBlock server timed out");
+const timeoutResponse = showResponse("Error: SponsorBlock server did not respond in time");
 
 // not VIP
 const notVIP = defaultResponse("Sorry, this is only available to VIP users");
