@@ -50,12 +50,12 @@ module.exports = {
     // fetch
     const subreq = await Promise.race([getSkipSegments(videoID, categoryParam), scheduler.wait(TIMEOUT)]);
     const result = await responseHandler(subreq);
-    if (result.success === true) {
+    if (result.success) {
       if (json) {
-        const stringified = JSON.stringify(parsed, null, 4);
+        const stringified = JSON.stringify(result.data, null, 4);
         responseEmbed.data.content = "```json\n"+stringified+"```";
       } else {
-        responseEmbed.data.embeds = [formatSkipSegments(videoID, parsed)];
+        responseEmbed.data.embeds = [formatSkipSegments(videoID, result.data)];
       }
       return response(responseEmbed);
     } else {

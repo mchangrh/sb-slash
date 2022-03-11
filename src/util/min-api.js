@@ -5,10 +5,8 @@ const typesString = `&actionTypes=${JSON.stringify(TYPES)}`;
 const getSkipSegments = (videoID, categoryParam) =>
   fetch(`${BASEURL}/skipSegments?videoID=${videoID}&${categoryParam}${typesString}`);
 
-const getSearchSegments = (videoID, page, filterParam) => {
-  const url = `${BASEURL}/searchSegments?videoID=${videoID}${typesString}&page=${page}${filterParam}`;
-  return fetch(url).then((res) => res.text());
-};
+const getSearchSegments = (videoID, page, filterParam) =>
+  fetch(`${BASEURL}/searchSegments?videoID=${videoID}${typesString}&page=${page}${filterParam}`);
 
 const getUserInfo = (publicid) => {
   const url = `${BASEURL}/userInfo?publicUserID=${publicid}`;

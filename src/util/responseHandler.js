@@ -21,8 +21,8 @@ const responseHandler = async (response) => {
     return { success: false, error: `Error ${response.status}: ${statusTextMap[response.status] ?? ""}`, code: response.status };
   }
   try {
-    const jsonData = await response.json();
-    return { success: true, jsonData};
+    const data = await response.json();
+    return { success: true, data};
   } catch (err) {
     if (err.name == "SyntaxError") {
       return { success: false, error: "SyntaxError", code: "SyntaxError" };
