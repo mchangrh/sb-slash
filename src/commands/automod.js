@@ -96,9 +96,7 @@ module.exports = {
       const embed = await formatAutomodInfo(data);
       return response({
         type: 4,
-        data: {
-          embeds: [embed]
-        }
+        data: { embeds: [embed]}
       });
     }
   }

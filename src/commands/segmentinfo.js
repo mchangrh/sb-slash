@@ -2,9 +2,8 @@ const { segmentStrictCheck } = require("../util/validation.js");
 const { formatSegment } = require("../util/formatResponse.js");
 const { segmentComponents } = require("../util/components.js");
 const { invalidSegment, segmentNotFound, timeoutResponse, defaultResponse } = require("../util/invalidResponse.js");
-const { getSegmentInfo, TIMEOUT } = require("../util/min-api.js");
+const { getSegmentInfo, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { hideOption, segmentIDOption, findOption, findOptionString } = require("../util/commandOptions.js");
-const { responseHandler } = require("../util/responseHandler.js");
 
 module.exports = {
   name: "segmentinfo",

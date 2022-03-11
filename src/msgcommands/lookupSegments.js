@@ -1,8 +1,7 @@
 const { findVideoID, findSegmentUUID } = require("../util/validation.js");
 const { videoIDNotFound } = require("../util/invalidResponse.js");
-const { getSearchSegments, getSegmentInfo } = require("../util/min-api.js");
+const { getSearchSegments, getSegmentInfo, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { formatSearchSegments } = require("../util/formatResponse.js");
-const { noSegments } = require("../util/invalidResponse.js");
 const { searchSegmentsComponents } = require("../util/components.js");
 
 module.exports = {
@@ -17,16 +16,33 @@ module.exports = {
     const segmentData = segmentUUID ? await getSegmentInfo(segmentUUID) : null;
     const videoID = segmentData?.[0].videoID || findVideoID(searchString);
     if (!videoID) return response(videoIDNotFound);
+    // setup
+    const responseEmbed = {
+      type: 4, data: { flags: 64 }
+    };
     // fetch
-    const body = await getSearchSegments(videoID, 0, "");
-    if (body == "Not Found") return response(noSegments);
-    return response({
-      type: 4,
-      data: {
-        embeds: [formatSearchSegments(videoID, body, {page: 0, videoID})],
-        flags: 64,
-        components: searchSegmentsComponents(body)
+    const subreq = await Promise.race([getSearchSegments(videoID, 0, ""), scheduler.wait(TIMEOUT)]);
+    const result = await responseHandler(subreq);
+    if (result.success) {
+      return response({
+        ...responseEmbed,
+        data: {
+          embeds: [formatSearchSegments(body)],
+          components: searchSegmentsComponents(body)
+        }
+      });
+    } else {
+      // error responses
+      if (result.error === "timeout") {
+        return response(timeoutResponse);
+      } else if (result.code === 404 ) {
+        return response({
+          ...responseEmbed,
+          data: { embeds: [segmentsNotFoundEmbed(videoID)] }
+        });
+      } else {
+        return response(defaultResponse(result.error));
       }
-    });
+    }
   }
 };

@@ -19,7 +19,6 @@ const videoIDNotFound = defaultResponse("Sorry there doesn't seem to be any vide
 const noStoredID = defaultResponse("Sorry, there don't seem to be any set userIDs for this Discord user");
 const usernameNotFound = defaultResponse("Sorry, there doesn't seem to be any users with that username. The search **is** case-sensitive.");
 const segmentNotFound = defaultResponse("Sorry, there doesn't seem to be any segments with that ID");
-const noSegments = showResponse("No Segments Found");
 
 // timeout
 const timeoutResponse = showResponse("Error: SponsorBlock server did not respond in time");
@@ -38,6 +37,5 @@ module.exports = {
   usernameNotFound,
   videoIDNotFound,
   noOptions,
-  notVIP,
-  noSegments
+  notVIP
 };

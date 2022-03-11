@@ -1,11 +1,10 @@
 const { CATEGORY_NAMES, CATEGORY_LONGNAMES } = require("sb-category-type");
 const ALL_CATEGORIES = `categories=${JSON.stringify(CATEGORY_NAMES)}`;
-const { getSkipSegments, TIMEOUT } = require("../util/min-api.js");
+const { getSkipSegments, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { formatSkipSegments, segmentsNotFoundEmbed } = require("../util/formatResponse.js");
 const { invalidVideoID, timeoutResponse, defaultResponse } = require("../util/invalidResponse.js");
 const { findVideoID } = require("../util/validation.js");
 const { videoIDRequired, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
-const { responseHandler } = require("../util/responseHandler.js");
 
 const categoryChoices = Object.entries(CATEGORY_LONGNAMES).map((obj) => {
   return { name: obj[0], value: obj[1] };
@@ -43,9 +42,7 @@ module.exports = {
     // setup
     let responseEmbed = {
       type: 4,
-      data: {
-        flags: (hide ? 64 : 0)
-      }
+      data: { flags: (hide ? 64 : 0) }
     };
     // fetch
     const subreq = await Promise.race([getSkipSegments(videoID, categoryParam), scheduler.wait(TIMEOUT)]);
