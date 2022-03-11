@@ -1,5 +1,5 @@
 const ML_URL = "https://sb-ml.mchang.xyz";
-const AUTH_URL = (path) => new URL(`${ML_URL}/${path}?auth=${ML_AUTH}`);
+const AUTH_URL = (path) => new URL(`${ML_URL}/ml/${path}?auth=${ML_AUTH}`);
 
 exports.get = (options) => {
   const url = AUTH_URL("get");
