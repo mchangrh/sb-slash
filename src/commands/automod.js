@@ -1,7 +1,8 @@
-const { contentResponse, formatAutomodInfo } = require("../util/formatResponse.js");
+const { formatAutomodInfo } = require("../util/formatResponse.js");
 const { sendAutoMod } = require("../util/automod.js");
 const { videoIDOptional, videoIDRequired } = require("../util/commandOptions.js");
 const { info } = require("../util/automod_api.js");
+const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "automod",
@@ -47,6 +48,13 @@ module.exports = {
     const findNestedOption = (name) => (rootOptions?.options.find((opt) => opt.name === name))?.value;
     const cmdName = rootOptions.name;
     const dID = interaction?.member?.user.id || interaction.user.id;
+    // allowList check
+    if (cmdName === "get" || cmdName === "share") {
+      const allowList = await NAMESPACE.get("ml_allow", { type: "json" });
+      if (!allowList.allow.includes(dID))
+        return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));
+    }
+    // run commands
     if (cmdName === "acceptterms") {
       return response({
         type: 4,
@@ -70,34 +78,21 @@ module.exports = {
         }
       });
     } else if (cmdName === "get") {
-      const allowList = await NAMESPACE.get("ml_allow", { type: "json" });
-      if (allowList.allow.includes(dID)) {
-        const video_id = findNestedOption("videoid");
-        const category = findNestedOption("category");
-        const batch = findNestedOption("batch");
-        const message = await sendAutoMod({edit: false, video_id, category, batch});
-        return response(message);
-      } else {
-        return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));
-      }
+      const video_id = findNestedOption("videoid");
+      const category = findNestedOption("category");
+      const batch = findNestedOption("batch");
+      const message = await sendAutoMod({edit: false, video_id, category, batch});
+      return response(message);
     } else if (cmdName === "share") {
-      const allowList = await NAMESPACE.get("ml_allow", { type: "json" });
-      if (allowList.allow.includes(dID)) {
-        const video_id = findNestedOption("videoid");
-        const message = await sendAutoMod({edit: false, video_id });
-        delete message.data?.components;
-        message.data.flags = 0;
-        return response(message);
-      } else {
-        return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));
-      }
+      const video_id = findNestedOption("videoid");
+      const message = await sendAutoMod({edit: false, video_id });
+      delete message.data?.components;
+      message.data.flags = 0;
+      return response(message);
     } else if (cmdName === "info") {
       const data = await info().then((res) => res.json());
       const embed = await formatAutomodInfo(data);
-      return response({
-        type: 4,
-        data: { embeds: [embed]}
-      });
+      return response(embedResponse(embed, false));
     }
   }
 };

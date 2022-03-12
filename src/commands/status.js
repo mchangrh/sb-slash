@@ -2,6 +2,7 @@ const { formatStatus } = require("../util/formatResponse.js");
 const { timeoutResponse } = require("../util/invalidResponse.js");
 const { getStatus, TIMEOUT } = require("../util/min-api.js");
 const { hideOption, findOption } = require("../util/commandOptions.js");
+const { embedResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "status",
@@ -13,12 +14,6 @@ module.exports = {
     const statusRes = await Promise.race([getStatus(), scheduler.wait(TIMEOUT)]);
     if (!statusRes) return response(timeoutResponse);
     const embed = await formatStatus(statusRes);
-    return response({
-      type: 4,
-      data: {
-        embeds: [embed],
-        flags: (hide ? 64 : 0)
-      }
-    });
+    return response(embedResponse(embed, hide));
   }
 };

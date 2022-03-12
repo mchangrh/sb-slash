@@ -24,15 +24,11 @@ const getSegmentInfo = (segmentid) =>
 const getUserID = (searchString, exact) =>
   fetch(`${BASEURL}/userID?username=${searchString}&exact=${exact}`);
 
-const getLockCategories = (videoID) => {
-  const url = `${BASEURL}/lockCategories?videoID=${videoID}`;
-  return fetch(url).then((res) => res.text());
-};
+const getLockCategories = (videoID) =>
+  fetch(`${BASEURL}/lockCategories?videoID=${videoID}`);
 
-const getLockReason = (videoID) => {
-  const url = `${BASEURL}/lockReason?videoID=${videoID}`;
-  return fetch(url).then((res) => res.json());
-};
+const getLockReason = (videoID) =>
+  fetch(`${BASEURL}/lockReason?videoID=${videoID}`);
 
 const getStatus = () => fetch(`${BASEURL}/status`);
 

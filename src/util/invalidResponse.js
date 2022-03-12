@@ -1,33 +1,24 @@
-const defaultResponse = (content) => ({
-  type: 4,
-  data: { content, flags: 64 }
-});
-
-const showResponse = (content) => ({
-  type: 4,
-  data: { content }
-});
+const { contentResponse } = require("../util/discordResponse.js");
+const invalidInput = (property) => contentResponse(`Sorry, that doesn't appear to be a valid ${property}`);
 
 // invalid input
-const invalidInput = (property) => defaultResponse(`Sorry, that doesn't appear to be a valid ${property}`);
 const invalidVideoID = invalidInput("Video ID");
 const invalidPublicID = invalidInput("Public User ID");
 const invalidSegment = invalidInput("Segment ID");
-const noOptions = defaultResponse("No options provided");
+const noOptions = contentResponse("No options provided");
 
-const videoIDNotFound = defaultResponse("Sorry there doesn't seem to be any video links in this message");
-const noStoredID = defaultResponse("Sorry, there don't seem to be any set userIDs for this Discord user");
-const usernameNotFound = defaultResponse("Sorry, there doesn't seem to be any users with that username. The search **is** case-sensitive.");
-const segmentNotFound = defaultResponse("Sorry, there doesn't seem to be any segments with that ID");
+const videoIDNotFound = contentResponse("Sorry there doesn't seem to be any video links in this message");
+const noStoredID = contentResponse("Sorry, there don't seem to be any set userIDs for this Discord user");
+const usernameNotFound = contentResponse("Sorry, there doesn't seem to be any users with that username. The search **is** case-sensitive.");
+const segmentNotFound = contentResponse("Sorry, there doesn't seem to be any segments with that ID");
 
 // timeout
-const timeoutResponse = showResponse("Error: SponsorBlock server did not respond in time");
+const timeoutResponse = contentResponse("Error: SponsorBlock server did not respond in time");
 
 // not VIP
-const notVIP = defaultResponse("Sorry, this is only available to VIP users");
+const notVIP = contentResponse("Sorry, this is only available to VIP users");
 
 module.exports = {
-  defaultResponse,
   timeoutResponse,
   invalidSegment,
   invalidPublicID,
