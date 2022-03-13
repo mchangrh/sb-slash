@@ -57,7 +57,7 @@ module.exports = {
     // get params from discord
     let videoID = findOptionString(interaction, "videoid");
     const page = findOption(interaction, "page")-1 || 0;
-    const hide = findOption(interaction, "hide");
+    const hide = findOption(interaction, "hide") ?? false;
     // construct URL with filters
     const filterObj = {
       minVotes: findOption(interaction, "minvotes"),

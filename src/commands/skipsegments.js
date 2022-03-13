@@ -28,7 +28,7 @@ module.exports = {
     // get params from discord
     let videoID = findOptionString(interaction, "videoid");
     const category = findOptionString(interaction, "category", "all");
-    const hide = findOption(interaction, "hide");
+    const hide = findOption(interaction, "hide") ?? false;
     // construct URL
     const categoryParam = (category === "all") ? ALL_CATEGORIES : `category=${category}`;
     // check for video ID

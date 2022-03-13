@@ -1,8 +1,9 @@
 const { formatShowoff } = require("../util/formatResponse.js");
 const { invalidPublicID, timeoutResponse } = require("../util/invalidResponse.js");
-const { getUserInfoShowoff, TIMEOUT } = require("../util/min-api.js");
+const { getUserInfoShowoff, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
 const { publicIDOptionRequired, findOptionString } = require("../util/commandOptions.js");
+const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "showoff",

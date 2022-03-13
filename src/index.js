@@ -17,8 +17,7 @@ const buttons = [
 ];
 const messageCmd = {
   "Lookup Segments": "lookupSegments",
-  "Open in sb.ltn.fi": "openinsbltnfi",
-  "Replace with sb.ltn.fi links": "replacelinks"
+  "Open in sb.ltn.fi": "openinsbltnfi"
 };
 
 // Util to send a JSON response

@@ -15,7 +15,7 @@ module.exports = {
   execute: async ({ interaction, response }) => {
     // get params from discord
     const segmentid = findOptionString(interaction, "segmentid");
-    const hide = findOption(interaction, "hide");
+    const hide = findOption(interaction, "hide") ?? false;
     // check for invalid segmentid
     if (!segmentStrictCheck(segmentid)) return response(invalidSegment);
     // fetch

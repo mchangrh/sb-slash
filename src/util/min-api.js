@@ -8,10 +8,8 @@ const getSkipSegments = (videoID, categoryParam) =>
 const getSearchSegments = (videoID, page, filterParam) =>
   fetch(`${BASEURL}/searchSegments?videoID=${videoID}${typesString}&page=${page}${filterParam}`);
 
-const getUserInfo = (publicid) => {
-  const url = `${BASEURL}/userInfo?publicUserID=${publicid}`;
-  return fetch(url).then((res) => res.json());
-};
+const getUserInfo = (publicid) =>
+  fetch(`${BASEURL}/userInfo?publicUserID=${publicid}`);
 
 const getUserInfoShowoff = (publicid) =>
   fetch(`${BASEURL}/userInfo?publicUserID=${publicid}&values=["segmentCount", "viewCount", "minutesSaved", "userName", "vip"]`);
@@ -28,12 +26,11 @@ const getLockCategories = (videoID) =>
 const getLockReason = (videoID) =>
   fetch(`${BASEURL}/lockReason?videoID=${videoID}`);
 
-const getStatus = () => fetch(`${BASEURL}/status`);
+const getStatus = () =>
+  fetch(`${BASEURL}/status`);
 
-const getUserStats = (userID) => {
-  const url = `${BASEURL}/userStats?publicUserID=${userID}&fetchCategoryStats=true&fetchActionTypeStats=true`;
-  return fetch(url).then((res) => res.json());
-};
+const getUserStats = (userID) =>
+  fetch(`${BASEURL}/userStats?publicUserID=${userID}&fetchCategoryStats=true&fetchActionTypeStats=true`);
 
 const getResponseTime = () => {
   const url = "https://sb-status.mchang.xyz/all";

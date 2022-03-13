@@ -149,8 +149,10 @@ const formatUserID = (result) => {
 
 async function getLastSegmentTime(lastSegmentID) {
   if (!lastSegmentID) return null;
-  const segmentParse = await getSegmentInfo(lastSegmentID);
-  return segmentParse ? segmentParse[0].timeSubmitted : null;
+  const segmentParse = await getSegmentInfo(lastSegmentID)
+    .then((res) => res.json())
+    .catch(() => null);
+  return segmentParse?.[0]?.timeSubmitted;
 }
 
 const deepEquals = (a,b) => {

@@ -15,7 +15,7 @@ module.exports = {
   execute: async ({ interaction, response }) => {
     // get params from discord
     let videoID = findOptionString(interaction, "videoid");
-    const hide = findOption(interaction, "hide");
+    const hide = findOption(interaction, "hide") ?? false;
     // check for video ID
     videoID = findVideoID(videoID) || videoID;
     if (!videoID) return response(invalidVideoID);

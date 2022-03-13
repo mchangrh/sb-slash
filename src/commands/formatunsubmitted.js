@@ -16,7 +16,7 @@ module.exports = {
     // get params from discord
     let binID = findOptionString(interaction, "binid");
     if (regex.test(binID)) binID = binID.match(regex)[1];
-    const hide = findOption(interaction, "hide");
+    const hide = findOption(interaction, "hide") ?? true;
     const url = `https://bin.mchang.xyz/b/${binID}`;
     // fetch
     const result = await fetch(url);

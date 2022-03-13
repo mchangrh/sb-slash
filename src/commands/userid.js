@@ -23,7 +23,7 @@ module.exports = {
     // get params from discord
     const username = findOptionString(interaction, "username");
     const exact = findOption(interaction, "exact");
-    const hide = findOption(interaction, "hide");
+    const hide = findOption(interaction, "hide") ?? false;
     // fetch
     const subreq = await Promise.race([getUserID(username, exact), scheduler.wait(TIMEOUT)]);
     const result = await responseHandler(subreq);

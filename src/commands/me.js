@@ -6,6 +6,7 @@ const { userStrictCheck } = require("../util/validation.js");
 const { hideOption, publicIDOptionRequired, pieChartOption } = require("../util/commandOptions.js");
 const { getSBID } = require("../util/cfkv.js");
 const [SUBCOMMAND, GROUP] = [1, 2];
+const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 
 const findNestedOption = (rootOptions, name) => (rootOptions?.options.find((opt) => opt.name === name))?.value;
 
@@ -52,13 +53,22 @@ module.exports = {
     ]
   }],
   execute: async ({ interaction, response }) => {
+    const handleError = (result) => {
+      if (result.error === "timeout") {
+        return response(timeoutResponse);
+      } else if (result.code === 404 ) {
+        return response(embedResponse(segmentsNotFoundEmbed(videoID), hide));
+      } else {
+        return response(contentResponse(result.error), true);
+      }
+    };
     // set up constants
     const dUser = interaction?.member?.user || interaction.user;
     const dID = dUser.id;
     const dUserName = `${dUser.username}#${dUser.discriminator}`;
     const rootOptions = interaction.data.options[0];
     const cmdName = rootOptions.name;
-    const hide = findNestedOption(rootOptions, "hide");
+    const hide = findNestedOption(rootOptions, "hide") ?? false;
     const piechart = findNestedOption(rootOptions, "piechart");
 
     // userid set
@@ -68,7 +78,7 @@ module.exports = {
       // delete if requested
       if (SBID == "delete") {
         await NAMESPACE.delete(dID);
-        return response(format.contentResponse(`Removed ID from ${dUserName}`, true));
+        return response(contentResponse(`Removed ID from ${dUserName}`, true));
       }
       // check for valid SBID
       if (!userStrictCheck(SBID)) return response(invalidPublicID);
@@ -77,43 +87,41 @@ module.exports = {
       const oldmap = await NAMESPACE.get("vipmap", { type: "json" });
       const newmap = JSON.stringify({ ...oldmap, [SBID]: dID });
       await NAMESPACE.put("vipmap", newmap);
-      return response(format.contentResponse(`Associated \`${SBID}\` with **\`${dUserName}\`**`, false));
+      return response(contentResponse(`Associated \`${SBID}\` with **\`${dUserName}\`**`, false));
     } else {
-      let embed;
       const SBID = await getSBID(dID); // get SBID
       if (SBID === null) return response(noStoredID); // if no stored, return error
       // userid get
       if (cmdName === "userid") { // userid get
-        return response(format.contentResponse(`**\`${dUserName}\`** has associated with \`${SBID}\``, false));
+        return response(contentResponse(`**\`${dUserName}\`** has associated with \`${SBID}\``, false));
       } else if (cmdName === "userinfo") { // userinfo
-        const res = await Promise.race([api.getUserInfo(SBID), api.timeout]);
-        if (!res) return response(timeoutResponse);
-        const timeSubmitted = await format.getLastSegmentTime(res.lastSegmentID);
-        return response({
-          type: 4,
-          data: {
-            embeds: [format.formatUser(res, timeSubmitted)],
-            components: userComponents(SBID, false),
-            flags: (hide ? 64 : 0)
-          }
-        });
+        const subreq = await Promise.race([api.getUserInfo(SBID), scheduler.wait(api.TIMEOUT)]);
+        const result = await api.responseHandler(subreq);
+        if (result.success) { // no request errors
+          const timeSubmitted = await format.getLastSegmentTime(result.data.lastSegmentID);
+          return response({
+            type: 4,
+            data: {
+              embeds: [format.formatUser(result.data, timeSubmitted)],
+              components: userComponents(SBID, false),
+              flags: (hide ? 64 : 0)
+            }
+          });
+        } else handleError(result);
       } else if (cmdName === "showoff") { // showoff
-        const res = await Promise.race([api.getUserInfoShowoff(SBID), api.timeout]);
-        if (!res) return response(timeoutResponse);
-        embed = format.formatShowoff(SBID, res);
+        const subreq = await Promise.race([api.getUserInfoShowoff(SBID), scheduler.wait(api.TIMEOUT)]);
+        const result = await api.responseHandler(subreq);
+        if (result.success) { // no request errors
+          return response(embedResponse(format.formatShowoff(SBID, result.data), false));
+        } else handleError(result);
       } else if (cmdName === "userstats") { // userstats
         const sort = findNestedOption(rootOptions, "sort");
-        const res = await Promise.race([api.getUserStats(SBID), api.timeout]);
-        if (!res) return response(timeoutResponse);
-        embed = format.formatUserStats(SBID, res, sort, piechart);
+        const subreq = await Promise.race([api.getUserStats(SBID), scheduler.wait(api.TIMEOUT)]);
+        const result = await api.responseHandler(subreq);
+        if (result.success) { // no request errors
+          return response(embedResponse(format.formatUserStats(SBID, result.data, sort, piechart), hide));
+        } else handleError(result);
       }
-      return response({ // misc response
-        type: 4,
-        data: {
-          embeds: [embed],
-          flags: (hide ? 64 : 0)
-        }
-      });
     }
   }
 };
