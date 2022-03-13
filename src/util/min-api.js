@@ -13,10 +13,8 @@ const getUserInfo = (publicid) => {
   return fetch(url).then((res) => res.json());
 };
 
-const getUserInfoShowoff = (publicid) => {
-  const url = `${BASEURL}/userInfo?publicUserID=${publicid}&values=["segmentCount", "viewCount", "minutesSaved", "userName", "vip"]`;
-  return fetch(url).then((res) => res.json());
-};
+const getUserInfoShowoff = (publicid) =>
+  fetch(`${BASEURL}/userInfo?publicUserID=${publicid}&values=["segmentCount", "viewCount", "minutesSaved", "userName", "vip"]`);
 
 const getSegmentInfo = (segmentid) =>
   fetch(`${BASEURL}/segmentInfo?UUID=${segmentid}`);

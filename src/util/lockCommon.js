@@ -1,5 +1,5 @@
 const { vip } = require("./min-api.js");
-const { EMOJI_ID_MAP } = require("sb-category-type");
+const { EMOJI_ID_MAP, CATEGORY_LONGNAMES } = require("sb-category-type");
 
 function actionRow(component) {
   return [{
@@ -39,6 +39,11 @@ const lockLog = (user, embed) => {
   };
   return fetch(LOGGING_WEBHOOK, request);
 };
+
+const categoryOptions = Object.entries(CATEGORY_LONGNAMES).map((obj) => {
+  return { label: obj[0], value: obj[1], emoji: EMOJI_ID_MAP[obj[1]] };
+});
+
 const categoryComponent = {
   // category select
   type: 3,
@@ -46,37 +51,7 @@ const categoryComponent = {
   placeholder: "Choose Categories",
   min_values: 1,
   max_values: 10,
-  options:[{
-    value: "sponsor", label: "Sponsor",
-    emoji: EMOJI_ID_MAP["sponsor"]
-  }, {
-    value: "selfpromo", label: "Unpaid/Self Promotion",
-    emoji: EMOJI_ID_MAP["selfpromo"]
-  }, {
-    value: "interaction", label: "Interaction Reminder (Subscribe)",
-    emoji: EMOJI_ID_MAP["interaction_reminder"]
-  }, {
-    value: "intro", label: "Intermission/Intro Animation",
-    emoji: EMOJI_ID_MAP["intro"]
-  }, {
-    value: "outro", label: "Endcards/Credits (Outro)",
-    emoji: EMOJI_ID_MAP["outro"]
-  }, {
-    value: "preview", label: "Preview/Recap",
-    emoji: EMOJI_ID_MAP["preview"]
-  }, {
-    value: "music_offtopic", label: "Music: Non-Music Section",
-    emoji: EMOJI_ID_MAP["nonmusic"]
-  }, {
-    value: "poi_highlight", label: "Highlight",
-    emoji: EMOJI_ID_MAP["highlight"]
-  }, {
-    value: "filler", label: "Filler Tangent/ Jokes",
-    emoji: EMOJI_ID_MAP["filler"]
-  }, {
-    value: "exclusive_access", label: "Exclusive Access",
-    emoji: EMOJI_ID_MAP["exclusive_access"]
-  }]
+  options: categoryOptions
 };
 
 const typeComponent = {
@@ -124,7 +99,7 @@ const cannedReason = {
     emoji: EMOJI_ID_MAP["selfpromo"]
   }, {
     value: "Intermission used as Highlight", label: "Intermission used as Highlight",
-    emoji: EMOJI_ID_MAP["highlight"]
+    emoji: EMOJI_ID_MAP["poi_highlight"]
   }, {
     value: "Preview over spoken summary", label: "Preview over spoken summary",
     emoji: EMOJI_ID_MAP["preview"]
@@ -134,17 +109,21 @@ const cannedReason = {
   }]
 };
 
+const resusableResponse = (embed, component) => {
+  return {
+    type: 7,
+    data: {
+      embeds: [embed],
+      components: component
+    }
+  };
+};
+
 const categorySelect = ({ interaction, response }) => {
   const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
   lockOptions.categories = interaction.data.values;
   const embed = lockResponse(lockOptions);
-  return response({
-    type: 7,
-    data: {
-      embeds: [embed],
-      components: actionRow(typeComponent)
-    }
-  });
+  return response(resusableResponse(embed, actionRow(typeComponent)));
 };
 
 const typeSelect = ({ interaction, response }) => {
@@ -152,13 +131,7 @@ const typeSelect = ({ interaction, response }) => {
   lockOptions.actionTypes = interaction.data.values;
   const nextComponent = lockOptions.reason ? submitButton : cannedReason;
   const embed = lockResponse(lockOptions);
-  return response({
-    type: 7,
-    data: {
-      embeds: [embed],
-      components: actionRow(nextComponent)
-    }
-  });
+  return response(resusableResponse(embed, actionRow(nextComponent)));
 };
 
 const cannedReasonSelect = ({ interaction, response }) => {
@@ -166,13 +139,7 @@ const cannedReasonSelect = ({ interaction, response }) => {
   const lockReason = interaction.data.values[0];
   if (lockReason !== "no_reason") lockOptions.reason = lockReason;
   const embed = lockResponse(lockOptions);
-  return response({
-    type: 7,
-    data: {
-      embeds: [embed],
-      components: actionRow(submitButton)
-    }
-  });
+  return response(resusableResponse(embed, actionRow(submitButton)));
 };
 
 const submit = async ({ interaction, response }) => {
@@ -187,13 +154,7 @@ const submit = async ({ interaction, response }) => {
     embed.description = `error: ${result.statusText}`;
     embed.color = 0xff0000;
   }
-  return response({
-    type: 7,
-    data: {
-      embeds: [embed],
-      components: []
-    }
-  });
+  return response(resusableResponse(embed, []));
 };
 
 module.exports = {

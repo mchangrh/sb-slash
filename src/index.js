@@ -102,6 +102,8 @@ const handleInteraction = async ({ request, wait }) => {
   }
 };
 
+const redirect = (url) => new Response(null, { status: 301, headers: { "Location": url } });
+
 // Process all requests to the worker
 const handleRequest = async ({ request, wait }) => {
   const url = new URL(request.url);
@@ -113,26 +115,9 @@ const handleRequest = async ({ request, wait }) => {
   if (url.pathname === "/version")
     return textResponse(VERSION.substring(0,7));
   if (url.pathname === "/invite")
-    return new Response(null, {
-      status: 301,
-      headers: {
-        "Location": `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&scope=applications.commands`
-      }
-    });
-  if (url.pathname === "/vip")
-    return new Response(null, {
-      status: 301,
-      headers: {
-        "Location": "https://sponsor.ajay.app/api/isUserVIP?userID="
-      }
-    });
+    return redirect(`https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&scope=applications.commands`);
   if (url.pathname === "/")
-    return new Response(null, {
-      status: 301,
-      headers: {
-        "Location": "https://github.com/mchangrh/sb-slash#readme"
-      }
-    });
+    return redirect("https://github.com/mchangrh/sb-slash#readme");
   return new Response(null, { status: 404 });
 };
 

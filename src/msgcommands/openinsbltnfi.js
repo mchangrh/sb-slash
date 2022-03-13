@@ -1,5 +1,6 @@
 const { findVideoID, findSegmentUUID } = require("../util/validation.js");
 const { videoIDNotFound } = require("../util/invalidResponse.js");
+const { contentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   type: 3, // message command
@@ -12,12 +13,7 @@ module.exports = {
     const segmentUUID = findSegmentUUID(searchString);
     const videoID = findVideoID(searchString);
     if (!segmentUUID && !videoID) return response(videoIDNotFound);
-    return response({
-      type: 4,
-      data: {
-        content: segmentUUID ? `https://sb.ltn.fi/uuid/${segmentUUID}/` : `https://sb.ltn.fi/video/${videoID}/`,
-        flags: 64
-      }
-    });
+    const content = segmentUUID ? `https://sb.ltn.fi/uuid/${segmentUUID}/` : `https://sb.ltn.fi/video/${videoID}/`;
+    return response(contentResponse(content), true);
   }
 };
