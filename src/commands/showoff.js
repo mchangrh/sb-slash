@@ -1,8 +1,9 @@
 const { formatShowoff } = require("../util/formatResponse.js");
 const { invalidPublicID, timeoutResponse } = require("../util/invalidResponse.js");
-const { getUserInfoShowoff, timeout } = require("../util/min-api.js");
+const { getUserInfoShowoff, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
 const { publicIDOptionRequired, findOptionString } = require("../util/commandOptions.js");
+const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "showoff",
@@ -15,13 +16,16 @@ module.exports = {
     if (!userLinkCheck(publicid)) return response(invalidPublicID);
     const userID = userLinkExtract(publicid);
     // fetch
-    const res = await Promise.race([getUserInfoShowoff(userID), timeout]);
-    if (!res) return response(timeoutResponse);
-    return response({
-      type: 4,
-      data: {
-        embeds: [formatShowoff(userID, res)]
+    const subreq = await Promise.race([getUserInfoShowoff(userID), scheduler.wait(TIMEOUT)]);
+    const result = await responseHandler(subreq);
+    if (result.success) { // no request errors
+      return response(embedResponse(formatShowoff(userID, result.data), false));
+    } else { // handle error responses
+      if (result.error === "timeout") {
+        return response(timeoutResponse);
+      } else {
+        return response(contentResponse(result.error), true);
       }
-    });
+    }
   }
 };

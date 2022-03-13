@@ -15,13 +15,11 @@ breakdown of categories and types, with count and percentage
 get a list of segments 
 - videoid - YouTube ID of video to get segments for
 - categories - Categories to get segments for
-- json - Show JSON response (includes videoDuration)
 
 ### /searchsegments
 get all segments for a video based on filters
 - videoid - YouTube ID of video to get segments for
 - page - page number to start at
-- json - response in JSON format
 
 Filters (threshold to reach to be included in result)
 - minvotes - min # of votes
@@ -75,6 +73,7 @@ To delete the assocation with your discord ID, run `/me userid set delete` or re
 Get segment suggestions from [Xenova's Sponsorblock ML](https://github.com/xenova/sponsorblock-ml)
 - get - get suggestions for a video
 - load - load suggestions from AI evaluation
+- info - get info about automod suggestions
 - acceptterms - Accept [disclaimer](https://wiki.sponsor.ajay.app/w/Automating_Submissions) for automated/ segments
 
 ### /formatunsubmitted
@@ -102,9 +101,6 @@ which github short hash the bot is running
 
 ### /invite
 generates an invite link for the bot
-
-### /vip
-redirects you to the API for finding publicID from privateID
 
 ### /
 Redirect to the readme

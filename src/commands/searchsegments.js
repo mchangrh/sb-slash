@@ -1,10 +1,11 @@
-const { getSearchSegments, timeout } = require("../util/min-api.js");
-const { formatSearchSegments } = require("../util/formatResponse.js");
+const { getSearchSegments, responseHandler, TIMEOUT } = require("../util/min-api.js");
+const { formatSearchSegments, segmentsNotFoundEmbed } = require("../util/formatResponse.js");
 const { findVideoID } = require("../util/validation.js");
 const { videoIDRequired, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
-const { invalidVideoID, timeoutResponse, noSegments } = require("../util/invalidResponse.js");
+const { invalidVideoID, timeoutResponse } = require("../util/invalidResponse.js");
 const { searchSegmentsComponents } = require("../util/components.js");
 const [ INTEGER, BOOLEAN ] = [4, 5];
+const { contentResponse, embedResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "searchsegments",
@@ -56,17 +57,16 @@ module.exports = {
     // get params from discord
     let videoID = findOptionString(interaction, "videoid");
     const page = findOption(interaction, "page")-1 || 0;
-    const hide = findOption(interaction, "hide");
-    const json = findOption(interaction, "json");
+    const hide = findOption(interaction, "hide") ?? false;
     // construct URL with filters
     const filterObj = {
       minVotes: findOption(interaction, "minvotes"),
       maxVotes: findOption(interaction, "maxvotes"),
       minViews: findOption(interaction, "minviews"),
       maxViews: findOption(interaction, "maxviews"),
-      locked: findOption(interaction, "locked"),
-      hidden: findOption(interaction, "hidden"),
-      ignored: findOption(interaction, "ignored")
+      locked:   findOption(interaction, "locked"),
+      hidden:   findOption(interaction, "hidden"),
+      ignored:  findOption(interaction, "ignored")
     };
     let paramString = "";
     for (const [key, value] of Object.entries(filterObj)) {
@@ -76,20 +76,25 @@ module.exports = {
     videoID = findVideoID(videoID) || videoID;
     if (!videoID) return response(invalidVideoID);
     // fetch
-    const body = await Promise.race([getSearchSegments(videoID, page, paramString), timeout]);
-    if (!body) return response(timeoutResponse);
-    const responseTemplate = {
-      type: 4,
-      data: { flags: (hide ? 64 : 0) }
-    };
-    if (json) {
-      const stringified = (body == "Not Found" ? body : JSON.stringify(JSON.parse(body), null, 4));
-      responseTemplate.data.content = "```json\n"+stringified+"```";
+    const subreq = await Promise.race([getSearchSegments(videoID, page, paramString), scheduler.wait(TIMEOUT)]);
+    const result = await responseHandler(subreq);
+    if (result.success) {
+      const responseEmbed = {
+        type: 4,
+        data: { flags: (hide ? 64 : 0) }
+      };
+      responseEmbed.data.embeds = [formatSearchSegments(videoID, result.data, {...filterObj, page, videoID})];
+      responseEmbed.data.components = searchSegmentsComponents(result.data);
+      return response(responseEmbed);
     } else {
-      if (body == "Not Found") return response(noSegments);
-      responseTemplate.data.embeds = [formatSearchSegments(videoID, body, {...filterObj, page, videoID})];
-      responseTemplate.data.components = searchSegmentsComponents(body);
+      // error responses
+      if (result.error === "timeout") {
+        return response(timeoutResponse);
+      } else if (result.code === 404 ) {
+        return response(embedResponse(segmentsNotFoundEmbed(videoID), hide));
+      } else {
+        return response(contentResponse(result.error));
+      }
     }
-    return response(responseTemplate);
   }
 };

@@ -41,8 +41,7 @@ exports.segmentComponents = (videoID, ephemeral) => {
 };
 
 exports.searchSegmentsComponents = (result) => {
-  if (!result) return [];
-  const { page, segmentCount } = JSON.parse(result);
+  const { page, segmentCount } = result;
   const lastPage = Math.ceil(segmentCount/10)-1;
   if (lastPage == 0) return [];
   return [{

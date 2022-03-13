@@ -40,6 +40,10 @@ Lock a video
 - videoID - ID or YouTube URL of video to lock
 - reason (optional) - custom reason for locking
 
+### banstatus
+Get ban status of a user
+- publicID - publicID to check
+
 ## Logging
 all commands but category, cache and lookup are all logged to a VIP-only channel since otherwise, these command executions could not be traced back to the VIP user.
 

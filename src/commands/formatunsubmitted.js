@@ -1,6 +1,6 @@
 const { hideOption, findOptionString, findOption } = require("../util/commandOptions.js");
 const { formatUnsubmitted } = require("../util/formatResponse.js");
-const { defaultResponse } = require("../util/invalidResponse.js");
+const { contentResponse, embedResponse } = require("../util/discordResponse.js");
 const regex = new RegExp(/(?:https:\/\/bin\.mchang\.xyz\/b\/)(.+)/);
 
 module.exports = {
@@ -16,24 +16,19 @@ module.exports = {
     // get params from discord
     let binID = findOptionString(interaction, "binid");
     if (regex.test(binID)) binID = binID.match(regex)[1];
-    const hide = findOption(interaction, "hide");
+    const hide = findOption(interaction, "hide") ?? true;
     const url = `https://bin.mchang.xyz/b/${binID}`;
     // fetch
     const result = await fetch(url);
-    if (!result.ok) return response(defaultResponse("Failed to fetch, maybe try reuploading\n https://bin.mchang.xyz/upload"));
+    if (!result.ok) return response(contentResponse("Failed to fetch, maybe try reuploading\n https://bin.mchang.xyz/upload"));
+    // send response
     try {
       const json = await result.json();
       const unsubmitted = json.config.unsubmittedSegments;
-      if (Object.keys(unsubmitted).length === 0) return response(defaultResponse("No unsubmitted segments"));
-      return response({
-        type: 4,
-        data: {
-          embeds: [formatUnsubmitted(unsubmitted)],
-          flags: (hide == true ? 64 : 0) // hide
-        }
-      });
+      if (Object.keys(unsubmitted).length === 0) return response(contentResponse("No unsubmitted segments"));
+      return response(embedResponse(formatUnsubmitted(unsubmitted), hide));
     } catch (error) {
-      return response(defaultResponse("bad json - error" + error));
+      return response(contentResponse("bad json - error" + error));
     }
   }
 };

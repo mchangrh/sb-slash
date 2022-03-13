@@ -149,8 +149,10 @@ const formatUserID = (result) => {
 
 async function getLastSegmentTime(lastSegmentID) {
   if (!lastSegmentID) return null;
-  const segmentParse = await getSegmentInfo(lastSegmentID);
-  return segmentParse ? segmentParse[0].timeSubmitted : null;
+  const segmentParse = await getSegmentInfo(lastSegmentID)
+    .then((res) => res.json())
+    .catch(() => null);
+  return segmentParse?.[0]?.timeSubmitted;
 }
 
 const deepEquals = (a,b) => {
@@ -161,16 +163,9 @@ const deepEquals = (a,b) => {
   return result;
 };
 
-const formatLockCategories = (videoID, result) => {
+const formatLockCategories = (videoID, data) => {
   const embed = emptyVideoEmbed(videoID);
-  if (result === "Not Found") {
-    embed.fields.push({
-      name: "Locked Categories",
-      value: "None"
-    });
-    return embed;
-  }
-  const { categories, reason } = JSON.parse(result);
+  const { categories, reason } = data;
   embed.fields.push({
     name: "Locked Categories",
     value: (deepEquals(categories, CATEGORY_NAMES)) ? "All" : `${categories.join("\n")}`
@@ -222,9 +217,7 @@ const formatSkipSegments = (videoID, parsed) => {
   return embed;
 };
 
-const formatSearchSegments = (videoID, result, buttonOverrides) => {
-  if (result === "Not Found") return segmentsNotFoundEmbed(videoID);
-  const parsed = JSON.parse(result);
+const formatSearchSegments = (videoID, parsed, buttonOverrides) => {
   const segments = parsed.segments;
   const embed = {
     ...emptyVideoEmbed(videoID),
@@ -398,28 +391,6 @@ const formatUnsubmitted = (debugObj) => {
   return embed;
 };
 
-const contentResponse = (content, hide) => {
-  return {
-    type: 4,
-    data: {
-      content,
-      flags: (hide ? 64 : 0)
-    }
-  };
-};
-
-const embedResponse = (content, hide) => {
-  const embed = emptyEmbed();
-  embed.description = content;
-  return {
-    type: 4,
-    data: {
-      embeds: [embed],
-      flags: (hide ? 64 : 0)
-    }
-  };
-};
-
 const axiosResponse = async (result) => {
   const data = await result.text();
   return result.ok
@@ -481,10 +452,10 @@ module.exports = {
   formatResponseTime,
   formatUserStats,
   formatUnsubmitted,
-  contentResponse,
-  embedResponse,
   axiosResponse,
   secondsToTime,
   formatAutomodInfo,
-  segmentsNotFoundEmbed
+  segmentsNotFoundEmbed,
+  emptyEmbed,
+  emptyVideoEmbed
 };

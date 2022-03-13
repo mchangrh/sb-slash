@@ -25,9 +25,11 @@ userinfo
 showoff
 userstats
 
-# misc
-/formatunsubmitted binid:
-/automod get / acceptterms
+# /automod
+get
+share videoid:
+info
+acceptterms
 
 # /vip
 category uuid: category:
@@ -36,7 +38,10 @@ purge videoid:
 downvote uuid:
 undovote uuid:
 addvip userID: videoID:
+banstatus publicid:
 
+# misc
+/formatunsubmitted binid:
 /invite
 /github
 ```
@@ -51,6 +56,7 @@ more details [here](./docs/commands.md)
 `CLIENT_PUBLIC_KEY` - Public Key from bot portal  
 `LOGGING_WEBHOOK` - Webhook URL for VIP logging  
 `VIP_USER_ID` - Private userID for VIP commands
+`ML_AUTH` - sb-ml auth token
 
 ## Local Environment Variables (Populating slash commands & options)
 `CLIENT_ID` - Client ID from bot portal  
@@ -63,7 +69,7 @@ If you would like to test your PR on a dev environment, please contact me on dis
 # Credit
 API follows [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) Documentation at [wiki.sponsor.ajay.app](https://wiki.sponsor.ajay.app/index.php/API_Docs)
 
-sbc-util.js from [MRuy/sponsorBlockControl](https://github.com/MRuy/sponsorBlockControl/blob/master/src/utils.js)
+utilities from [MRuy/sponsorBlockControl](https://github.com/MRuy/sponsorBlockControl/blob/master/src/utils.js)
 
 Logo from [ajayyy/SponsorBlock](https://github.com/ajayyy/SponsorBlock/tree/master/public/icons), created by [@munadikieh](https://github.com/munadikieh)
 

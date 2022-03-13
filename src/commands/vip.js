@@ -85,41 +85,39 @@ module.exports = {
     const nested = (name) => (rootOptions?.options.find((opt) => opt?.name === name)?.value || null);
 
     let result;
-    // command switch
+    const vipLog = (value) => log(dUser.user, cmdName, value);
+
     if (cmdName === "category") {
-      const uuid = nested("uuid");
-      const category = nested("category");
-      result = await vip.postChangeCategory(uuid, category)
+      result = await vip.postChangeCategory(nested("uuid"), nested("category"))
         .catch((err) => apiErr(err));
     } else if (cmdName === "cache") {
-      const videoID = nested("videoid");
-      result = await vip.postClearCache(videoID)
+      result = await vip.postClearCache(nested("videoid"))
         .catch((err) => apiErr(err));
     } else if (cmdName === "purge") {
       const videoID = nested("videoid");
-      await log(dUser.user, cmdName, videoID);
+      await vipLog(videoID);
       result = await vip.postPurgeSegments(videoID)
         .catch((err) => apiErr(err));
     } else if (cmdName === "upvote") {
       const uuid = nested("uuid");
-      await log(dUser.user, cmdName, uuid);
+      await vipLog(uuid);
       result = await vip.postVoteOnSegment(uuid, 1)
         .catch((err) => apiErr(err));
     } else if (cmdName === "downvote") {
       const uuid = nested("uuid");
-      await log(dUser.user, cmdName, uuid);
+      await vipLog(uuid);
       result = await vip.postVoteOnSegment(uuid, 0)
         .catch((err) => apiErr(err));
     } else if (cmdName === "undovote") {
       const uuid = nested("uuid");
-      await log(dUser.user, cmdName, uuid);
+      await vipLog(uuid);
       result = await vip.postVoteOnSegment(uuid, 20)
         .catch((err) => apiErr(err));
     } else if (cmdName === "addvip") {
       const user = nested("user");
       const SBID = await getSBID(user);
       const videoID = nested("videoid");
-      await log(dUser.user, cmdName, SBID);
+      await vipLog(SBID);
       result = await vip.postAddTempVIP(SBID, videoID)
         .catch((err) => apiErr(err));
     } else if (cmdName === "lookup") {
@@ -135,13 +133,13 @@ module.exports = {
       });
     } else if (cmdName === "unwarn") {
       const SBID = nested("publicid");
-      await log(dUser.user, cmdName, SBID);
+      await vipLog(SBID);
       result = await vip.deleteWarning(SBID)
         .catch((err) => apiErr(err));
     } else if (cmdName === "lock") {
       // videoid validation
       let videoID = nested("videoid");
-      videoID = findVideoID(videoID) || videoID;
+      videoID = findVideoID(videoID);
       if (!videoID) return response(invalidVideoID);
       const reason = nested("reason");
       // body lockOptions creation

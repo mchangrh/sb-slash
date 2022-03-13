@@ -5,50 +5,32 @@ const typesString = `&actionTypes=${JSON.stringify(TYPES)}`;
 const getSkipSegments = (videoID, categoryParam) =>
   fetch(`${BASEURL}/skipSegments?videoID=${videoID}&${categoryParam}${typesString}`);
 
-const getSearchSegments = (videoID, page, filterParam) => {
-  const url = `${BASEURL}/searchSegments?videoID=${videoID}${typesString}&page=${page}${filterParam}`;
-  return fetch(url).then((res) => res.text());
-};
+const getSearchSegments = (videoID, page, filterParam) =>
+  fetch(`${BASEURL}/searchSegments?videoID=${videoID}${typesString}&page=${page}${filterParam}`);
 
-const getUserInfo = (publicid) => {
-  const url = `${BASEURL}/userInfo?publicUserID=${publicid}`;
-  return fetch(url).then((res) => res.json());
-};
+const getUserInfo = (publicid) =>
+  fetch(`${BASEURL}/userInfo?publicUserID=${publicid}`);
 
-const getUserInfoShowoff = (publicid) => {
-  const url = `${BASEURL}/userInfo?publicUserID=${publicid}&values=["segmentCount", "viewCount", "minutesSaved", "userName", "vip"]`;
-  return fetch(url).then((res) => res.json());
-};
+const getUserInfoShowoff = (publicid) =>
+  fetch(`${BASEURL}/userInfo?publicUserID=${publicid}&values=["segmentCount", "viewCount", "minutesSaved", "userName", "vip"]`);
 
-const getSegmentInfo = (segmentid) => {
-  const url = `${BASEURL}/segmentInfo?UUID=${segmentid}`;
-  return fetch(url).then((res) => res.json());
-};
+const getSegmentInfo = (segmentid) =>
+  fetch(`${BASEURL}/segmentInfo?UUID=${segmentid}`);
 
-const getUserID = (searchString, exact) => {
-  const url = `${BASEURL}/userID?username=${searchString}&exact=${exact}`;
-  return fetch(url);
-};
+const getUserID = (searchString, exact) =>
+  fetch(`${BASEURL}/userID?username=${searchString}&exact=${exact}`);
 
-const getLockCategories = (videoID) => {
-  const url = `${BASEURL}/lockCategories?videoID=${videoID}`;
-  return fetch(url).then((res) => res.text());
-};
+const getLockCategories = (videoID) =>
+  fetch(`${BASEURL}/lockCategories?videoID=${videoID}`);
 
-const getLockReason = (videoID) => {
-  const url = `${BASEURL}/lockReason?videoID=${videoID}`;
-  return fetch(url).then((res) => res.json());
-};
+const getLockReason = (videoID) =>
+  fetch(`${BASEURL}/lockReason?videoID=${videoID}`);
 
-const getStatus = () => {
-  const url = `${BASEURL}/status`;
-  return fetch(url);
-};
+const getStatus = () =>
+  fetch(`${BASEURL}/status`);
 
-const getUserStats = (userID) => {
-  const url = `${BASEURL}/userStats?publicUserID=${userID}&fetchCategoryStats=true&fetchActionTypeStats=true`;
-  return fetch(url).then((res) => res.json());
-};
+const getUserStats = (userID) =>
+  fetch(`${BASEURL}/userStats?publicUserID=${userID}&fetchCategoryStats=true&fetchActionTypeStats=true`);
 
 const getResponseTime = () => {
   const url = "https://sb-status.mchang.xyz/all";
@@ -115,6 +97,39 @@ const getBanStatus = (publicid) => {
   return fetch(url).then((res) => res.json());
 };
 
+// response handler
+const statusTextMap = {
+  400: "Bad Request",
+  401: "Unauthorized",
+  403: "Forbidden",
+  404: "Not Found",
+  405: "Method Not Allowed",
+  408: "Request Timeout",
+  409: "Conflict",
+  429: "Too Many Requests",
+  500: "Internal Server Error",
+  502: "Bad Gateway",
+  503: "Service Unavailable",
+  504: "Gateway Timeout",
+  505: "HTTP Version Not Supported"
+};
+
+const responseHandler = async (response) => {
+  if (!response) {
+    return { success: false, error: "timeout" };
+  } else if (response.status !== 200) {
+    return { success: false, error: `Error ${response.status}: ${statusTextMap[response.status] ?? ""}`, code: response.status };
+  }
+  try {
+    const data = await response.json();
+    return { success: true, data};
+  } catch (err) {
+    if (err.name == "SyntaxError") {
+      return { success: false, error: "SyntaxError", code: "SyntaxError" };
+    }
+  }
+};
+
 module.exports = {
   TIMEOUT: 2500,
   getResponseTime,
@@ -137,5 +152,6 @@ module.exports = {
     deleteWarning,
     lockCategories,
     getBanStatus
-  }
+  },
+  responseHandler
 };
