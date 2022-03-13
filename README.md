@@ -55,7 +55,7 @@ more details [here](./docs/commands.md)
 `CLIENT_ID` - Client ID from bot portal  
 `CLIENT_PUBLIC_KEY` - Public Key from bot portal  
 `LOGGING_WEBHOOK` - Webhook URL for VIP logging  
-`VIP_USER_ID` - Private userID for VIP commands
+`VIP_USER_ID` - Private userID for VIP commands  
 `ML_AUTH` - sb-ml auth token
 
 ## Local Environment Variables (Populating slash commands & options)
