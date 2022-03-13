@@ -93,7 +93,16 @@ module.exports = {
       if (SBID === null) return response(noStoredID); // if no stored, return error
       // userid get
       if (cmdName === "userid") { // userid get
-        return response(contentResponse(`**\`${dUserName}\`** has associated with \`${SBID}\``, false));
+        const embed = {
+          description: `\`${SBID}\``,
+          author: {
+            name: dUserName,
+            url: `https://sb.ltn.fi/userid/${SBID}`,
+            icon_url: `https://cdn.discordapp.com/avatars/${dUser.id}/${dUser.avatar}`
+          }
+        };
+        return response(embedResponse(embed, false));
+        ////
       } else if (cmdName === "userinfo") { // userinfo
         const subreq = await Promise.race([api.getUserInfo(SBID), scheduler.wait(api.TIMEOUT)]);
         const result = await api.responseHandler(subreq);
