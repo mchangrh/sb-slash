@@ -1,9 +1,10 @@
 const { segmentStrictCheck } = require("../util/validation.js");
 const { formatSegment } = require("../util/formatResponse.js");
 const { segmentComponents } = require("../util/components.js");
-const { invalidSegment, segmentNotFound, timeoutResponse, defaultResponse } = require("../util/invalidResponse.js");
+const { invalidSegment, segmentNotFound, timeoutResponse } = require("../util/invalidResponse.js");
 const { getSegmentInfo, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { hideOption, segmentIDOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { contentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "segmentinfo",
@@ -37,7 +38,7 @@ module.exports = {
       } else if (result.code === 404 ) {
         return response(segmentNotFound);
       } else {
-        return response(defaultResponse(result.error));
+        return response(contentResponse(result.error));
       }
     }
   }

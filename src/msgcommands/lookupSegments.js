@@ -3,6 +3,7 @@ const { videoIDNotFound } = require("../util/invalidResponse.js");
 const { getSearchSegments, getSegmentInfo, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { formatSearchSegments } = require("../util/formatResponse.js");
 const { searchSegmentsComponents } = require("../util/components.js");
+const { contentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   type: 3, // message command
@@ -41,7 +42,7 @@ module.exports = {
           data: { embeds: [segmentsNotFoundEmbed(videoID)] }
         });
       } else {
-        return response(defaultResponse(result.error));
+        return response(contentResponse(result.error));
       }
     }
   }

@@ -2,6 +2,7 @@ const { getUserID, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { formatUserID } = require("../util/formatResponse.js");
 const { usernameNotFound, timeoutResponse } = require("../util/invalidResponse.js");
 const { hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { contentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "userid",
@@ -42,7 +43,7 @@ module.exports = {
       } else if (result.code === 404 ) {
         return response(usernameNotFound);
       } else {
-        return response(defaultResponse(result.error));
+        return response(contentResponse(result.error));
       }
     }
   }
