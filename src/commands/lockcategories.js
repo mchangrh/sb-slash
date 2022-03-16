@@ -1,7 +1,7 @@
 const { getLockCategories, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { formatLockCategories, emptyVideoEmbed } = require("../util/formatResponse.js");
 const { findVideoID } = require("../util/validation.js");
-const { hideOption, videoIDRequired, findOption, findOptionString } = require("../util/commandOptions.js");
+const { hideOption, videoIDRequired, actionTypeOption, findOption, findOptionString } = require("../util/commandOptions.js");
 const { timeoutResponse, invalidVideoID } = require("../util/invalidResponse.js");
 const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 
@@ -10,7 +10,8 @@ module.exports = {
   description: "retrieves video lock categories",
   options: [
     videoIDRequired,
-    hideOption
+    hideOption,
+    actionTypeOption
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
@@ -18,11 +19,12 @@ module.exports = {
     const hide = findOption(interaction, "hide") ?? false;
     // check for video ID
     videoID = findVideoID(videoID) || videoID;
+    actionType = findOptionString(interaction, "actiontype");
     if (!videoID) return response(invalidVideoID);
     // setup
     const embed = emptyVideoEmbed(videoID);
     // fetch
-    const subreq = await Promise.race([getLockCategories(videoID), scheduler.wait(TIMEOUT)]);
+    const subreq = await Promise.race([getLockCategories(videoID, actionType), scheduler.wait(TIMEOUT)]);
     const result = await responseHandler(subreq);
     if (result.success) { // no request errors
       return response(embedResponse(formatLockCategories(videoID, result.data), hide));

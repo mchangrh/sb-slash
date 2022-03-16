@@ -20,8 +20,8 @@ const getSegmentInfo = (segmentid) =>
 const getUserID = (searchString, exact) =>
   fetch(`${BASEURL}/userID?username=${searchString}&exact=${exact}`);
 
-const getLockCategories = (videoID) =>
-  fetch(`${BASEURL}/lockCategories?videoID=${videoID}`);
+const getLockCategories = (videoID, actionType) =>
+  fetch(`${BASEURL}/lockCategories?videoID=${videoID}&actionType=${actionType}`);
 
 const getLockReason = (videoID) =>
   fetch(`${BASEURL}/lockReason?videoID=${videoID}`);

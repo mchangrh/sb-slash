@@ -10,16 +10,26 @@ module.exports = {
     const publicid = interaction.message.embeds[0].description.match(/(?:\*\*User ID:\*\*) `([a-f0-9]{64})`/)[1];
     if (!userStrictCheck(publicid)) return response(invalidPublicID);
     // fetch
-    const parsedUser = await getUserInfo(publicid);
+    const subreq = await Promise.race([getUserInfo(userID), scheduler.wait(TIMEOUT)]);
+    const result = await responseHandler(subreq);
     // get last segment time
-    const timeSubmitted = await getLastSegmentTime(parsedUser.lastSegmentID);
-    return response({
-      type: 4,
-      data: {
-        embeds: [formatUser(parsedUser, timeSubmitted)],
-        components: userComponents(publicid, true),
-        flags: 64
+    if (result.success) { // no request errors
+      // get last segment time
+      const timeSubmitted = await getLastSegmentTime(result.data.lastSegmentID);
+      return response({
+        type: 4,
+        data: {
+          embeds: [formatUser(result.data, timeSubmitted)],
+          components: userComponents(userID, true),
+          flags: 64
+        }
+      });
+    } else { // handle error responses
+      if (result.error === "timeout") {
+        return response(timeoutResponse);
+      } else {
+        return response(contentResponse(result.error), true);
       }
-    });
+    }
   }
 };

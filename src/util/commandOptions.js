@@ -82,6 +82,17 @@ const categoryOption = {
   choices: categoryChoices
 };
 
+const actionTypeOption = {
+  name: "actiontype",
+  description: "actiontype to fetch",
+  type: 3,
+  required: false,
+  choices: [
+    { name: "skip", value: "skip" },
+    { name: "mute", value: "mute" }
+  ]
+};
+
 module.exports = {
   hideOption,
   videoIDRequired,
@@ -94,6 +105,7 @@ module.exports = {
   pieChartOption,
   uuidOption,
   categoryOption,
+  actionTypeOption,
   findOption,
   findOptionString
 };
