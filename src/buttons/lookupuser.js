@@ -10,7 +10,7 @@ module.exports = {
     const publicid = interaction.message.embeds[0].description.match(/(?:\*\*User ID:\*\*) `([a-f0-9]{64})`/)[1];
     if (!userStrictCheck(publicid)) return response(invalidPublicID);
     // fetch
-    const subreq = await Promise.race([getUserInfo(userID), scheduler.wait(TIMEOUT)]);
+    const subreq = await Promise.race([getUserInfo(publicid), scheduler.wait(TIMEOUT)]);
     const result = await responseHandler(subreq);
     // get last segment time
     if (result.success) { // no request errors
