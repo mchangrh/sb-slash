@@ -402,7 +402,7 @@ const jsonBody = (body) => {
   try {
     return JSON.parse(body).message;
   } catch {
-    return body.length > 0 ? body : "";
+    return body.length > 0 ? body : "No Response";
   }
 };
 
