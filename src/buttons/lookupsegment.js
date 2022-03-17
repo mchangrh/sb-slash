@@ -17,8 +17,8 @@ module.exports = {
       return response({
         type: 4,
         data: {
-          embeds: [formatSegment(parsed[0])],
-          components: segmentComponents(parsed[0].videoID, true),
+          embeds: [formatSegment(result.data[0])],
+          components: segmentComponents(result.data[0].videoID, true),
           flags: 64
         }
       });

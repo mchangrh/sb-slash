@@ -20,7 +20,7 @@ module.exports = {
         type: 4,
         data: {
           embeds: [formatUser(result.data, timeSubmitted)],
-          components: userComponents(userID, true),
+          components: userComponents(publicid, true),
           flags: 64
         }
       });
