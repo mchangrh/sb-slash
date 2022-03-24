@@ -21,6 +21,11 @@
         "no-trailing-spaces": 2,
         "require-await": 2,
         "no-undef": "off", // cloudflare workers
-        "no-console": 2
+        "no-console": 2,
+        "no-multiple-empty-lines": ["error", {
+            "max": 1,
+            "maxEOF": 1
+        }],
+        "eol-last": 2
     }
 }

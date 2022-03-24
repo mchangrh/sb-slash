@@ -61,7 +61,7 @@ const visibility = (result) =>
   (result.hidden) ? "❌ Hidden"
     : (result.shadowHidden) ? "🚫 Shadowhidden"
       : (result.votes <= -2) ? "👎 Downvoted"
-        :"✅ Visible";
+        : "✅ Visible";
 
 const formatVote = (result) =>
   (result.hidden) ? "❌"
