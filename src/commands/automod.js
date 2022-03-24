@@ -74,7 +74,7 @@ module.exports = {
     const dID = interaction?.member?.user.id ?? interaction.user.id;
     // allowList check
     if (cmdName === "get" || cmdName === "share") {
-      const allowList = await NAMESPACE.get("ml_allow", { type: "json" });
+      const allowList = await USERS.get("ml_allow", { type: "json" });
       if (!allowList.allow.includes(dID))
         return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));
     }

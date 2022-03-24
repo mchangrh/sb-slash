@@ -2,10 +2,10 @@ module.exports = {
   name: "automod_accept",
   execute: async ({ interaction, response }) => {
     const dID = interaction?.member?.user.id || interaction.user.id;
-    const allowArr = await NAMESPACE.get("ml_allow", { type: "json" });
+    const allowArr = await USERS.get("ml_allow", { type: "json" });
     // only push if not in array already
     if (!allowArr.allow.includes(dID)) allowArr.allow.push(dID);
-    await NAMESPACE.put("ml_allow",JSON.stringify(allowArr));
+    await USERS.put("ml_allow",JSON.stringify(allowArr));
     return response({
       type: 7,
       data: {

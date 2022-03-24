@@ -188,7 +188,7 @@ const formatLockReason = (videoID, result) => {
     const user = lock.userName ? lock.userName : lock.userID;
     embed.fields.push({
       name: `${EMOJI_MAP[lock.category]} ${lock.category} | ${user}`,
-      value: `${lock.reason ? lock.reason : "[no reason provided]"}`
+      value: `${lock.reason ? lock.reason : "-"}`
     });
   }
   return embed;

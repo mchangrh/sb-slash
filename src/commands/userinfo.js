@@ -28,8 +28,8 @@ module.exports = {
     // invalid publicID & no user
     if (!userStrictCheck(publicid) && !userLinkCheck(publicid) && !user) return response(invalidPublicID);
     // no publicID, we are only searching by SBID
+    const SBID = await getSBID(user);
     if (user && !publicid) {
-      const SBID = await getSBID(user);
       if (!SBID) return response(noStoredID);
     }
     // lookup

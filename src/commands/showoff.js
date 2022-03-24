@@ -2,7 +2,8 @@ const { formatShowoff } = require("../util/formatResponse.js");
 const { invalidPublicID } = require("../util/invalidResponse.js");
 const { getUserInfoShowoff, TIMEOUT } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
-const { publicIDOptionRequired } = require("../util/commandOptions.js");
+const { publicIDOptionRequired, findOption } = require("../util/commandOptions.js");
+const { handleResponse } = require("../util/handleResponse.js");
 const { embedResponse } = require("../util/discordResponse.js");
 
 module.exports = {

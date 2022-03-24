@@ -4,6 +4,7 @@ const { findVideoID } = require("../util/validation.js");
 const { hideOption, videoIDRequired, findOption } = require("../util/commandOptions.js");
 const { invalidVideoID } = require("../util/invalidResponse.js");
 const { handleResponse } = require("../util/handleResponse.js");
+const { embedResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "lockreason",

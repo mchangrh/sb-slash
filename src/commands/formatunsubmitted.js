@@ -25,7 +25,8 @@ module.exports = {
     try {
       const json = await result.json();
       const unsubmitted = json.config.unsubmittedSegments;
-      if (Object.keys(unsubmitted).length === 0) return response(contentResponse("No unsubmitted segments"));
+      const hasUnsubmitted = Object.values(unsubmitted).filter((x) => x.length)?.length;
+      if (!hasUnsubmitted) return response(contentResponse("No unsubmitted segments"));
       return response(embedResponse(formatUnsubmitted(unsubmitted), hide));
     } catch (error) {
       return response(contentResponse("bad json - error" + error));

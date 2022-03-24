@@ -4,6 +4,7 @@ const { getUserStats, TIMEOUT } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
 const { hideOption, publicIDOptionRequired, pieChartOption, findOption } = require("../util/commandOptions.js");
 const { embedResponse } = require("../util/discordResponse.js");
+const { handleResponse } = require("../util/handleResponse.js");
 
 module.exports = {
   name: "userstats",
