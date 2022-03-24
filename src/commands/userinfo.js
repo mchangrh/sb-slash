@@ -1,11 +1,11 @@
 const { formatUser, getLastSegmentTime } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
-const { invalidPublicID, timeoutResponse, noOptions, notVIP } = require("../util/invalidResponse.js");
-const { getUserInfo, responseHandler, TIMEOUT } = require("../util/min-api.js");
+const { invalidPublicID, noOptions } = require("../util/invalidResponse.js");
+const { getUserInfo, TIMEOUT } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract, userStrictCheck } = require("../util/validation.js");
-const { publicIDOptionOptional, userOptionOptional, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
-const { getSBID, checkVIP } = require("../util/cfkv.js");
-const { contentResponse } = require("../util/discordResponse.js");
+const { publicIDOptionOptional, userOptionOptional, hideOption, findOption } = require("../util/commandOptions.js");
+const { getSBID } = require("../util/cfkv.js");
+const { handleResponse } = require("../util/handleResponse.js");
 
 module.exports = {
   name: "userinfo",
@@ -19,10 +19,9 @@ module.exports = {
     // check for no options
     if (!interaction.data.options) return response(noOptions);
     // get params from discord
-    const publicid = findOptionString(interaction, "publicid");
+    const publicid = findOption(interaction, "publicid") || "";
     const user = findOption(interaction, "user");
     const hide = findOption(interaction, "hide") ?? false;
-    if (user && !checkVIP(interaction?.member?.roles)) return response(notVIP);
     // only hide command
     if (!publicid && !user) return response(noOptions);
     // invalid publicID
@@ -35,24 +34,17 @@ module.exports = {
     if (!userID) return response(invalidPublicID);
     // fetch
     const subreq = await Promise.race([getUserInfo(userID), scheduler.wait(TIMEOUT)]);
-    const result = await responseHandler(subreq);
-    if (result.success) { // no request errors
-      // get last segment time
-      const timeSubmitted = await getLastSegmentTime(result.data.lastSegmentID);
+    const successFunc = async (data) => {
+      const timeSubmitted = await getLastSegmentTime(data.lastSegmentID);
       return response({
         type: 4,
         data: {
-          embeds: [formatUser(result.data, timeSubmitted)],
+          embeds: [formatUser(data, timeSubmitted)],
           components: userComponents(userID, false),
           flags: (hide ? 64 : 0)
         }
       });
-    } else { // handle error responses
-      if (result.error === "timeout") {
-        return response(timeoutResponse);
-      } else {
-        return response(contentResponse(result.error), true);
-      }
-    }
+    };
+    return await handleResponse(successFunc, subreq, hide);
   }
 };
