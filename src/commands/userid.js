@@ -1,7 +1,7 @@
 const { getUserID, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { formatUserID } = require("../util/formatResponse.js");
 const { usernameNotFound, timeoutResponse } = require("../util/invalidResponse.js");
-const { hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { hideOption, findOption } = require("../util/commandOptions.js");
 const { contentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    const username = findOptionString(interaction, "username");
+    const username = findOption(interaction, "username");
     const exact = findOption(interaction, "exact");
     const hide = findOption(interaction, "hide") ?? false;
     // fetch

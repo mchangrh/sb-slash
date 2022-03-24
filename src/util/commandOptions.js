@@ -1,7 +1,6 @@
 const { CATEGORY_LONGNAMES } = require("sb-category-type");
 
 const findOption = (interaction, optName) => (interaction.data.options.find((opt) => opt.name === optName)?.value);
-const findOptionString = (interaction, optName, fallback="") => ((findOption(interaction, optName) || fallback).trim());
 
 const categoryChoices = Object.entries(CATEGORY_LONGNAMES).map((obj) => {
   return { name: obj[0], value: obj[1] };
@@ -106,6 +105,5 @@ module.exports = {
   uuidOption,
   categoryOption,
   actionTypeOption,
-  findOption,
-  findOptionString
+  findOption
 };

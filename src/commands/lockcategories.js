@@ -1,7 +1,7 @@
 const { getLockCategories, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { formatLockCategories, emptyVideoEmbed } = require("../util/formatResponse.js");
 const { findVideoID } = require("../util/validation.js");
-const { hideOption, videoIDRequired, actionTypeOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { hideOption, videoIDRequired, actionTypeOption, findOption } = require("../util/commandOptions.js");
 const { timeoutResponse, invalidVideoID } = require("../util/invalidResponse.js");
 const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 
@@ -15,11 +15,11 @@ module.exports = {
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    let videoID = findOptionString(interaction, "videoid");
+    let videoID = findOption(interaction, "videoid") || "";
     const hide = findOption(interaction, "hide") ?? false;
     // check for video ID
     videoID = findVideoID(videoID) || videoID;
-    actionType = findOptionString(interaction, "actiontype");
+    actionType = findOption(interaction, "actiontype") || "";
     if (!videoID) return response(invalidVideoID);
     // setup
     const embed = emptyVideoEmbed(videoID);

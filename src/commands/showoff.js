@@ -2,7 +2,7 @@ const { formatShowoff } = require("../util/formatResponse.js");
 const { invalidPublicID, timeoutResponse } = require("../util/invalidResponse.js");
 const { getUserInfoShowoff, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
-const { publicIDOptionRequired, findOptionString } = require("../util/commandOptions.js");
+const { publicIDOptionRequired } = require("../util/commandOptions.js");
 const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
   options: [ publicIDOptionRequired ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    const publicid = findOptionString(interaction, "publicid");
+    const publicid = findOption(interaction, "publicid");
     // check for invalid publicID
     if (!userLinkCheck(publicid)) return response(invalidPublicID);
     const userID = userLinkExtract(publicid);

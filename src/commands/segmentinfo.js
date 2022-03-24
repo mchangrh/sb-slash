@@ -3,7 +3,7 @@ const { formatSegment } = require("../util/formatResponse.js");
 const { segmentComponents } = require("../util/components.js");
 const { invalidSegment, segmentNotFound, timeoutResponse } = require("../util/invalidResponse.js");
 const { getSegmentInfo, responseHandler, TIMEOUT } = require("../util/min-api.js");
-const { hideOption, segmentIDOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { hideOption, segmentIDOption, findOption } = require("../util/commandOptions.js");
 const { contentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    const segmentid = findOptionString(interaction, "segmentid");
+    const segmentid = findOption(interaction, "segmentid");
     const hide = findOption(interaction, "hide") ?? false;
     // check for invalid segmentid
     if (!segmentStrictCheck(segmentid)) return response(invalidSegment);

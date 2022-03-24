@@ -2,7 +2,7 @@ const { formatUserStats } = require("../util/formatResponse.js");
 const { invalidPublicID, timeoutResponse } = require("../util/invalidResponse.js");
 const { getUserStats, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
-const { hideOption, publicIDOptionRequired, pieChartOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { hideOption, publicIDOptionRequired, pieChartOption, findOption } = require("../util/commandOptions.js");
 const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    const publicid = findOptionString(interaction, "publicid");
+    const publicid = findOption(interaction, "publicid") || "";
     const sort = findOption(interaction, "sort");
     const hide = findOption(interaction, "hide") ?? false;
     const piechart = findOption(interaction, "piechart");

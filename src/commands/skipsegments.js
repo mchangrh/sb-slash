@@ -4,7 +4,7 @@ const { getSkipSegments, responseHandler, TIMEOUT } = require("../util/min-api.j
 const { formatSkipSegments, segmentsNotFoundEmbed } = require("../util/formatResponse.js");
 const { invalidVideoID, timeoutResponse } = require("../util/invalidResponse.js");
 const { findVideoID } = require("../util/validation.js");
-const { videoIDRequired, hideOption, findOption, findOptionString } = require("../util/commandOptions.js");
+const { videoIDRequired, hideOption, findOption } = require("../util/commandOptions.js");
 const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 
 const categoryChoices = Object.entries(CATEGORY_LONGNAMES).map((obj) => {
@@ -26,8 +26,8 @@ module.exports = {
   ],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    let videoID = findOptionString(interaction, "videoid");
-    const category = findOptionString(interaction, "category", "all");
+    let videoID = findOption(interaction, "videoid");
+    const category = findOption(interaction, "category") || "all";
     const hide = findOption(interaction, "hide") ?? false;
     // construct URL
     const categoryParam = (category === "all") ? ALL_CATEGORIES : `category=${category}`;
