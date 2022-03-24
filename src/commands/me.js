@@ -6,7 +6,7 @@ const { userStrictCheck } = require("../util/validation.js");
 const { hideOption, publicIDOptionRequired, pieChartOption } = require("../util/commandOptions.js");
 const { getSBID } = require("../util/cfkv.js");
 const [SUBCOMMAND, GROUP] = [1, 2];
-const { embedResponse, contentResponse } = require("../util/discordResponse.js");
+const { embedResponse, contentResponse, componentResponse } = require("../util/discordResponse.js");
 
 const findNestedOption = (rootOptions, name) => (rootOptions?.options.find((opt) => opt.name === name))?.value;
 
@@ -55,11 +55,11 @@ module.exports = {
   execute: async ({ interaction, response }) => {
     const handleError = (result) => {
       if (result.error === "timeout") {
-        return response(timeoutResponse);
+        return response(timeoutResponse());
       } else if (result.code === 404 ) {
-        return response(embedResponse(segmentsNotFoundEmbed(videoID), hide));
+        return response(contentResponse("Error 404: Not Found", hide));
       } else {
-        return response(contentResponse(result.error));
+        return response(contentResponse(`Error ${result.status}`));
       }
     };
     // set up constants
@@ -107,14 +107,9 @@ module.exports = {
         const result = await api.responseHandler(subreq);
         if (result.success) { // no request errors
           const timeSubmitted = await format.getLastSegmentTime(result.data.lastSegmentID);
-          return response({
-            type: 4,
-            data: {
-              embeds: [format.formatUser(result.data, timeSubmitted)],
-              components: userComponents(SBID, false),
-              flags: (hide ? 64 : 0)
-            }
-          });
+          const embed = format.formatUser(result.data, timeSubmitted);
+          const components = userComponents(SBID, false);
+          return response(componentResponse(embed, components, hide));
         } else handleError(result);
       } else if (cmdName === "showoff") { // showoff
         const subreq = await Promise.race([api.getUserInfoShowoff(SBID), scheduler.wait(api.TIMEOUT)]);

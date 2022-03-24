@@ -26,6 +26,8 @@ exports.parseUserAgent = (userAgent) => {
     return `<:mpv:882089632681058374>/${versionRegex(ua, uaArray.mpv)}`;
   } else if (ua.startsWith(uaArray.node)) {
     return `Node/${versionRegex(ua, uaArray.node)}`;
+  } else if (/[a-z]{32}\/v[\d.]+/.test(ua)) {
+    return `<:chromium:882089632731369522> -like/${versionRegex(ua, "")}`;
   } else {
     return ua || "none";
   }

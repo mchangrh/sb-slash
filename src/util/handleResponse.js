@@ -1,4 +1,5 @@
-const { contentResponse } = require("../util/discordResponse.js");
+const { contentResponse } = require("./discordResponse.js");
+const { timeoutResponse } = require("./invalidResponse.js");
 
 // response handler
 const statusTextMap = {
@@ -19,10 +20,10 @@ const statusTextMap = {
 
 const handleResponse = async (successfunc, subreq, hide = true) => {
   if (!subreq) {
-    return contentResponse("Error: SponsorBlock server did not respond in time");
+    return timeoutResponse();
   } else if (subreq.status === 404) {
     return contentResponse("Error 404: Not Found", hide);
-  } else if (subreq.status !== 200) {
+  } else if (subreq.status < 200 || subreq.status >= 400) {
     return contentResponse(`Error ${subreq.status}: ${statusTextMap[subreq.status] ?? ""}`);
   }
   // success
@@ -30,7 +31,11 @@ const handleResponse = async (successfunc, subreq, hide = true) => {
     const data = await subreq.json();
     return await successfunc(data);
   } catch (err) {
-    return contentResponse("Error: Syntax Error ");
+    if (err instanceof SyntaxError) {
+      return contentResponse("Error: Syntax Error ");
+    } else {
+      throw err;
+    }
   }
 };
 

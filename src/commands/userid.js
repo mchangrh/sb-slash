@@ -2,7 +2,7 @@ const { getUserID, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { formatUserID } = require("../util/formatResponse.js");
 const { usernameNotFound, timeoutResponse } = require("../util/invalidResponse.js");
 const { hideOption, findOption } = require("../util/commandOptions.js");
-const { contentResponse } = require("../util/discordResponse.js");
+const { contentResponse, embedResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "userid",
@@ -29,13 +29,7 @@ module.exports = {
     const subreq = await Promise.race([getUserID(username, exact), scheduler.wait(TIMEOUT)]);
     const result = await responseHandler(subreq);
     if (result.success) {
-      return response({
-        type: 4,
-        data: {
-          embeds: [formatUserID(result.data)],
-          flags: (hide ? 64 : 0)
-        }
-      });
+      return response(embedResponse(formatUserID(result.data), hide));
     } else {
       // error responses
       if (result.error === "timeout") {

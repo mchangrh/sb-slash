@@ -1,4 +1,4 @@
-const { InteractionType, InteractionResponseType, InteractionResponseFlags, verifyKey } = require("discord-interactions");
+const { verifyKey } = require("discord-interactions");
 const commands = [
   "userinfo", "showoff", "userstats", "me",
   "skipsegments",
@@ -55,12 +55,10 @@ const handleInteraction = async ({ request, wait }) => {
   const body = JSON.parse(bodyText);
 
   // Handle a PING
-  if (body.type === InteractionType.PING)
-    return jsonResponse({
-      type: InteractionResponseType.PONG
-    });
+  if (body.type === 1)
+    return jsonResponse({ type: 1 });
   try {
-    if (body.type == InteractionType.APPLICATION_COMMAND) { // handle commands
+    if (body.type == 2) { // handle commands
       const commandName = body.data.name;
       if (Object.keys(messageCmd).includes(commandName)) { // check in messageCmd list
         // load and execute
@@ -73,7 +71,7 @@ const handleInteraction = async ({ request, wait }) => {
       } else { // command not found, 404
         return new Response(null, { status: 404 });
       }
-    } else if (body.type == InteractionType.MESSAGE_COMPONENT) { // handle buttons
+    } else if (body.type == 3) { // handle buttons
       // Locate button data
       const buttonName = body.data.custom_id;
       if (!buttons.find((e) => e === buttonName))
@@ -95,7 +93,7 @@ const handleInteraction = async ({ request, wait }) => {
       data: {
         //content: "An unexpected error occurred when executing the command.",
         content: `error: ${err}`,
-        flags: InteractionResponseFlags.EPHEMERAL
+        flags: 64
       }
     });
   }

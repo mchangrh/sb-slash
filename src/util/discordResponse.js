@@ -1,24 +1,33 @@
-const embedResponse = (embed, hide = true) => {
+const response = (hide) => {
   return {
     type: 4,
     data: {
-      embeds: [embed],
       flags: (hide ? 64 : 0)
     }
   };
 };
 
+const embedResponse = (embed, hide = true) => {
+  const result = response(hide);
+  result.data.embeds = [embed];
+  return result;
+};
+
 const contentResponse = (content, hide = true) => {
-  return {
-    type: 4,
-    data: {
-      content,
-      flags: (hide ? 64 : 0)
-    }
-  };
+  const result = response(hide);
+  result.data.content = content;
+  return result;
+};
+
+const componentResponse = (embed, components, hide = true) => {
+  const result = response(hide);
+  result.data.embeds = [embed];
+  result.data.components = components;
+  return result;
 };
 
 module.exports = {
   embedResponse,
-  contentResponse
+  contentResponse,
+  componentResponse
 };

@@ -1,9 +1,9 @@
 const { formatUserStats } = require("../util/formatResponse.js");
-const { invalidPublicID, timeoutResponse } = require("../util/invalidResponse.js");
-const { getUserStats, responseHandler, TIMEOUT } = require("../util/min-api.js");
+const { invalidPublicID } = require("../util/invalidResponse.js");
+const { getUserStats, TIMEOUT } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
 const { hideOption, publicIDOptionRequired, pieChartOption, findOption } = require("../util/commandOptions.js");
-const { embedResponse, contentResponse } = require("../util/discordResponse.js");
+const { embedResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "userstats",
@@ -30,17 +30,8 @@ module.exports = {
     const userID = userLinkExtract(publicid);
     // fetch
     const subreq = await Promise.race([getUserStats(userID), scheduler.wait(TIMEOUT)]);
-    const result = await responseHandler(subreq);
-    if (result.success) { // no request errors
-      // get last segment time
-      const embed = formatUserStats(userID, result.data, sort, piechart);
-      return response(embedResponse(embed, hide));
-    } else { // handle error responses
-      if (result.error === "timeout") {
-        return response(timeoutResponse);
-      } else {
-        return response(contentResponse(result.error), true);
-      }
-    }
+    const successFunc = (data) => embedResponse(formatUserStats(userID, data, sort, piechart), hide);
+    const result = await handleResponse(successFunc, subreq);
+    return response(result);
   }
 };

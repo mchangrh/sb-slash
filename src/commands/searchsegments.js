@@ -6,6 +6,7 @@ const { invalidVideoID } = require("../util/invalidResponse.js");
 const { searchSegmentsComponents } = require("../util/components.js");
 const [ INTEGER, BOOLEAN ] = [4, 5];
 const { handleResponse } = require("../util/handleResponse.js");
+const { componentResponse } = require("../util/discordResponse.js");
 
 const searchSegmentOptions = [
   videoIDRequired, {
@@ -79,15 +80,11 @@ module.exports = {
     if (!videoID) return response(invalidVideoID);
     // fetch
     const subreq = await Promise.race([getSearchSegments(videoID, page, paramString), scheduler.wait(TIMEOUT)]);
-    const successFunc = (data) => {
-      const responseEmbed = {
-        type: 4,
-        data: { flags: (hide ? 64 : 0) }
-      };
-      responseEmbed.data.embeds = [formatSearchSegments(videoID, data, {...filterObj, page, videoID})];
-      responseEmbed.data.components = searchSegmentsComponents(data);
-      return responseEmbed;
-    };
+    const successFunc = (data) => componentResponse(
+      formatSearchSegments(videoID, data, {...filterObj, page, videoID}),
+      searchSegmentsComponents(data),
+      hide
+    );
     const result = await handleResponse(successFunc, subreq);
     return response(result);
   }
