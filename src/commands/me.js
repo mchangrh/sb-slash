@@ -59,7 +59,7 @@ module.exports = {
       } else if (result.code === 404 ) {
         return response(embedResponse(segmentsNotFoundEmbed(videoID), hide));
       } else {
-        return response(contentResponse(result.error), true);
+        return response(contentResponse(result.error));
       }
     };
     // set up constants
@@ -102,7 +102,6 @@ module.exports = {
           }
         };
         return response(embedResponse(embed, false));
-        ////
       } else if (cmdName === "userinfo") { // userinfo
         const subreq = await Promise.race([api.getUserInfo(SBID), scheduler.wait(api.TIMEOUT)]);
         const result = await api.responseHandler(subreq);
