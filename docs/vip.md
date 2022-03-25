@@ -48,3 +48,6 @@ Get ban status of a user
 all commands but category, cache and lookup are all logged to a VIP-only channel since otherwise, these command executions could not be traced back to the VIP user.
 
 If you would like to retain your vote anonymity, [SponsorBlockControl](https://mruy.github.io/sponsorBlockControl/) offers more features without the semi-public logging.
+
+## cached VIPs & nonce
+VIP userIDs are cached in kv stores, with a 1 week expiry and a global nonce is used to quickly invalidate the entire cache if there is any need.

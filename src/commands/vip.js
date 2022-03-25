@@ -6,6 +6,7 @@ const { checkVIP, getSBID, vipMap } = require("../util/cfkv.js");
 const { actionRow, lockResponse, categoryComponent } = require("../util/lockCommon.js");
 const { log } = require("../util/log.js");
 const { findVideoID } = require("../util/validation.js");
+const { contentResponse, componentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "vip",
@@ -78,7 +79,8 @@ module.exports = {
   execute: async ({ interaction, response }) => {
     // check that user is VIP
     const dUser = interaction?.member;
-    if (!dUser || !checkVIP(dUser?.roles)) return response(notVIP);
+    const isVIP = await checkVIP(dUser);
+    if (!isVIP) return response(notVIP);
     // setup
     const rootOptions = interaction.data.options[0];
     const cmdName = rootOptions.name;
@@ -146,33 +148,16 @@ module.exports = {
       const lockOptions = { videoID };
       if (reason) lockOptions.reason = reason;
       const embed = lockResponse(lockOptions);
-      return response({
-        type: 4,
-        data: {
-          embeds: [embed],
-          components: actionRow(categoryComponent),
-          flags: 64
-        }
-      });
+      return response(componentResponse(embed, actionRow(categoryComponent)));
     } else if (cmdName === "banstatus") {
       const publicid = nested("publicid");
       const res = await vip.getBanStatus(publicid)
         .catch((err) => apiErr(err));
-      return response({
-        type: 4,
-        data: {
-          content: res.banned ? "🔨 Banned" : "Not Banned",
-          flags: 64
-        }
-      });
+      return response(contentResponse(res.banned ? "🔨 Banned" : "Not Banned"));
     }
-
     // response
     const resResponse = await axiosResponse(result);
-    return response({
-      type: 4,
-      data: { content: `${cmdName} ${resResponse}`}
-    });
+    return response(contentResponse(`${cmdName} ${resResponse}`));
   }
 };
 
