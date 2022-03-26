@@ -282,34 +282,39 @@ const formatStatus = async (res) => {
 
 const formatResponseTime = (data) => {
   // preformatting
-  let processTimes = [];
-  let responseTimes = [];
-  let skipResponseTimes = [];
-  Object.keys(data).forEach((key) => {
-    processTimes.push(data[key].sbProcessTime);
-    responseTimes.push(data[key].axiosResponseTime);
-    skipResponseTimes.push(data[key].skipResponseTime);
-  });
-  processTimes = processTimes.map((x) => x.toFixed(2) + "ms");
-  responseTimes = responseTimes.map((x) => x.toFixed(2) + "ms");
-  skipResponseTimes = skipResponseTimes.map((x) => x.toFixed(2) + "ms");
   const embed = {
     ...emptyEmbed(),
-    title: "SB Server Response Time",
+    title: "SB Server Response Graph",
     url: "https://mchangrh.github.io/sb-status-chart",
     description: "Last | 5 Minute Average | 15 Minute Average"
   };
-  embed.fields.push({
-    name: "Process Time",
-    value: processTimes.join(" | ")
-  }, {
-    name: "/status Response Time",
-    value: responseTimes.join(" | ")
-  }, {
-    name: "/skipSegment Response Time",
-    value: skipResponseTimes.join(" | ")
-  });
-  return embed;
+  try {
+    let processTimes = [];
+    let responseTimes = [];
+    let skipResponseTimes = [];
+    Object.keys(data).forEach((key) => {
+      processTimes.push(data[key].sbProcessTime);
+      responseTimes.push(data[key].axiosResponseTime);
+      skipResponseTimes.push(data[key].skipResponseTime);
+    });
+    processTimes = processTimes.map((x) => x.toFixed(2) + "ms");
+    responseTimes = responseTimes.map((x) => x.toFixed(2) + "ms");
+    skipResponseTimes = skipResponseTimes.map((x) => x.toFixed(2) + "ms");
+    embed.fields.push({
+      name: "Process Time",
+      value: processTimes.join(" | ")
+    }, {
+      name: "/status Response Time",
+      value: responseTimes.join(" | ")
+    }, {
+      name: "/skipSegment Response Time",
+      value: skipResponseTimes.join(" | ")
+    });
+    return embed;
+  } catch {
+    embed.description = "Server did not respond with a normal response";
+    return embed;
+  }
 };
 
 const formatUserStats = (publicID, data, sort, piechart) => {
