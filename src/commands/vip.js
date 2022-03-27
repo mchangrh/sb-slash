@@ -157,7 +157,7 @@ module.exports = {
     }
     // response
     const resResponse = await axiosResponse(result);
-    return response(contentResponse(`${cmdName} ${resResponse}`));
+    return response(contentResponse(`${cmdName} ${resResponse}`), false);
   }
 };
 
