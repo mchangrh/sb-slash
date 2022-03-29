@@ -1,8 +1,7 @@
-const { getSearchSegments, TIMEOUT } = require("../util/min-api.js");
+const { getSearchSegments, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { formatSearchSegments, segmentsNotFoundEmbed } = require("../util/formatResponse.js");
 const { timeoutResponse } = require("../util/invalidResponse.js");
 const { searchSegmentsComponents } = require("../util/components.js");
-const { handleResponse } = require("../util/handleResponse.js");
 const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 
 const common = async ({ interaction, response, offset }) => {
@@ -17,7 +16,7 @@ const common = async ({ interaction, response, offset }) => {
   }
   // fetch
   const subreq = await Promise.race([getSearchSegments(videoID, page, paramString), scheduler.wait(TIMEOUT)]);
-  const result = await handleResponse(subreq);
+  const result = await responseHandler(subreq);
   if (result.success) {
     const responseTemplate = {
       type: 7,
@@ -41,7 +40,7 @@ const common = async ({ interaction, response, offset }) => {
   } else {
     // error responses
     if (result.error === "timeout") {
-      return response(timeoutResponse());
+      return response(timeoutResponse);
     } else if (result.code === 404 ) {
       return response(embedResponse(segmentsNotFoundEmbed(videoID), hide));
     } else {

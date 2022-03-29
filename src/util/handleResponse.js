@@ -20,7 +20,7 @@ const statusTextMap = {
 
 const handleResponse = async (successfunc, subreq, hide = true) => {
   if (!subreq) {
-    return timeoutResponse();
+    return timeoutResponse;
   } else if (subreq.status === 404) {
     return contentResponse("Error 404: Not Found", hide);
   } else if (subreq.status < 200 || subreq.status >= 400) {
