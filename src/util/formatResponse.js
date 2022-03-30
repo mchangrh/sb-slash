@@ -396,6 +396,18 @@ const formatUnsubmitted = (debugObj) => {
   return embed;
 };
 
+const shareUnsubmitted = (debugObj, videoID) => {
+  const segments = debugObj[videoID];
+  if (segments.length === 0) return false;
+  segments.map((r) => {
+    delete r.UUID;
+    delete r.source;
+    return r;
+  });
+  const submitLink = `https://www.youtube.com/watch?v=${videoID}#segments=${JSON.stringify(segments)}`;
+  return submitLink;
+};
+
 const axiosResponse = async (result) => {
   const data = await result.text();
   return result.ok
@@ -462,5 +474,6 @@ module.exports = {
   formatAutomodInfo,
   segmentsNotFoundEmbed,
   emptyEmbed,
-  emptyVideoEmbed
+  emptyVideoEmbed,
+  shareUnsubmitted
 };

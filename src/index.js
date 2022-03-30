@@ -7,7 +7,7 @@ const commands = [
   "status", "responsetime",
   "github", "invite",
   "vip",
-  "formatunsubmitted", "automod"
+  "formatunsubmitted", "automod", "shareunsubmitted"
 ];
 const buttons = [
   "lookupuser", "lookupsegment",

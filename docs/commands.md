@@ -77,11 +77,19 @@ Get segment suggestions from [Xenova's Sponsorblock ML](https://github.com/xenov
 - acceptterms - Accept [disclaimer](https://wiki.sponsor.ajay.app/w/Automating_Submissions) for automated/ segments
 
 ### /formatunsubmitted
-format unsubmitted segments from debug log
+format unsubmitted segments from debug
 
 upload the debug here (https://mchangrh.github.io/cfkv-bin/)
 
 - binid: bin ID to fetch debug from
+
+### /shareunsubmitted
+share unsubmitted segments from deubg and for a video
+
+upload the debug here (https://mchangrh.github.io/cfkv-bin/)
+
+- binid: bin ID to fetch from
+- videoID: videoID to share segments from
 
 ### [/vip](./vip.md)
 
