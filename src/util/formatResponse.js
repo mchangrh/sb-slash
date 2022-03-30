@@ -280,6 +280,16 @@ const formatStatus = async (res) => {
   return embed;
 };
 
+const formatTime = (time) => {
+  if (time >= 60000) {
+    return (time/60000).toFixed(2) + "m";
+  } else if (time >= 1000) {
+    return (time/1000).toFixed(2) + "s";
+  } else {
+    return time.toFixed(2) + "ms";
+  }
+} ;
+
 const formatResponseTime = (data) => {
   // preformatting
   const embed = {
@@ -297,9 +307,9 @@ const formatResponseTime = (data) => {
       responseTimes.push(data[key].axiosResponseTime);
       skipResponseTimes.push(data[key].skipResponseTime);
     });
-    processTimes = processTimes.map((x) => x.toFixed(2) + "ms");
-    responseTimes = responseTimes.map((x) => x.toFixed(2) + "ms");
-    skipResponseTimes = skipResponseTimes.map((x) => x.toFixed(2) + "ms");
+    processTimes = processTimes.map((x) => formatTime(x));
+    responseTimes = responseTimes.map((x) => formatTime(x));
+    skipResponseTimes = skipResponseTimes.map((x) => formatTime(x));
     embed.fields.push({
       name: "Process Time",
       value: processTimes.join(" | ")
