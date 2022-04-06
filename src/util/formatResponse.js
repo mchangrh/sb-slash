@@ -368,7 +368,7 @@ const formatUserStats = (publicID, data, sort, piechart) => {
   });
   if (piechart) {
     const rand = Math.random().toString(16).substring(2,6);
-    embed.image = { url: `https://sb-img.mchang.xyz/pie?userID=${publicID}&value=${rand}` };
+    embed.image = { url: `https://img.sb.mchang.xyz/pie?userID=${publicID}&value=${rand}` };
   }
   return embed;
 };
