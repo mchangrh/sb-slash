@@ -91,6 +91,12 @@ upload the debug here (https://mchangrh.github.io/cfkv-bin/)
 - binid: bin ID to fetch from
 - videoID: videoID to share segments from
 
+## /previewvideo
+get a rough preview of the preview bar for a video with emoji
+
+- videoID: videoID to get segments from
+- spots: number of emoji to show
+
 ### [/vip](./vip.md)
 
 # Message Commands

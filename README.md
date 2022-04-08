@@ -43,6 +43,7 @@ banstatus publicid:
 # misc
 /formatunsubmitted binid:
 /shareunsubmitted binid: videoid:
+/previewvideo videoid: spots:
 /invite
 /github
 ```
