@@ -119,7 +119,7 @@ module.exports = {
       const user = nested("user");
       const SBID = await getSBID(user);
       const videoID = nested("videoid");
-      await vipLog(SBID);
+      await vipLog(`${SBID} on ${videoID}`);
       result = await vip.postAddTempVIP(SBID, videoID)
         .catch((err) => apiErr(err));
     } else if (cmdName === "lookup") {
