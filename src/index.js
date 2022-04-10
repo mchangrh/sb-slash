@@ -19,6 +19,9 @@ const messageCmd = {
   "Lookup Segments": "lookupSegments",
   "Open in sb.ltn.fi": "openinsbltnfi"
 };
+const userCmd = {
+  "Lookup userinfo": "userinfo"
+};
 
 // Util to send a JSON response
 const jsonResponse = (obj) => new Response(JSON.stringify(obj), {
@@ -60,7 +63,11 @@ const handleInteraction = async ({ request, wait }) => {
   try {
     if (body.type == 2) { // handle commands
       const commandName = body.data.name;
-      if (Object.keys(messageCmd).includes(commandName)) { // check in messageCmd list
+      if (Object.keys(userCmd).includes(commandName)) { // check in userCmd list
+        // load and execute
+        const command = require(`./usercommands/${userCmd[commandName]}.js`);
+        return await command.execute({ interaction: body, response: jsonResponse, wait });
+      } else if (Object.keys(messageCmd).includes(commandName)) { // check in messageCmd list
         // load and execute
         const command = require(`./msgcommands/${messageCmd[commandName]}.js`);
         return await command.execute({ interaction: body, response: jsonResponse, wait });

@@ -34,12 +34,12 @@ module.exports.getCommands = () => {
   const commands = [];
 
   // Get all files in the commands directory
-  const commandDirectory = path.join(__dirname, "..", "commands");
+  const commandDirectory = path.join(__dirname, "..", "..", "src", "commands");
   const commandFiles = fs.readdirSync(commandDirectory);
-  const messageDirectory = path.join(__dirname, "..", "msgcommands");
+  const messageDirectory = path.join(__dirname, "..", "..", "src", "msgcommands");
   const messageFiles = fs.readdirSync(messageDirectory);
-  const userDirectory = path.join(__dirname, "..", "usercommands");
-  const userFiles = fs.readdirSync(messageDirectory);
+  const userDirectory = path.join(__dirname, "..", "..", "src", "usercommands");
+  const userFiles = fs.readdirSync(userDirectory);
 
   // Work through each file
   for (const commandFile of commandFiles) {
@@ -87,7 +87,7 @@ module.exports.getCommands = () => {
 
     // Remove execute for storing and add file
     delete userData.execute;
-    userData.file = messageCommand;
+    userData.file = userCommand;
 
     // Store
     commands.push(userData);

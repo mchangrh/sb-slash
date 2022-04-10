@@ -106,6 +106,10 @@ find videoIDs or sb.mchang.xyz links in a message and lookup segments for that v
 ### Open in sb.ltn.fi
 find videoIDs or sb.mchang.xyz links in a message and create a link for sb.ltn.fi
 
+# User Commands
+### Lookup userinfo
+run /userinfo agianst targeted user
+
 # Misc Endpoints
 ### /ping
 pong
