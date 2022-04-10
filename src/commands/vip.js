@@ -148,7 +148,7 @@ module.exports = {
       const lockOptions = { videoID };
       if (reason) lockOptions.reason = reason;
       const embed = lockResponse(lockOptions);
-      return response(componentResponse(embed, actionRow(categoryComponent), false));
+      return response(componentResponse(embed, actionRow(categoryComponent), true));
     } else if (cmdName === "banstatus") {
       const publicid = nested("publicid");
       const res = await vip.getBanStatus(publicid)

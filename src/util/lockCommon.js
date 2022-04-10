@@ -1,5 +1,6 @@
 const { vip } = require("./min-api.js");
 const { EMOJI_ID_MAP, CATEGORY_LONGNAMES } = require("sb-category-type");
+const { checkVIP } = require("./cfkv.js");
 
 function actionRow(component) {
   return [{
@@ -81,6 +82,15 @@ const submitButton = {
   custom_id: "lock_submit"
 };
 
+const notVIPResponse = {
+  type: 4,
+  data: {
+    flags: 64,
+    components: [],
+    content: "Error looking up VIP status"
+  }
+};
+
 const cannedReason = {
   // submit button
   type: 3,
@@ -109,6 +119,14 @@ const cannedReason = {
   }]
 };
 
+const validateVIP = async (interaction) => {
+  const currentDiscordUserID = interaction.member.user.id;
+  const previousInteraction = interaction.message.interaction;
+  const previousDiscordUserID = previousInteraction.user.id;
+  const currentUserVIP = await checkVIP(interaction.member);
+  return ((currentDiscordUserID === previousDiscordUserID) && currentUserVIP);
+};
+
 const resusableResponse = (embed, component) => {
   return {
     type: 7,
@@ -119,14 +137,18 @@ const resusableResponse = (embed, component) => {
   };
 };
 
-const categorySelect = ({ interaction, response }) => {
+const categorySelect = async ({ interaction, response }) => {
+  const isVIP = await validateVIP(interaction);
+  if (!isVIP) return response(notVIPResponse);
   const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
   lockOptions.categories = interaction.data.values;
   const embed = lockResponse(lockOptions);
   return response(resusableResponse(embed, actionRow(typeComponent)));
 };
 
-const typeSelect = ({ interaction, response }) => {
+const typeSelect = async ({ interaction, response }) => {
+  const isVIP = await validateVIP(interaction);
+  if (!isVIP) return response(notVIPResponse);
   const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
   lockOptions.actionTypes = interaction.data.values;
   const nextComponent = lockOptions.reason ? submitButton : cannedReason;
@@ -134,7 +156,9 @@ const typeSelect = ({ interaction, response }) => {
   return response(resusableResponse(embed, actionRow(nextComponent)));
 };
 
-const cannedReasonSelect = ({ interaction, response }) => {
+const cannedReasonSelect = async ({ interaction, response }) => {
+  const isVIP = await validateVIP(interaction);
+  if (!isVIP) return response(notVIPResponse);
   const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
   const lockReason = interaction.data.values[0];
   if (lockReason !== "no_reason") lockOptions.reason = lockReason;
@@ -143,6 +167,8 @@ const cannedReasonSelect = ({ interaction, response }) => {
 };
 
 const submit = async ({ interaction, response }) => {
+  const isVIP = await validateVIP(interaction);
+  if (!isVIP) return response(notVIPResponse);
   const lockOptions = JSON.parse(interaction.message.embeds[0].footer.text);
   const embed = lockResponse(lockOptions, false);
   await lockLog(interaction.member.user, embed);
