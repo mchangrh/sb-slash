@@ -38,6 +38,8 @@ module.exports.getCommands = () => {
   const commandFiles = fs.readdirSync(commandDirectory);
   const messageDirectory = path.join(__dirname, "..", "msgcommands");
   const messageFiles = fs.readdirSync(messageDirectory);
+  const userDirectory = path.join(__dirname, "..", "usercommands");
+  const userFiles = fs.readdirSync(messageDirectory);
 
   // Work through each file
   for (const commandFile of commandFiles) {
@@ -72,6 +74,23 @@ module.exports.getCommands = () => {
 
     // Store
     commands.push(messageData);
+  }
+  // load usercommands
+  for (const userCommand of userFiles) {
+    // Load the file in if JS
+    if (!userCommand.endsWith(".js")) continue;
+    const userData = require(path.join(userDirectory, userCommand));
+
+    // Validate it is a command
+    if (!("name" in userData)) continue;
+    if (!("execute" in userData)) continue;
+
+    // Remove execute for storing and add file
+    delete userData.execute;
+    userData.file = messageCommand;
+
+    // Store
+    commands.push(userData);
   }
   return commands;
 };

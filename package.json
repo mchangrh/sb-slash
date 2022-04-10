@@ -5,8 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node src/build/index.js",
-    "build:dev": "node src/build-dev/index.js",
+    "build": "node build/build/index.js",
+    "build:dev": "node build/build-dev/index.js",
     "lint": "npx eslint src/",
     "lint:fix": "npx eslint src/ --fix",
     "publish": "wrangler publish",

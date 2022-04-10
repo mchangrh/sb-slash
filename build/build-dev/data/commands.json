@@ -1,0 +1,972 @@
+{
+  "941984915459817583": {
+    "name": "automod",
+    "description": "Get segment suggestion from SponsorBlock ML",
+    "options": [
+      {
+        "type": 1,
+        "name": "get",
+        "name_localizations": null,
+        "description": "Get segment suggestion",
+        "description_localizations": null,
+        "options": [
+          {
+            "type": 3,
+            "name": "videoid",
+            "name_localizations": null,
+            "description": "Video ID",
+            "description_localizations": null
+          },
+          {
+            "type": 3,
+            "name": "category",
+            "name_localizations": null,
+            "description": "Category to get suggestions for",
+            "description_localizations": null,
+            "choices": [
+              {
+                "name": "Sponsor",
+                "value": "sponsor",
+                "name_localizations": null
+              },
+              {
+                "name": "Unpaid/ Self Promotion",
+                "value": "selfpromo",
+                "name_localizations": null
+              },
+              {
+                "name": "Interaction Reminder",
+                "value": "interaction",
+                "name_localizations": null
+              }
+            ]
+          },
+          {
+            "type": 3,
+            "name": "batch",
+            "name_localizations": null,
+            "description": "Specify batch",
+            "description_localizations": null
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "share",
+        "name_localizations": null,
+        "description": "Share segment suggestion",
+        "description_localizations": null,
+        "options": [
+          {
+            "type": 3,
+            "name": "videoid",
+            "name_localizations": null,
+            "description": "Video ID",
+            "description_localizations": null,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "info",
+        "name_localizations": null,
+        "description": "Get database stats",
+        "description_localizations": null
+      },
+      {
+        "type": 1,
+        "name": "acceptterms",
+        "name_localizations": null,
+        "description": "Accept terms",
+        "description_localizations": null
+      }
+    ],
+    "file": "automod.js",
+    "id": "941984915459817583",
+    "application_id": "853845672013201439",
+    "version": "961845245300052048",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name_localizations": null,
+    "description_localizations": null,
+    "guild_id": "922263275113164861"
+  },
+  "927639760858652703": {
+    "id": "927639760858652703",
+    "application_id": "853845672013201439",
+    "version": "937400397004431373",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "formatunsubmitted",
+    "description": "Format unsubmitted segments",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "binid",
+        "description": "bin ID for raw debug text (https://bin.mchang.xyz/upload)",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "formatunsubmitted.js"
+  },
+  "927639761680744578": {
+    "id": "927639761680744578",
+    "application_id": "853845672013201439",
+    "version": "927639761680744579",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "github",
+    "description": "Get a link for the sb-slash GitHub",
+    "guild_id": "922263275113164861",
+    "file": "github.js"
+  },
+  "927639762079219804": {
+    "id": "927639762079219804",
+    "application_id": "853845672013201439",
+    "version": "927639762079219805",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "invite",
+    "description": "Get a link to invite sb-slash to your server",
+    "guild_id": "922263275113164861",
+    "file": "invite.js"
+  },
+  "927639763727573042": {
+    "id": "927639763727573042",
+    "application_id": "853845672013201439",
+    "version": "956700255980781629",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "lockcategories",
+    "description": "retrieves video lock categories",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "videoid",
+        "description": "Video ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "actiontype",
+        "description": "actiontype to fetch",
+        "type": 3,
+        "required": false,
+        "choices": [
+          {
+            "name": "skip",
+            "value": "skip"
+          },
+          {
+            "name": "mute",
+            "value": "mute"
+          }
+        ]
+      }
+    ],
+    "file": "lockcategories.js"
+  },
+  "927639764000210956": {
+    "id": "927639764000210956",
+    "application_id": "853845672013201439",
+    "version": "934261377844006952",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "lockreason",
+    "description": "retrieves video lock reason & lock uesrs",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "videoid",
+        "description": "Video ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "lockreason.js"
+  },
+  "927640397440770109": {
+    "name": "me",
+    "description": "run commands against your associated SB publicID",
+    "options": [
+      {
+        "type": 2,
+        "name": "userid",
+        "name_localizations": null,
+        "description": "Associate public userID",
+        "description_localizations": null,
+        "options": [
+          {
+            "type": 1,
+            "name": "set",
+            "name_localizations": null,
+            "description": "Set associated public userID",
+            "description_localizations": null,
+            "options": [
+              {
+                "type": 3,
+                "name": "publicid",
+                "name_localizations": null,
+                "description": "Public User ID",
+                "description_localizations": null,
+                "required": true
+              }
+            ]
+          },
+          {
+            "type": 1,
+            "name": "get",
+            "name_localizations": null,
+            "description": "Get associated public userID",
+            "description_localizations": null
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "userinfo",
+        "name_localizations": null,
+        "description": "Post userinfo",
+        "description_localizations": null,
+        "options": [
+          {
+            "type": 5,
+            "name": "hide",
+            "name_localizations": null,
+            "description": "Only you can see the response",
+            "description_localizations": null
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "showoff",
+        "name_localizations": null,
+        "description": "Post showoff",
+        "description_localizations": null
+      },
+      {
+        "type": 1,
+        "name": "userstats",
+        "name_localizations": null,
+        "description": "Post userstats",
+        "description_localizations": null,
+        "options": [
+          {
+            "type": 5,
+            "name": "hide",
+            "name_localizations": null,
+            "description": "Only you can see the response",
+            "description_localizations": null
+          },
+          {
+            "type": 5,
+            "name": "sort",
+            "name_localizations": null,
+            "description": "Sort categories in descending order",
+            "description_localizations": null
+          },
+          {
+            "type": 5,
+            "name": "piechart",
+            "name_localizations": null,
+            "description": "Pie chart to visualize the stats",
+            "description_localizations": null
+          }
+        ]
+      }
+    ],
+    "file": "me.js",
+    "id": "927640397440770109",
+    "application_id": "853845672013201439",
+    "version": "961845245857898506",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name_localizations": null,
+    "description_localizations": null,
+    "guild_id": "922263275113164861"
+  },
+  "961841629558353930": {
+    "name": "previewvideo",
+    "description": "Preview segments on video",
+    "options": [
+      {
+        "type": 3,
+        "name": "videoid",
+        "name_localizations": null,
+        "description": "Video ID",
+        "description_localizations": null,
+        "required": true
+      },
+      {
+        "type": 4,
+        "name": "spots",
+        "name_localizations": null,
+        "description": "Number of spots to display",
+        "description_localizations": null,
+        "min_value": 10,
+        "max_value": 50
+      },
+      {
+        "type": 5,
+        "name": "hide",
+        "name_localizations": null,
+        "description": "Only you can see the response",
+        "description_localizations": null
+      }
+    ],
+    "file": "previewvideo.js",
+    "id": "961841629558353930",
+    "application_id": "853845672013201439",
+    "version": "961845246197633096",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name_localizations": null,
+    "description_localizations": null,
+    "guild_id": "922263275113164861"
+  },
+  "927640398069899354": {
+    "id": "927640398069899354",
+    "application_id": "853845672013201439",
+    "version": "927640398069899355",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "responsetime",
+    "description": "Get server response time",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "responsetime.js"
+  },
+  "927640398946508900": {
+    "id": "927640398946508900",
+    "application_id": "853845672013201439",
+    "version": "937400399139340291",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "searchsegments",
+    "description": "Get All Segments on Video",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "videoid",
+        "description": "Video ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "page",
+        "description": "Page of response",
+        "type": 4,
+        "min_value": 1
+      },
+      {
+        "name": "minvotes",
+        "description": "Minimum Vote Threshold",
+        "type": 4
+      },
+      {
+        "name": "maxvotes",
+        "description": "Maximum Vote Threshold",
+        "type": 4
+      },
+      {
+        "name": "minviews",
+        "description": "Minimum Views Threshold",
+        "type": 4,
+        "min_value": 0
+      },
+      {
+        "name": "maxviews",
+        "description": "Maximum Views Threshold",
+        "type": 4,
+        "min_value": 0
+      },
+      {
+        "name": "locked",
+        "description": "include locked segments",
+        "type": 5
+      },
+      {
+        "name": "hidden",
+        "description": "include hidden segments",
+        "type": 5
+      },
+      {
+        "name": "ignored",
+        "description": "include ignored segments (hidden or downvoted)",
+        "type": 5
+      },
+      {
+        "name": "json",
+        "description": "return response as JSON",
+        "type": 5
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "searchsegments.js"
+  },
+  "927640399919607939": {
+    "id": "927640399919607939",
+    "application_id": "853845672013201439",
+    "version": "927640399919607940",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "segmentinfo",
+    "description": "retrieves segment info",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "segmentid",
+        "description": "UUID of segment to look up",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "segmentinfo.js"
+  },
+  "958536034780610600": {
+    "id": "958536034780610600",
+    "application_id": "853845672013201439",
+    "version": "958536034780610601",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "shareunsubmitted",
+    "description": "Generate link for videoID for unsubmitted segments",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "binid",
+        "description": "bin ID for raw debug text (https://bin.mchang.xyz/upload)",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "videoid",
+        "description": "Video ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "shareunsubmitted.js"
+  },
+  "927640400674586735": {
+    "id": "927640400674586735",
+    "application_id": "853845672013201439",
+    "version": "927640400674586736",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "showoff",
+    "description": "Show off your stats",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "publicid",
+        "description": "Public User ID",
+        "type": 3,
+        "required": true
+      }
+    ],
+    "file": "showoff.js"
+  },
+  "930318917711327292": {
+    "id": "930318917711327292",
+    "application_id": "853845672013201439",
+    "version": "956700257297784852",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "skipsegments",
+    "description": "Get Segments on Video",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "videoid",
+        "description": "Video ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "category",
+        "description": "category of segment",
+        "type": 3,
+        "required": false,
+        "choices": [
+          {
+            "name": "Sponsor",
+            "value": "sponsor"
+          },
+          {
+            "name": "Intermission/ Intro Animation",
+            "value": "intro"
+          },
+          {
+            "name": "Endcards/ Outro",
+            "value": "outro"
+          },
+          {
+            "name": "Interaction Reminder",
+            "value": "interaction"
+          },
+          {
+            "name": "Unpaid/ Self Promotion",
+            "value": "selfpromo"
+          },
+          {
+            "name": "Music: Non-Music",
+            "value": "music_offtopic"
+          },
+          {
+            "name": "Preview/ Recap",
+            "value": "preview"
+          },
+          {
+            "name": "Highlight",
+            "value": "poi_highlight"
+          },
+          {
+            "name": "Filler",
+            "value": "filler"
+          },
+          {
+            "name": "Exclusive Access",
+            "value": "exclusive_access"
+          },
+          {
+            "name": "All Categories",
+            "value": "all"
+          }
+        ]
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "skipsegments.js"
+  },
+  "930318918302699530": {
+    "id": "930318918302699530",
+    "application_id": "853845672013201439",
+    "version": "930318918302699531",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "status",
+    "description": "Get server status",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "status.js"
+  },
+  "930318918889914368": {
+    "id": "930318918889914368",
+    "application_id": "853845672013201439",
+    "version": "930318918889914369",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "userid",
+    "description": "get ID from username",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "username",
+        "description": "username",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "exact",
+        "description": "search for exact username",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "userid.js"
+  },
+  "930318919175139349": {
+    "id": "930318919175139349",
+    "application_id": "853845672013201439",
+    "version": "930318919175139350",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "userinfo",
+    "description": "retrieves user info",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "publicid",
+        "description": "Public User ID",
+        "type": 3,
+        "required": false
+      },
+      {
+        "name": "user",
+        "description": "The user to get info for",
+        "type": 6,
+        "required": false
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "userinfo.js"
+  },
+  "930319002176217088": {
+    "id": "930319002176217088",
+    "application_id": "853845672013201439",
+    "version": "930319002176217089",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "userstats",
+    "description": "retrieves user statistics",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "publicid",
+        "description": "Public User ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "sort",
+        "description": "Sort categories in descending order",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "piechart",
+        "description": "Pie chart to visualize the stats",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "userstats.js"
+  },
+  "934261379890806834": {
+    "id": "934261379890806834",
+    "application_id": "853845672013201439",
+    "version": "956700258199568494",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "vip",
+    "description": "VIP-only commands",
+    "guild_id": "922263275113164861",
+    "options": [
+      {
+        "name": "category",
+        "description": "Change category",
+        "type": 1,
+        "options": [
+          {
+            "name": "uuid",
+            "description": "UUID of the segment",
+            "type": 3,
+            "required": true
+          },
+          {
+            "name": "category",
+            "description": "Category to change to",
+            "type": 3,
+            "required": true,
+            "choices": [
+              {
+                "name": "Sponsor",
+                "value": "sponsor"
+              },
+              {
+                "name": "Intermission/ Intro Animation",
+                "value": "intro"
+              },
+              {
+                "name": "Endcards/ Outro",
+                "value": "outro"
+              },
+              {
+                "name": "Interaction Reminder",
+                "value": "interaction"
+              },
+              {
+                "name": "Unpaid/ Self Promotion",
+                "value": "selfpromo"
+              },
+              {
+                "name": "Music: Non-Music",
+                "value": "music_offtopic"
+              },
+              {
+                "name": "Preview/ Recap",
+                "value": "preview"
+              },
+              {
+                "name": "Highlight",
+                "value": "poi_highlight"
+              },
+              {
+                "name": "Filler",
+                "value": "filler"
+              },
+              {
+                "name": "Exclusive Access",
+                "value": "exclusive_access"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "cache",
+        "description": "Clear redis cache for a video",
+        "type": 1,
+        "options": [
+          {
+            "name": "videoid",
+            "description": "Video ID",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "purge",
+        "description": "Purge all segments on a video",
+        "type": 1,
+        "options": [
+          {
+            "name": "videoid",
+            "description": "Video ID",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "upvote",
+        "description": "Upvote a segment",
+        "type": 1,
+        "options": [
+          {
+            "name": "uuid",
+            "description": "UUID of the segment",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "downvote",
+        "description": "Downvote a segment",
+        "type": 1,
+        "options": [
+          {
+            "name": "uuid",
+            "description": "UUID of the segment",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "undovote",
+        "description": "Undo a downvote on a segment",
+        "type": 1,
+        "options": [
+          {
+            "name": "uuid",
+            "description": "UUID of the segment",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "addvip",
+        "description": "Grant temporary VIP to a user",
+        "type": 1,
+        "options": [
+          {
+            "name": "user",
+            "description": "The user to get info for",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "videoid",
+            "description": "Video ID from channel to grant VIP on",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "lookup",
+        "description": "Look up Discord ID from SBID",
+        "type": 1,
+        "options": [
+          {
+            "name": "publicid",
+            "description": "Public User ID",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "unwarn",
+        "description": "Remove warning from a user",
+        "type": 1,
+        "options": [
+          {
+            "name": "publicid",
+            "description": "Public User ID",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "lock",
+        "description": "Lock categories",
+        "type": 1,
+        "options": [
+          {
+            "name": "videoid",
+            "description": "Video ID",
+            "type": 3,
+            "required": true
+          },
+          {
+            "name": "reason",
+            "description": "Custom lock reason",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "name": "banstatus",
+        "description": "Get ban status of user",
+        "type": 1,
+        "options": [
+          {
+            "name": "publicid",
+            "description": "Public User ID",
+            "type": 3,
+            "required": true
+          }
+        ]
+      }
+    ],
+    "file": "vip.js"
+  },
+  "930319002692116542": {
+    "type": 3,
+    "name": "Lookup Segments",
+    "file": "lookupSegments.js",
+    "id": "930319002692116542",
+    "application_id": "853845672013201439",
+    "version": "930319002692116543",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "name_localizations": null,
+    "description": "",
+    "description_localizations": null,
+    "guild_id": "922263275113164861"
+  },
+  "930319003426115634": {
+    "type": 3,
+    "name": "Open in sb.ltn.fi",
+    "file": "openinsbltnfi.js",
+    "id": "930319003426115634",
+    "application_id": "853845672013201439",
+    "version": "930319003426115635",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "name_localizations": null,
+    "description": "",
+    "description_localizations": null,
+    "guild_id": "922263275113164861"
+  }
+}

@@ -1,0 +1,972 @@
+{
+  "942537814191509534": {
+    "name": "automod",
+    "description": "Get segment suggestion from SponsorBlock ML",
+    "options": [
+      {
+        "type": 1,
+        "name": "get",
+        "name_localizations": null,
+        "description": "Get segment suggestion",
+        "description_localizations": null,
+        "options": [
+          {
+            "type": 3,
+            "name": "videoid",
+            "name_localizations": null,
+            "description": "Video ID",
+            "description_localizations": null
+          },
+          {
+            "type": 3,
+            "name": "category",
+            "name_localizations": null,
+            "description": "Category to get suggestions for",
+            "description_localizations": null,
+            "choices": [
+              {
+                "name": "Sponsor",
+                "value": "sponsor",
+                "name_localizations": null
+              },
+              {
+                "name": "Unpaid/ Self Promotion",
+                "value": "selfpromo",
+                "name_localizations": null
+              },
+              {
+                "name": "Interaction Reminder",
+                "value": "interaction",
+                "name_localizations": null
+              }
+            ]
+          },
+          {
+            "type": 3,
+            "name": "batch",
+            "name_localizations": null,
+            "description": "Specify batch",
+            "description_localizations": null
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "share",
+        "name_localizations": null,
+        "description": "Share segment suggestion",
+        "description_localizations": null,
+        "options": [
+          {
+            "type": 3,
+            "name": "videoid",
+            "name_localizations": null,
+            "description": "Video ID",
+            "description_localizations": null,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "info",
+        "name_localizations": null,
+        "description": "Get database stats",
+        "description_localizations": null
+      },
+      {
+        "type": 1,
+        "name": "acceptterms",
+        "name_localizations": null,
+        "description": "Accept terms",
+        "description_localizations": null
+      }
+    ],
+    "file": "automod.js",
+    "id": "942537814191509534",
+    "application_id": "853845672013201439",
+    "version": "961844784991969280",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name_localizations": null,
+    "description_localizations": null,
+    "dm_permission": null
+  },
+  "915499169324609558": {
+    "id": "915499169324609558",
+    "application_id": "853845672013201439",
+    "version": "937084114975195167",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "formatunsubmitted",
+    "description": "Format unsubmitted segments",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "binid",
+        "description": "bin ID for raw debug text (https://bin.mchang.xyz/upload)",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "formatunsubmitted.js"
+  },
+  "878720498605899776": {
+    "id": "878720498605899776",
+    "application_id": "853845672013201439",
+    "version": "878720498605899777",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "github",
+    "description": "Get a link for the sb-slash GitHub",
+    "dm_permission": null,
+    "file": "github.js"
+  },
+  "878720498803036191": {
+    "id": "878720498803036191",
+    "application_id": "853845672013201439",
+    "version": "878720498803036192",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "invite",
+    "description": "Get a link to invite sb-slash to your server",
+    "dm_permission": null,
+    "file": "invite.js"
+  },
+  "861804906352738354": {
+    "id": "861804906352738354",
+    "application_id": "853845672013201439",
+    "version": "956700495051886613",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "lockcategories",
+    "description": "retrieves video lock categories",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "videoid",
+        "description": "Video ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "actiontype",
+        "description": "actiontype to fetch",
+        "type": 3,
+        "required": false,
+        "choices": [
+          {
+            "name": "skip",
+            "value": "skip"
+          },
+          {
+            "name": "mute",
+            "value": "mute"
+          }
+        ]
+      }
+    ],
+    "file": "lockcategories.js"
+  },
+  "903042416335007764": {
+    "id": "903042416335007764",
+    "application_id": "853845672013201439",
+    "version": "903525660461498388",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "lockreason",
+    "description": "retrieves video lock reason & lock uesrs",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "videoid",
+        "description": "Video ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "lockreason.js"
+  },
+  "892121953983430666": {
+    "name": "me",
+    "description": "run commands against your associated SB publicID",
+    "options": [
+      {
+        "type": 2,
+        "name": "userid",
+        "name_localizations": null,
+        "description": "Associate public userID",
+        "description_localizations": null,
+        "options": [
+          {
+            "type": 1,
+            "name": "set",
+            "name_localizations": null,
+            "description": "Set associated public userID",
+            "description_localizations": null,
+            "options": [
+              {
+                "type": 3,
+                "name": "publicid",
+                "name_localizations": null,
+                "description": "Public User ID",
+                "description_localizations": null,
+                "required": true
+              }
+            ]
+          },
+          {
+            "type": 1,
+            "name": "get",
+            "name_localizations": null,
+            "description": "Get associated public userID",
+            "description_localizations": null
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "userinfo",
+        "name_localizations": null,
+        "description": "Post userinfo",
+        "description_localizations": null,
+        "options": [
+          {
+            "type": 5,
+            "name": "hide",
+            "name_localizations": null,
+            "description": "Only you can see the response",
+            "description_localizations": null
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "showoff",
+        "name_localizations": null,
+        "description": "Post showoff",
+        "description_localizations": null
+      },
+      {
+        "type": 1,
+        "name": "userstats",
+        "name_localizations": null,
+        "description": "Post userstats",
+        "description_localizations": null,
+        "options": [
+          {
+            "type": 5,
+            "name": "hide",
+            "name_localizations": null,
+            "description": "Only you can see the response",
+            "description_localizations": null
+          },
+          {
+            "type": 5,
+            "name": "sort",
+            "name_localizations": null,
+            "description": "Sort categories in descending order",
+            "description_localizations": null
+          },
+          {
+            "type": 5,
+            "name": "piechart",
+            "name_localizations": null,
+            "description": "Pie chart to visualize the stats",
+            "description_localizations": null
+          }
+        ]
+      }
+    ],
+    "file": "me.js",
+    "id": "892121953983430666",
+    "application_id": "853845672013201439",
+    "version": "961844785549803580",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name_localizations": null,
+    "description_localizations": null,
+    "dm_permission": null
+  },
+  "961844786086699028": {
+    "name": "previewvideo",
+    "description": "Preview segments on video",
+    "options": [
+      {
+        "type": 3,
+        "name": "videoid",
+        "name_localizations": null,
+        "description": "Video ID",
+        "description_localizations": null,
+        "required": true
+      },
+      {
+        "type": 4,
+        "name": "spots",
+        "name_localizations": null,
+        "description": "Number of spots to display",
+        "description_localizations": null,
+        "min_value": 10,
+        "max_value": 50
+      },
+      {
+        "type": 5,
+        "name": "hide",
+        "name_localizations": null,
+        "description": "Only you can see the response",
+        "description_localizations": null
+      }
+    ],
+    "file": "previewvideo.js",
+    "id": "961844786086699028",
+    "application_id": "853845672013201439",
+    "version": "961844786086699029",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name_localizations": null,
+    "description_localizations": null,
+    "dm_permission": null
+  },
+  "919641516861976596": {
+    "id": "919641516861976596",
+    "application_id": "853845672013201439",
+    "version": "919641516861976597",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "responsetime",
+    "description": "Get server response time",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "responsetime.js"
+  },
+  "883189879750676550": {
+    "id": "883189879750676550",
+    "application_id": "853845672013201439",
+    "version": "937084117340798997",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "searchsegments",
+    "description": "Get All Segments on Video",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "videoid",
+        "description": "Video ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "page",
+        "description": "Page of response",
+        "type": 4,
+        "min_value": 1
+      },
+      {
+        "name": "minvotes",
+        "description": "Minimum Vote Threshold",
+        "type": 4
+      },
+      {
+        "name": "maxvotes",
+        "description": "Maximum Vote Threshold",
+        "type": 4
+      },
+      {
+        "name": "minviews",
+        "description": "Minimum Views Threshold",
+        "type": 4,
+        "min_value": 0
+      },
+      {
+        "name": "maxviews",
+        "description": "Maximum Views Threshold",
+        "type": 4,
+        "min_value": 0
+      },
+      {
+        "name": "locked",
+        "description": "include locked segments",
+        "type": 5
+      },
+      {
+        "name": "hidden",
+        "description": "include hidden segments",
+        "type": 5
+      },
+      {
+        "name": "ignored",
+        "description": "include ignored segments (hidden or downvoted)",
+        "type": 5
+      },
+      {
+        "name": "json",
+        "description": "return response as JSON",
+        "type": 5
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "searchsegments.js"
+  },
+  "854804675676995584": {
+    "id": "854804675676995584",
+    "application_id": "853845672013201439",
+    "version": "878720500229087273",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "segmentinfo",
+    "description": "retrieves segment info",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "segmentid",
+        "description": "UUID of segment to look up",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "segmentinfo.js"
+  },
+  "958535823408631859": {
+    "id": "958535823408631859",
+    "application_id": "853845672013201439",
+    "version": "958535823408631860",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "shareunsubmitted",
+    "description": "Generate link for videoID for unsubmitted segments",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "binid",
+        "description": "bin ID for raw debug text (https://bin.mchang.xyz/upload)",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "videoid",
+        "description": "Video ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "shareunsubmitted.js"
+  },
+  "854793404592160778": {
+    "id": "854793404592160778",
+    "application_id": "853845672013201439",
+    "version": "854793404592160779",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "showoff",
+    "description": "Show off your stats",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "publicid",
+        "description": "Public User ID",
+        "type": 3,
+        "required": true
+      }
+    ],
+    "file": "showoff.js"
+  },
+  "854016967475331132": {
+    "id": "854016967475331132",
+    "application_id": "853845672013201439",
+    "version": "952392637715976242",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "skipsegments",
+    "description": "Get Segments on Video",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "videoid",
+        "description": "Video ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "category",
+        "description": "category of segment",
+        "type": 3,
+        "required": false,
+        "choices": [
+          {
+            "name": "Sponsor",
+            "value": "sponsor"
+          },
+          {
+            "name": "Intermission/ Intro Animation",
+            "value": "intro"
+          },
+          {
+            "name": "Endcards/ Outro",
+            "value": "outro"
+          },
+          {
+            "name": "Interaction Reminder",
+            "value": "interaction"
+          },
+          {
+            "name": "Unpaid/ Self Promotion",
+            "value": "selfpromo"
+          },
+          {
+            "name": "Music: Non-Music",
+            "value": "music_offtopic"
+          },
+          {
+            "name": "Preview/ Recap",
+            "value": "preview"
+          },
+          {
+            "name": "Highlight",
+            "value": "poi_highlight"
+          },
+          {
+            "name": "Filler",
+            "value": "filler"
+          },
+          {
+            "name": "Exclusive Access",
+            "value": "exclusive_access"
+          },
+          {
+            "name": "All Categories",
+            "value": "all"
+          }
+        ]
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "skipsegments.js"
+  },
+  "883078637430120458": {
+    "id": "883078637430120458",
+    "application_id": "853845672013201439",
+    "version": "883078637430120459",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "status",
+    "description": "Get server status",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "status.js"
+  },
+  "858851278851801108": {
+    "id": "858851278851801108",
+    "application_id": "853845672013201439",
+    "version": "858851278851801109",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "userid",
+    "description": "get ID from username",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "username",
+        "description": "username",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "exact",
+        "description": "search for exact username",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "userid.js"
+  },
+  "853851045385732096": {
+    "id": "853851045385732096",
+    "application_id": "853845672013201439",
+    "version": "927640433834725446",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "userinfo",
+    "description": "retrieves user info",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "publicid",
+        "description": "Public User ID",
+        "type": 3,
+        "required": false
+      },
+      {
+        "name": "user",
+        "description": "The user to get info for",
+        "type": 6,
+        "required": false
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "userinfo.js"
+  },
+  "887891280217141299": {
+    "id": "887891280217141299",
+    "application_id": "853845672013201439",
+    "version": "922603126454886421",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "userstats",
+    "description": "retrieves user statistics",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "publicid",
+        "description": "Public User ID",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "sort",
+        "description": "Sort categories in descending order",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "hide",
+        "description": "Only you can see the response",
+        "type": 5,
+        "required": false
+      },
+      {
+        "name": "piechart",
+        "description": "Pie chart to visualize the stats",
+        "type": 5,
+        "required": false
+      }
+    ],
+    "file": "userstats.js"
+  },
+  "934638900150943784": {
+    "id": "934638900150943784",
+    "application_id": "853845672013201439",
+    "version": "952392638512906270",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "type": 1,
+    "name": "vip",
+    "description": "VIP-only commands",
+    "dm_permission": null,
+    "options": [
+      {
+        "name": "category",
+        "description": "Change category",
+        "type": 1,
+        "options": [
+          {
+            "name": "uuid",
+            "description": "UUID of the segment",
+            "type": 3,
+            "required": true
+          },
+          {
+            "name": "category",
+            "description": "Category to change to",
+            "type": 3,
+            "required": true,
+            "choices": [
+              {
+                "name": "Sponsor",
+                "value": "sponsor"
+              },
+              {
+                "name": "Intermission/ Intro Animation",
+                "value": "intro"
+              },
+              {
+                "name": "Endcards/ Outro",
+                "value": "outro"
+              },
+              {
+                "name": "Interaction Reminder",
+                "value": "interaction"
+              },
+              {
+                "name": "Unpaid/ Self Promotion",
+                "value": "selfpromo"
+              },
+              {
+                "name": "Music: Non-Music",
+                "value": "music_offtopic"
+              },
+              {
+                "name": "Preview/ Recap",
+                "value": "preview"
+              },
+              {
+                "name": "Highlight",
+                "value": "poi_highlight"
+              },
+              {
+                "name": "Filler",
+                "value": "filler"
+              },
+              {
+                "name": "Exclusive Access",
+                "value": "exclusive_access"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "cache",
+        "description": "Clear redis cache for a video",
+        "type": 1,
+        "options": [
+          {
+            "name": "videoid",
+            "description": "Video ID",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "purge",
+        "description": "Purge all segments on a video",
+        "type": 1,
+        "options": [
+          {
+            "name": "videoid",
+            "description": "Video ID",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "upvote",
+        "description": "Upvote a segment",
+        "type": 1,
+        "options": [
+          {
+            "name": "uuid",
+            "description": "UUID of the segment",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "downvote",
+        "description": "Downvote a segment",
+        "type": 1,
+        "options": [
+          {
+            "name": "uuid",
+            "description": "UUID of the segment",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "undovote",
+        "description": "Undo a downvote on a segment",
+        "type": 1,
+        "options": [
+          {
+            "name": "uuid",
+            "description": "UUID of the segment",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "addvip",
+        "description": "Grant temporary VIP to a user",
+        "type": 1,
+        "options": [
+          {
+            "name": "user",
+            "description": "The user to get info for",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "videoid",
+            "description": "Video ID from channel to grant VIP on",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "lookup",
+        "description": "Look up Discord ID from SBID",
+        "type": 1,
+        "options": [
+          {
+            "name": "publicid",
+            "description": "Public User ID",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "unwarn",
+        "description": "Remove warning from a user",
+        "type": 1,
+        "options": [
+          {
+            "name": "publicid",
+            "description": "Public User ID",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "lock",
+        "description": "Lock categories",
+        "type": 1,
+        "options": [
+          {
+            "name": "videoid",
+            "description": "Video ID",
+            "type": 3,
+            "required": true
+          },
+          {
+            "name": "reason",
+            "description": "Custom lock reason",
+            "type": 3
+          }
+        ]
+      },
+      {
+        "name": "banstatus",
+        "description": "Get ban status of user",
+        "type": 1,
+        "options": [
+          {
+            "name": "publicid",
+            "description": "Public User ID",
+            "type": 3,
+            "required": true
+          }
+        ]
+      }
+    ],
+    "file": "vip.js"
+  },
+  "903525661786914816": {
+    "type": 3,
+    "name": "Lookup Segments",
+    "file": "lookupSegments.js",
+    "id": "903525661786914816",
+    "application_id": "853845672013201439",
+    "version": "903525661786914817",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "name_localizations": null,
+    "description": "",
+    "description_localizations": null,
+    "dm_permission": null
+  },
+  "903525662067916871": {
+    "type": 3,
+    "name": "Open in sb.ltn.fi",
+    "file": "openinsbltnfi.js",
+    "id": "903525662067916871",
+    "application_id": "853845672013201439",
+    "version": "903525662067916872",
+    "default_permission": true,
+    "default_member_permissions": null,
+    "name_localizations": null,
+    "description": "",
+    "description_localizations": null,
+    "dm_permission": null
+  }
+}
