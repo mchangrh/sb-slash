@@ -1,4 +1,4 @@
-const { contentResponse } = require("../util/discordResponse.js");
+const { contentResponse } = require("./discordResponse.js");
 const invalidInput = (property) => contentResponse(`Sorry, that doesn't appear to be a valid ${property}`);
 
 // invalid input
