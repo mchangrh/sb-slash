@@ -3,7 +3,7 @@ const { formatSegment } = require("../util/formatResponse.js");
 const { segmentComponents } = require("../util/components.js");
 const { invalidSegment } = require("../util/invalidResponse.js");
 const { getSegmentInfo, TIMEOUT } = require("../util/min-api.js");
-const { hideOption, segmentIDOption, findOption } = require("../util/commandOptions.js");
+const { hideOption, segmentIDRequired, findOption } = require("../util/commandOptions.js");
 const { handleResponse } = require("../util/handleResponse.js");
 const { componentResponse } = require("../util/discordResponse.js");
 
@@ -11,7 +11,7 @@ module.exports = {
   name: "segmentinfo",
   description: "retrieves segment info",
   options: [
-    segmentIDOption,
+    segmentIDRequired,
     hideOption
   ],
   execute: async ({ interaction, response }) => {

@@ -37,7 +37,10 @@ const videoIDRequired = {
 const segmentIDOption = {
   name: "segmentid",
   description: "UUID of segment to look up",
-  type: 3,
+  type: 3
+};
+const segmentIDRequired = {
+  ...segmentIDOption,
   required: true
 };
 const publicIDOption = {
@@ -97,6 +100,7 @@ module.exports = {
   videoIDRequired,
   videoIDOptional,
   segmentIDOption,
+  segmentIDRequired,
   publicIDOptionRequired,
   publicIDOptionOptional,
   userOptionOptional,

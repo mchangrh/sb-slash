@@ -82,7 +82,7 @@ exports.automodComponents = (videoID, submitArr) => {
     }, {
       type: 2,
       label: "Done",
-      style: 1,
+      style: 3,
       custom_id: "automod_done",
       emoji: { name: "✅" }
     }, {
@@ -98,5 +98,40 @@ exports.automodComponents = (videoID, submitArr) => {
       custom_id: "automod_reject",
       emoji: { name: "👎" }
     }]
+  }];
+};
+
+exports.classifyComponents = (locked) => {
+  const components = [{
+    type: 2,
+    label: "Done",
+    style: 3,
+    custom_id: "automod_done",
+    emoji: { name: "✅" }
+  }, {
+    type: 2,
+    label: "Skip",
+    style: 2,
+    custom_id: "automod_skip",
+    emoji: { name: "♻️" }
+  }, {
+    type: 2,
+    label: "Reject",
+    style: 4,
+    custom_id: "automod_reject",
+    emoji: { name: "👎" }
+  }];
+  if (!locked) {
+    components.unshift({
+      type: 2,
+      label: "Vote with sb-slash",
+      style: 1,
+      custom_id: "classify_vip",
+      emoji: { name: "👑" }
+    });
+  }
+  return [{
+    type: 1,
+    components: components
   }];
 };
