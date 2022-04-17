@@ -106,19 +106,19 @@ exports.classifyComponents = (locked) => {
     type: 2,
     label: "Done",
     style: 3,
-    custom_id: "automod_done",
+    custom_id: "classify_done",
     emoji: { name: "✅" }
   }, {
     type: 2,
     label: "Skip",
     style: 2,
-    custom_id: "automod_skip",
+    custom_id: "classify_skip",
     emoji: { name: "♻️" }
   }, {
     type: 2,
     label: "Reject",
     style: 4,
-    custom_id: "automod_reject",
+    custom_id: "classify_reject",
     emoji: { name: "👎" }
   }];
   if (!locked) {
