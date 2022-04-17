@@ -98,9 +98,9 @@ module.exports.getCommands = () => {
 module.exports.registerCommands = async (commands) => {
   // Define the builder
   const interaction = new DiscordInteractions({
-    applicationId: process.env.CLIENT_ID,
-    authToken: process.env.BOT_TOKEN,
-    publicKey: process.env.CLIENT_PUBLIC_KEY
+    applicationId: process.env.DEV_CLIENT_ID,
+    authToken: process.env.DEV_BOT_TOKEN,
+    publicKey: process.env.DEV_CLIENT_PUBLIC_KEY
   });
 
   // Define the commands and get what Discord currently has
