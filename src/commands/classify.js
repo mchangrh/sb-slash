@@ -28,6 +28,7 @@ module.exports = {
     const rootOptions = interaction.data.options[0];
     const findNestedOption = (name) => (rootOptions?.options.find((opt) => opt.name === name))?.value;
     const cmdName = rootOptions.name;
+    const dID = interaction?.member?.user.id ?? interaction.user.id;
     // allowlist Check
     if (cmdName === "get" || cmdName === "share") {
       const allowList = await USERS.get("ml_allow", { type: "json" });
