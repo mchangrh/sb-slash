@@ -28,6 +28,12 @@ module.exports = {
     const rootOptions = interaction.data.options[0];
     const findNestedOption = (name) => (rootOptions?.options.find((opt) => opt.name === name))?.value;
     const cmdName = rootOptions.name;
+    // allowlist Check
+    if (cmdName === "get" || cmdName === "share") {
+      const allowList = await USERS.get("ml_allow", { type: "json" });
+      if (!allowList.allow.includes(dID))
+        return response(contentResponse("You are not allowlisted for automod - run /automod acceptterms", true));
+    }
     // run commands
     if (cmdName === "get") {
       const segmentid = findNestedOption("segmentid");

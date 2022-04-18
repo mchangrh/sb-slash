@@ -56,7 +56,9 @@ const sendClassify = async (options={}) => {
 const formatVideoChoice = (videoChoice, edit, options) => {
   const title = videoChoice.uuid;
   // construct embed
-  const url = `https://www.youtube.com/watch?v=${videoChoice.video_id}`;
+  // temporary url override
+  const url = `https://sb.mchang.xyz/${videoChoice.uuid}`;
+  //const url = `https://www.youtube.com/watch?v=${videoChoice.video_id}`;
   // setup embed
   const embed = {
     title, url,
