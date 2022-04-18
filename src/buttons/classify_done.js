@@ -1,5 +1,5 @@
 const { getNextFromEmbed } = require("../util/classify.js");
-const { classify } = require("../util/classify_api.js");
+const { classify } = require("../util/automod_api.js");
 
 module.exports = {
   name: "classify_done",

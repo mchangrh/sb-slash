@@ -1,7 +1,7 @@
 const { formatAutomodInfo } = require("../util/formatResponse.js");
 const { sendAutoMod } = require("../util/automod.js");
 const { videoIDOptional, videoIDRequired } = require("../util/commandOptions.js");
-const { info } = require("../util/automod_api.js");
+const { ml } = require("../util/automod_api.js");
 const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 
 const autoModOptions = [{
@@ -94,7 +94,7 @@ module.exports = {
       message.data.flags = 0;
       return response(message);
     } else if (cmdName === "info") {
-      const data = await info().then((res) => res.json());
+      const data = await ml("info").then((res) => res.json());
       const embed = await formatAutomodInfo(data);
       return response(embedResponse(embed, false));
     }

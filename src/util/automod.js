@@ -1,6 +1,6 @@
 const { automodComponents } = require("./components.js");
 const { EMOJI_MAP } = require("sb-category-type");
-const api = require("./automod_api.js");
+const { ml } = require("./automod_api.js");
 const { secondsToTime } = require("./formatResponse.js");
 
 // add to emoji map
@@ -33,7 +33,7 @@ const getNextFromEmbed = async (embed) => {
 const sendAutoMod = async (options={}) => {
   const edit = options?.edit ?? true;
   delete options.edit;
-  const videoChoice = await api.get(options);
+  const videoChoice = await ml("get", options);
   if (videoChoice.ok) {
     const videoChoiceObj = await videoChoice.json();
     return formatVideoChoice(videoChoiceObj, edit, options);
