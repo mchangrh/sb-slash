@@ -94,7 +94,7 @@ const categories = (result) => {
 };
 
 const formatDescription = (result) =>
-  `Views: ${result.views} | ${formatVote(result.votes, result.locked)} | Rep: ${result.reputation} \n${categories(result)}`;
+  `Views: ${result.views} | ${formatVote(result.votes, result.locked)} | Rep: ${result.reputation.toFixed(2)} \n${categories(result)}`;
 
 const formatClassifyFields = (aiResult) => {
   const slicedText = aiResult.text.length >= 500 ? aiResult.text.slice(0, 500) + "..." : aiResult.text;
