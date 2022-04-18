@@ -15,5 +15,5 @@ jobs:
           BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           CLIENT_PUBLIC_KEY: ${{ secrets.DISCORD_PUBLIC_KEY }}
         run: | 
-          mkdir src/build/data
+          mkdir build/build/data
           npm run build
