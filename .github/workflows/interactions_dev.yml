@@ -1,0 +1,19 @@
+name: Update interactions
+on: [workflow_dispatch]
+
+jobs:
+  update-interactions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install deps
+        run: npm ci
+      - name: Update interactions
+        env:
+          DEV_CLIENT_ID: ${{ secrets.DISCORD_DEV_CLIENT_ID }}
+          DEV_BOT_TOKEN: ${{ secrets.DISCORD_DEV_BOT_TOKEN }}
+          DEV_CLIENT_PUBLIC_KEY: ${{ secrets.DISCORD_DEV_PUBLIC_KEY }}
+        run: | 
+          mkdir build/build-dev/data
+          npm run build:dev
