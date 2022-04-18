@@ -16,7 +16,7 @@ module.exports = {
     // query the video ID from the segment UUID, if one was found
     const segmentData = segmentUUID ? await getSegmentInfo(segmentUUID) : null;
     const videoID = segmentData?.[0].videoID || findVideoID(searchString);
-    if (!videoID) return response(videoIDNotFound());
+    if (!videoID) return response(videoIDNotFound);
     // fetch
     const subreq = await Promise.race([getSearchSegments(videoID, 0, ""), scheduler.wait(TIMEOUT)]);
     const result = await responseHandler(subreq);
