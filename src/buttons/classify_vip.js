@@ -27,7 +27,7 @@ module.exports = {
         // if target not null, set category
         await vip.postChangeCategory(uuid, target);
       }
-      await classify("vip", { uuid, discordID });
+      await classify("vip", { uuid, discordID: currentDID });
     } catch(err) {
       // eslint-disable-next-line no-console
       console.log("error with voting");
