@@ -1,6 +1,6 @@
 const { classifyComponents } = require("./components.js");
 const { EMOJI_MAP } = require("sb-category-type");
-const { classify } = require("./classify_api.js");
+const { classify } = require("./automod_api.js");
 const { secondsToTime } = require("./formatResponse.js");
 
 // add to emoji map

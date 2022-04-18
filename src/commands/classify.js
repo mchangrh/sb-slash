@@ -1,6 +1,6 @@
 const { formatClassifyInfo } = require("../util/formatResponse.js");
 const { segmentIDOption, segmentIDRequired } = require("../util/commandOptions.js");
-const { classify } = require("../util/classify_api.js");
+const { classify } = require("../util/automod_api.js");
 const { embedResponse } = require("../util/discordResponse.js");
 const { sendClassify } = require("../util/classify.js");
 
