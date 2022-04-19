@@ -295,7 +295,7 @@ const formatResponseTime = (data) => {
   const embed = {
     ...emptyEmbed(),
     title: "SB Server Response Graph",
-    url: "https://mchangrh.github.io/sb-status-chart",
+    url: "https://graph.sb.mchang.xyz",
     description: "Last | 5 Minute Average | 15 Minute Average"
   };
   try {
@@ -482,7 +482,7 @@ const formatClassifyInfo = (data) => {
   // send result
   const embed = {
     ...emptyEmbed(),
-    title: "Automod Database Stats",
+    title: "Classify Database Stats",
     description: `**Total**: ${total}
     **Accuracy**: ${((1-data.rejected/data.done)*100).toFixed(2)}%
     `,
