@@ -5,7 +5,7 @@ module.exports = {
   name: "automod_done",
   execute: async ({ interaction, response }) => {
     const embed = interaction.message.embeds[0];
-    await ml("done", { videoid: embed.title });
+    await ml("done", { video_id: embed.title });
     const message = await getNextFromEmbed(embed);
     return response(message);
   }
