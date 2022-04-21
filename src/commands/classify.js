@@ -8,7 +8,12 @@ const options = [{
   name: "get",
   description: "Get caregory suggestion",
   type: 1,
-  options: [segmentIDOption]
+  options: [segmentIDOption, {
+    name: "batch",
+    description: "Specify batch",
+    type: 3,
+    required: false
+  }]
 }, {
   name: "share",
   description: "Share category suggestion",
@@ -38,7 +43,8 @@ module.exports = {
     // run commands
     if (cmdName === "get") {
       const segmentid = findNestedOption("segmentid");
-      const message = await sendClassify({edit: false, segmentid});
+      const batch = findNestedOption("batch");
+      const message = await sendClassify({edit: false, segmentid, batch});
       return response(message);
     } else if (cmdName === "share") {
       const segmentid = findNestedOption("segmentid");

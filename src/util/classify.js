@@ -33,7 +33,7 @@ const getNextFromEmbed = async (embed) => {
 const sendClassify = async (options={}) => {
   const edit = options?.edit ?? true;
   delete options.edit;
-  const videoChoice = await classify("get");
+  const videoChoice = await classify("get", options);
   if (videoChoice.ok) {
     const videoChoiceObj = await videoChoice.json();
     return formatVideoChoice(videoChoiceObj, edit, {});
