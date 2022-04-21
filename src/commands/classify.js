@@ -42,13 +42,13 @@ module.exports = {
     }
     // run commands
     if (cmdName === "get") {
-      const segmentid = findNestedOption("segmentid");
+      const uuid = findNestedOption("segmentid");
       const batch = findNestedOption("batch");
-      const message = await sendClassify({edit: false, segmentid, batch});
+      const message = await sendClassify({edit: false, uuid, batch});
       return response(message);
     } else if (cmdName === "share") {
-      const segmentid = findNestedOption("segmentid");
-      const message = await sendClassify({edit: false, segmentid });
+      const uuid = findNestedOption("segmentid");
+      const message = await sendClassify({edit: false, uuid });
       delete message.data?.components;
       message.data.flags = 0;
       return response(message);

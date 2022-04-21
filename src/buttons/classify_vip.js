@@ -20,7 +20,7 @@ module.exports = {
     const data = await classify("get", { uuid }).then((res) => res.json());
     const target = data.predicted;
     try {
-      if (target === "null") {
+      if (target === "none") {
         // if target null, downvote
         await vip.postVoteOnSegment(uuid, 0);
       } else {
