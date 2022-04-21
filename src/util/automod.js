@@ -4,7 +4,7 @@ const { ml } = require("./automod_api.js");
 const { secondsToTime } = require("./formatResponse.js");
 
 // add to emoji map
-EMOJI_MAP["null"] = "❌";
+EMOJI_MAP["none"] = "❌";
 const tripleTick = "```";
 
 const errorResponse = (edit, reason) =>{

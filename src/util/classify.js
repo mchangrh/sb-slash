@@ -4,7 +4,7 @@ const { classify } = require("./automod_api.js");
 const { secondsToTime } = require("./formatResponse.js");
 
 // add to emoji map
-EMOJI_MAP["null"] = "❌";
+EMOJI_MAP["none"] = "❌";
 const tripleTick = "```";
 
 const errorResponse = (edit, reason) =>{
@@ -84,6 +84,9 @@ const intPercent = (int) => `${(int*100).toFixed(1)}%`;
 const formatVote = (vote, locked) =>
   `Votes: ${vote} ${locked ? "🔒" : ""}`;
 
+const formatRep = (rep) =>
+  `Rep: ${rep.toFixed(2)} ${rep == 27 ? "👑" : rep > 0 ? "👍" : rep < 0 ? "👎" : "" }`;
+
 const categories = (result) => {
   // modify result
   result.scores.NULL = result.scores.null;
@@ -94,7 +97,7 @@ const categories = (result) => {
 };
 
 const formatDescription = (result) =>
-  `Views: ${result.views} | ${formatVote(result.votes, result.locked)} | Rep: ${result.reputation.toFixed(2)} \n${categories(result)}`;
+  `Views: ${result.views} ${result.views >= 100 ? "🔥" : ""} | ${formatVote(result.votes, result.locked)} | ${formatRep(result.reputation)} \n${categories(result)}`;
 
 const formatClassifyFields = (aiResult) => {
   const slicedText = aiResult.text.length >= 500 ? aiResult.text.slice(0, 500) + "..." : aiResult.text;
