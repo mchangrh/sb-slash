@@ -454,7 +454,7 @@ const formatAutomodInfo = (data) => {
     ...emptyEmbed(),
     title: "Automod Database Stats",
     description: `**Total**: ${total}
-    **Accuracy**: ${((1-data.rejected/data.done)*100).toFixed(2)}%
+    **Accuracy**: ${((data.done/(data.done+data.rejected))*100).toFixed(2)}%
     **Batches**: ${batches}
     `,
     fields: [{
@@ -484,7 +484,7 @@ const formatClassifyInfo = (data) => {
     ...emptyEmbed(),
     title: "Classify Database Stats",
     description: `**Total**: ${total}
-    **Accuracy**: ${((1-data.rejected/data.done)*100).toFixed(2)}%
+    **Accuracy**: ${((data.done/(data.done+data.rejected))*100).toFixed(2)}%
     `,
     fields: [{
       name: "Breakdown",
