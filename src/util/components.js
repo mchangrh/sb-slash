@@ -120,6 +120,12 @@ exports.classifyComponents = (locked) => {
     style: 4,
     custom_id: "classify_reject",
     emoji: { name: "👎" }
+  }, {
+    type: 2,
+    label: "Ignore",
+    style: 4,
+    custom_id: "classify_ignore",
+    emoji: { name: "🗑️" }
   }];
   if (!locked) {
     components.unshift({
