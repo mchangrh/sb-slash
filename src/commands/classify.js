@@ -20,22 +20,22 @@ const options = [{
     description: "Specify batch",
     type: 3,
     required: false
+  }, {
+    name: "from",
+    description: "Category to get suggestions for",
+    type: 3,
+    required: false,
+    choices: categoryChoices
+  }, {
+    name: "to",
+    description: "Category to get suggestions for",
+    type: 3,
+    required: false,
+    choices: [
+      ...categoryChoices,
+      { name: "None", value: "none"}
+    ]
   }]
-}, {
-  name: "from",
-  description: "Category to get suggestions for",
-  type: 3,
-  required: false,
-  choices: categoryChoices
-}, {
-  name: "to",
-  description: "Category to get suggestions for",
-  type: 3,
-  required: false,
-  choices: [
-    ...categoryChoices,
-    { name: "None", value: "none"}
-  ]
 }, {
   name: "share",
   description: "Share category suggestion",
