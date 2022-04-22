@@ -36,7 +36,7 @@ const sendClassify = async (options={}) => {
   const videoChoice = await classify("get", options);
   if (videoChoice.ok) {
     const videoChoiceObj = await videoChoice.json();
-    return formatVideoChoice(videoChoiceObj, edit, {});
+    return formatVideoChoice(videoChoiceObj, edit, options);
   } else if (videoChoice.status === 404) {
     return {
       type: edit ? 7 : 4,
