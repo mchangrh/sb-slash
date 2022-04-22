@@ -3,6 +3,13 @@ const { segmentIDOption, segmentIDRequired } = require("../util/commandOptions.j
 const { classify } = require("../util/automod_api.js");
 const { embedResponse } = require("../util/discordResponse.js");
 const { sendClassify } = require("../util/classify.js");
+const categoryChoices = [{
+  name: "Sponsor", value: "sponsor"
+}, {
+  name: "Unpaid/ Self Promotion", value: "selfpromo"
+}, {
+  name: "Interaction Reminder", value: "interaction"
+}];
 
 const options = [{
   name: "get",
@@ -14,6 +21,21 @@ const options = [{
     type: 3,
     required: false
   }]
+}, {
+  name: "from",
+  description: "Category to get suggestions for",
+  type: 3,
+  required: false,
+  choices: categoryChoices
+}, {
+  name: "to",
+  description: "Category to get suggestions for",
+  type: 3,
+  required: false,
+  choices: [
+    ...categoryChoices,
+    { name: "None", value: "none"}
+  ]
 }, {
   name: "share",
   description: "Share category suggestion",
@@ -44,7 +66,9 @@ module.exports = {
     if (cmdName === "get") {
       const uuid = findNestedOption("segmentid");
       const batch = findNestedOption("batch");
-      const message = await sendClassify({edit: false, uuid, batch});
+      const from = findNestedOption("from");
+      const to = findNestedOption("to");
+      const message = await sendClassify({edit: false, uuid, batch, from, to});
       return response(message);
     } else if (cmdName === "share") {
       const uuid = findNestedOption("segmentid");

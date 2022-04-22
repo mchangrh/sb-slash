@@ -8,7 +8,7 @@ const autoModOptions = [{
   name: "get",
   description: "Get segment suggestion",
   type: 1,
-  options: [videoIDOptional,{
+  options: [videoIDOptional, {
     name: "category",
     description: "Category to get suggestions for",
     type: 3,
