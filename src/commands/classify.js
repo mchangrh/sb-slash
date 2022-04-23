@@ -35,6 +35,11 @@ const options = [{
       ...categoryChoices,
       { name: "None", value: "none"}
     ]
+  }, {
+    name: "search",
+    description: "Text to search for",
+    type: 3,
+    required: false
   }]
 }, {
   name: "share",
@@ -68,7 +73,8 @@ module.exports = {
       const batch = findNestedOption("batch");
       const from = findNestedOption("from");
       const to = findNestedOption("to");
-      const message = await sendClassify({edit: false, uuid, batch, from, to});
+      const search = findNestedOption("search");
+      const message = await sendClassify({edit: false, uuid, batch, from, to, search});
       return response(message);
     } else if (cmdName === "share") {
       const uuid = findNestedOption("segmentid");
