@@ -40,6 +40,11 @@ const options = [{
     description: "Text to search for",
     type: 3,
     required: false
+  }, {
+    name: "flagged",
+    description: "Only get flagged suggestions",
+    type: 5,
+    required: false
   }]
 }, {
   name: "share",
@@ -74,7 +79,8 @@ module.exports = {
       const from = findNestedOption("from");
       const to = findNestedOption("to");
       const search = findNestedOption("search");
-      const message = await sendClassify({edit: false, uuid, batch, from, to, search});
+      const flagged = findNestedOption("flagged");
+      const message = await sendClassify({edit: false, uuid, batch, from, to, search, flagged});
       return response(message);
     } else if (cmdName === "share") {
       const uuid = findNestedOption("segmentid");

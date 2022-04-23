@@ -102,7 +102,7 @@ exports.automodComponents = (videoID, submitArr) => {
 };
 
 exports.classifyComponents = (locked) => {
-  const components = [{
+  const row1 = [{
     type: 2,
     label: "Done",
     style: 3,
@@ -120,15 +120,9 @@ exports.classifyComponents = (locked) => {
     style: 4,
     custom_id: "classify_reject",
     emoji: { name: "👎" }
-  }, {
-    type: 2,
-    label: "Ignore",
-    style: 4,
-    custom_id: "classify_ignore",
-    emoji: { name: "🗑️" }
   }];
   if (!locked) {
-    components.unshift({
+    row1.unshift({
       type: 2,
       label: "Vote with sb-slash",
       style: 1,
@@ -136,8 +130,24 @@ exports.classifyComponents = (locked) => {
       emoji: { name: "👑" }
     });
   }
+  const row2 = [{
+    type: 2,
+    label: "Ignore",
+    style: 4,
+    custom_id: "classify_ignore",
+    emoji: { name: "🗑️" }
+  }, {
+    type: 2,
+    label: "Flag",
+    style: 2,
+    custom_id: "classify_flag",
+    emoji: { name: "🚩" }
+  }];
   return [{
     type: 1,
-    components: components
+    components: row1
+  }, {
+    type: 1,
+    components: row2
   }];
 };
