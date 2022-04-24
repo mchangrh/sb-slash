@@ -51,7 +51,7 @@ const acceptTermsResponse = {
       components: [{
         type: 2,
         label: "Continue",
-        style: 1,
+        style: 3,
         custom_id: "automod_deny"
       }, {
         type: 2,
