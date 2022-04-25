@@ -293,7 +293,6 @@ const formatTime = (time) => {
 const formatResponseTime = (data) => {
   // preformatting
   const embed = {
-    ...emptyEmbed(),
     title: "SB Server Response Graph",
     url: "https://graph.sb.mchang.xyz",
     description: "Last | 5 Minute Average | 15 Minute Average"
@@ -307,11 +306,13 @@ const formatResponseTime = (data) => {
       responseTimes.push(data[key].axiosResponseTime);
       skipResponseTimes.push(data[key].skipResponseTime);
     });
+    const maxTime = Math.max(...processTimes, ...responseTimes, ...skipResponseTimes);
+    embed.color = (maxTime > 1000) ? 0xff0000 : (maxTime > 500) ? 0xff7f00 : 0x00ff00;
     const time = (x) => (x >= 1000 ? "💀 " : "") + formatTime(x);
     processTimes = processTimes.map(time);
     responseTimes = responseTimes.map(time);
     skipResponseTimes = skipResponseTimes.map(time);
-    embed.fields.push({
+    embed.fields = [{
       name: "Process Time",
       value: processTimes.join(" | ")
     }, {
@@ -320,7 +321,7 @@ const formatResponseTime = (data) => {
     }, {
       name: "/skipSegment Response Time",
       value: skipResponseTimes.join(" | ")
-    });
+    }];
     return embed;
   } catch {
     embed.description = "Server did not respond with a normal response";

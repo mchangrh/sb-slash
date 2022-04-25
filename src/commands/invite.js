@@ -6,7 +6,7 @@ module.exports = {
   description: "Get a link to invite sb-slash to your server",
   execute: ({ response }) => {
     const embed = emptyEmbed();
-    embed.description = "Click [here](https://sb-slash.mchang.workers.dev/invite) to invite sb-slash to your server";
+    embed.description = "Click [here](https://slash.sb.mchang.xyz/invite) to invite sb-slash to your server";
     return response(embedResponse(embed, true));
   }
 };
