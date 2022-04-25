@@ -307,9 +307,10 @@ const formatResponseTime = (data) => {
       responseTimes.push(data[key].axiosResponseTime);
       skipResponseTimes.push(data[key].skipResponseTime);
     });
-    processTimes = processTimes.map((x) => formatTime(x));
-    responseTimes = responseTimes.map((x) => formatTime(x));
-    skipResponseTimes = skipResponseTimes.map((x) => formatTime(x));
+    const time = (x) => (x >= 1000 ? "💀 " : "") + formatTime(x);
+    processTimes = processTimes.map(time);
+    responseTimes = responseTimes.map(time);
+    skipResponseTimes = skipResponseTimes.map(time);
     embed.fields.push({
       name: "Process Time",
       value: processTimes.join(" | ")
