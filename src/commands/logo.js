@@ -6,7 +6,7 @@ module.exports = {
   description: "Get a random SponsorBlock Logo",
   execute: ({ response }) => {
     const embed = emptyEmbed();
-    const cacheBust = Crypto.randomBytes(8).toString("hex");
+    const cacheBust = Math.floor(Math.random()*100);
     embed.image = {
       url: "https://sb-logo.mchang.workers.dev?rand="+cacheBust
     };
