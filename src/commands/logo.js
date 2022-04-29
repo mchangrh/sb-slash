@@ -1,15 +1,25 @@
 const { emptyEmbed } = require ("../util/formatResponse.js");
-const { embedResponse } = require("../util/discordResponse.js");
+const { componentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "logo",
   description: "Get a random SponsorBlock Logo",
   execute: ({ response }) => {
     const embed = emptyEmbed();
-    const cacheBust = Math.floor(Math.random()*100);
+    const choices = ["vuetube", "ecoli"];
+    const choice = choices[Math.floor(Math.random() * choices.length)];
+    const picture = "https://logo.sb.mchang.xyz/logos/" + choice + ".png";
     embed.image = {
-      url: "https://sb-logo.mchang.workers.dev?rand="+cacheBust
+      url: picture
     };
-    return response(embedResponse(embed));
+    return response(componentResponse(embed, [{
+      type: 1,
+      components: [{
+        type: 2,
+        label: "Make this an NFT",
+        style: 5,
+        url: "https://en.wikipedia.org/wiki/Climate_change#Drivers_of_recent_temperature_rise"
+      }]
+    }]));
   }
 };
