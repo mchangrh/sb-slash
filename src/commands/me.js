@@ -4,7 +4,7 @@ const { invalidPublicID, noStoredID, timeoutResponse } = require("../util/invali
 const api = require("../util/min-api.js");
 const { userStrictCheck } = require("../util/validation.js");
 const { hideOption, publicIDOptionRequired, pieChartOption } = require("../util/commandOptions.js");
-const { getSBID } = require("../util/cfkv.js");
+const { getSBID, postSBID, deleteSBID } = require("../util/cfkv.js");
 const [SUBCOMMAND, GROUP] = [1, 2];
 const { embedResponse, contentResponse, componentResponse } = require("../util/discordResponse.js");
 
@@ -77,16 +77,13 @@ module.exports = {
       const SBID = (rootOptions.options[0].options[0].value || "").trim();
       // delete if requested
       if (SBID == "delete") {
-        await NAMESPACE.delete(dID);
+        await deleteSBID(dID);
         return response(contentResponse(`Removed ID from ${dUserName}`, true));
       }
       // check for valid SBID
       if (!userStrictCheck(SBID)) return response(invalidPublicID);
       // set associated publicID and return confirmation
-      await NAMESPACE.put(dID, SBID);
-      const oldmap = await USERS.get("vipmap", { type: "json" });
-      const newmap = JSON.stringify({ ...oldmap, [SBID]: dID });
-      await USERS.put("vipmap", newmap);
+      await postSBID(dID, SBID);
       return response(contentResponse(`Associated \`${SBID}\` with **\`${dUserName}\`**`, false));
     } else {
       const SBID = await getSBID(dID); // get SBID

@@ -1,8 +1,36 @@
 // SB, sb-slash testing
 const VIPROLES = ["755511470305050715", "930314535963861092"];
 
+const apiURL = "https://mongo.mchang.xyz/sb-slash";
+
+const userAPIURL = new URL(apiURL + "/user" + "?auth=" + MONGO_AUTH);
+
 // get existing SBID with cache of 24hr
-exports.getSBID = (dID) => NAMESPACE.get(dID, {cacheTtl: 86400});
+exports.getSBID = async (dID) => {
+  const url = new URL(userAPIURL);
+  url.searchParams.append("discordID", dID);
+  const result = await fetch(url);
+  if (result.ok) return (await result.json()).sbID;
+  else return null;
+};
+exports.deleteSBID = (dID) => {
+  const url = new URL(userAPIURL);
+  url.searchParams.append("discordID", dID);
+  return fetch(url, {method: "DELETE"});
+};
+exports.postSBID = (dID, SBID) => {
+  const url = new URL(userAPIURL);
+  url.searchParams.append("discordID", dID);
+  url.searchParams.append("sbID", SBID);
+  return fetch(url, {method: "POST"});
+};
+exports.lookupSBID = async (SBID) => {
+  const url = new URL(apiURL + "/vip" + "?auth=" + MONGO_AUTH);
+  url.searchParams.append("sbID", SBID);
+  const result = await fetch(url);
+  if (result.ok) return (await result.json()).discordID;
+  else return null;
+};
 exports.checkVIP = async (dUser) => {
   if (!dUser) return false;
   const dID = dUser.user.id;
@@ -16,8 +44,4 @@ exports.checkVIP = async (dUser) => {
     const vipCache = await USERS.get(dID);
     return vipCache === VIP_NONCE && dID;
   }
-};
-exports.vipMap = async (SBID) => {
-  const map = await USERS.get("vipmap", { type: "json"});
-  return map?.[SBID];
 };

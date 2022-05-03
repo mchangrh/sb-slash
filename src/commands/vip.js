@@ -2,7 +2,7 @@ const { axiosResponse } = require("../util/formatResponse.js");
 const { notVIP, invalidVideoID } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
 const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired } = require("../util/commandOptions.js");
-const { checkVIP, getSBID, vipMap } = require("../util/cfkv.js");
+const { checkVIP, getSBID, lookupSBID } = require("../util/cfkv.js");
 const { actionRow, lockResponse, categoryComponent } = require("../util/lockCommon.js");
 const { log } = require("../util/log.js");
 const { findVideoID } = require("../util/validation.js");
@@ -124,7 +124,7 @@ module.exports = {
         .catch((err) => apiErr(err));
     } else if (cmdName === "lookup") {
       const SBID = nested("publicid");
-      const dID = await vipMap(SBID);
+      const dID = await lookupSBID(SBID);
       return response({
         type: 4,
         data: {
