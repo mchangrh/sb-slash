@@ -4,14 +4,9 @@ account_id = "d5ccf1d783709bbdc23fc29786f38736"
 workers_dev = true
 webpack_config = "webpack.config.js"
 kv_namespaces = [
-  { binding = "NAMESPACE", id="fa509cd9887c42df8967b891d4cb420a" },
   { binding = "USERS", id="1ad3c273d35c47ccb0b1178aef25bb91" }
 ]
 compatibility_date = "2022-02-17"
 
 [env.dev]
 name = "sb-slash-dev"
-kv_namespaces = [
-  { binding = "NAMESPACE", id="ad44494a0c4440008b1f93e0701c42c0" },
-  { binding = "USERS", id="1ad3c273d35c47ccb0b1178aef25bb91" }
-]
