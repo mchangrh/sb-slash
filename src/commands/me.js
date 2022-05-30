@@ -55,7 +55,7 @@ module.exports = {
   execute: async ({ interaction, response }) => {
     const handleError = (result) => {
       if (result.error === "timeout") {
-        return response(timeoutResponse());
+        return response(timeoutResponse);
       } else if (result.code === 404 ) {
         return response(contentResponse("Error 404: Not Found", hide));
       } else {
