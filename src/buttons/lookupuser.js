@@ -7,7 +7,8 @@ const { userStrictCheck } = require("../util/validation.js");
 module.exports = {
   name: "lookupuser",
   execute: async ({ interaction, response }) => {
-    const publicid = interaction.message.embeds[0].description.match(/(?:\*\*User ID:\*\*) `([a-f0-9]{64})`/)[1];
+    // return error if no description
+    const publicid = interaction.message?.embeds[0]?.description?.match(/(?:\*\*User ID:\*\*) `([a-f0-9]{64})`/)[1];
     if (!userStrictCheck(publicid)) return response(invalidPublicID);
     // fetch
     const subreq = await Promise.race([getUserInfo(publicid), scheduler.wait(TIMEOUT)]);
