@@ -1,5 +1,5 @@
 const { axiosResponse } = require("../util/formatResponse.js");
-const { notVIP, invalidVideoID } = require("../util/invalidResponse.js");
+const { notVIP, invalidVideoID, noStoredID } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
 const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired } = require("../util/commandOptions.js");
 const { checkVIP, getSBID, lookupSBID } = require("../util/cfkv.js");
@@ -93,10 +93,13 @@ module.exports = {
       result = await vip.postChangeCategory(nested("uuid"), nested("category"))
         .catch((err) => apiErr(err));
     } else if (cmdName === "cache") {
-      result = await vip.postClearCache(nested("videoid"))
+      const videoID = findVideoID(nested("videoid"));
+      if (!videoID) return response(invalidVideoID);
+      result = await vip.postClearCache(videoID)
         .catch((err) => apiErr(err));
     } else if (cmdName === "purge") {
-      const videoID = nested("videoid");
+      const videoID = findVideoID(nested("videoid"));
+      if (!videoID) return response(invalidVideoID);
       await vipLog(videoID);
       result = await vip.postPurgeSegments(videoID)
         .catch((err) => apiErr(err));
@@ -117,8 +120,10 @@ module.exports = {
         .catch((err) => apiErr(err));
     } else if (cmdName === "addvip") {
       const user = nested("user");
+      const videoID = findVideoID(nested("videoid"));
+      if (!videoID) return response(invalidVideoID);
       const SBID = await getSBID(user);
-      const videoID = nested("videoid");
+      if (SBID === null) return response(noStoredID);
       await vipLog(`${SBID} on ${videoID}`);
       result = await vip.postAddTempVIP(SBID, videoID)
         .catch((err) => apiErr(err));
@@ -140,8 +145,7 @@ module.exports = {
         .catch((err) => apiErr(err));
     } else if (cmdName === "lock") {
       // videoid validation
-      let videoID = nested("videoid");
-      videoID = findVideoID(videoID);
+      const videoID = findVideoID(nested("videoid"));
       if (!videoID) return response(invalidVideoID);
       const reason = nested("reason");
       // body lockOptions creation
