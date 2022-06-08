@@ -2,7 +2,7 @@ const { axiosResponse } = require("../util/formatResponse.js");
 const { notVIP, invalidVideoID, noStoredID } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
 const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired } = require("../util/commandOptions.js");
-const { checkVIP, getSBID, lookupSBID } = require("../util/cfkv.js");
+const { checkVIP, getSBID, lookupSBID, postSBID } = require("../util/cfkv.js");
 const { actionRow, lockResponse, categoryComponent } = require("../util/lockCommon.js");
 const { log } = require("../util/log.js");
 const { findVideoID } = require("../util/validation.js");
@@ -75,6 +75,11 @@ module.exports = {
     description: "Get ban status of user",
     type: 1,
     options: [ publicIDOptionRequired]
+  }, {
+    name: "adduser",
+    description: "Add user to /me database",
+    type: 1,
+    options: [ userOptionRequired, publicIDOptionRequired]
   }],
   execute: async ({ interaction, response }) => {
     // check that user is VIP
@@ -158,6 +163,12 @@ module.exports = {
       const res = await vip.getBanStatus(publicid)
         .catch((err) => apiErr(err));
       return response(contentResponse(res.banned ? "🔨 Banned" : "Not Banned"));
+    } else if (cmdName === "adduser") {
+      const user = nested("user");
+      const publicid = nested("publicid");
+      const res = await postSBID(user, publicid)
+        .catch((err) => apiErr(err));
+      return response(contentResponse(res.text(), true));
     }
     // response
     const resResponse = await axiosResponse(result);
