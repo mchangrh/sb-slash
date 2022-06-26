@@ -1,6 +1,6 @@
 const versionRegex = (uaString, prefix) => {
   const regex = new RegExp(prefix + "/[^\\s]+");
-  return uaString.match(regex)[1] || uaString.split("/")[1];
+  return uaString.match(regex)?.[1] ?? uaString.split("/")?.[1] ?? "?";
 };
 
 const uaArray = {
