@@ -184,12 +184,23 @@ const formatLockReason = (videoID, result) => {
     embed.description = "No Locked Categories";
     return embed;
   }
-  for (const lock of active) {
-    const user = lock.userName ? lock.userName : lock.userID;
-    embed.fields.push({
-      name: `${EMOJI_MAP[lock.category]} ${lock.category} | ${user}`,
-      value: `${lock.reason ? lock.reason : "-"}`
-    });
+  const isSameUser = active.every((lock) => lock.userID === active[0].userID);
+  const isSameReason = active.every((lock) => lock.reason === active[0].reason);
+  if (isSameUser && isSameReason) {
+    const categories = active.map((lock) => EMOJI_MAP[lock.category]);
+    embed.fields = [{
+      name: `${categories.join("")} | ${active[0]?.userName ?? active[0].userID}`,
+      value: active[0]?.reason ?? "-"
+    }];
+  } else {
+    // filter out lock duplicates
+    for (const lock of active) {
+      const user = lock?.userName ?? lock.userID;
+      embed.fields.push({
+        name: `${EMOJI_MAP[lock.category]} ${lock.category} | ${user}`,
+        value: `${lock?.reason ?? "-"}`
+      });
+    }
   }
   return embed;
 };
