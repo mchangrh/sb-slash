@@ -404,7 +404,7 @@ const formatUnsubmitted = (debugObj) => {
     title: "Unsubmitted Segments",
     description: filtered.map((s) => formatUnsubmittedTemplate(s)).join("\n")
   };
-  embed.description += `\n\n[Playlist](https://www.youtube.com/watch_videos?video_ids=${filtered.map((s) => s.videoID).join(",")})`;
+  embed.description += `\n\n[Playlist](https://www.youtube.com/watch_videos?video_ids=${new Set(filtered.map((s) => s.videoID)).join(",")})`;
   return embed;
 };
 
