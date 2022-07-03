@@ -2,6 +2,8 @@ const { axiosResponse } = require("../util/formatResponse.js");
 const { notVIP, invalidVideoID, noStoredID } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
 const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired } = require("../util/commandOptions.js");
+const { invalidPublicID } = require("../util/invalidResponse.js");
+const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
 const { checkVIP, getSBID, lookupSBID, postSBID } = require("../util/cfkv.js");
 const { actionRow, lockResponse, categoryComponent } = require("../util/lockCommon.js");
 const { log } = require("../util/log.js");
@@ -144,7 +146,9 @@ module.exports = {
         }
       });
     } else if (cmdName === "unwarn") {
-      const SBID = nested("publicid");
+      const publicid = nested("publicid");
+      if (!userLinkCheck(publicid)) return response(invalidPublicID);
+      const SBID = userLinkExtract(publicid);
       await vipLog(SBID);
       result = await vip.deleteWarning(SBID)
         .catch((err) => apiErr(err));
