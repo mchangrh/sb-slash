@@ -14,6 +14,7 @@ jobs:
           CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
           BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           CLIENT_PUBLIC_KEY: ${{ secrets.DISCORD_PUBLIC_KEY }}
+          MONGO_AUTH: ${{ secrets.MONGO_AUTH }}
         run: | 
           mkdir build/build/data
           npm run build

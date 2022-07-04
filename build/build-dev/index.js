@@ -4,6 +4,8 @@ require("dotenv").config();
 // global override for scheduler
 global.scheduler = {};
 global.scheduler.wait = async () => await true;
+// global override for MONGO_AUTH
+global.MONGO_AUTH = process.env.MONGO_AUTH;
 const { getCommands, registerCommands } = require("./commands");
 
 const setup = async function() {
