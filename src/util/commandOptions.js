@@ -15,7 +15,8 @@ const userOption = {
 const videoID = {
   name: "videoid",
   description: "Video ID",
-  type: 3
+  type: 3,
+  min_length: 11
 };
 
 // exported
@@ -37,7 +38,8 @@ const videoIDRequired = {
 const segmentIDOption = {
   name: "segmentid",
   description: "UUID of segment to look up",
-  type: 3
+  type: 3,
+  min_length: 64
 };
 const segmentIDRequired = {
   ...segmentIDOption,
@@ -46,7 +48,8 @@ const segmentIDRequired = {
 const publicIDOption = {
   name: "publicid",
   description: "Public User ID",
-  type: 3
+  type: 3,
+  min_length: 64
 };
 const publicIDOptionRequired = {
   ...publicIDOption,
