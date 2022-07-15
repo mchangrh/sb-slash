@@ -336,6 +336,7 @@ const formatResponseTime = (data) => {
     return embed;
   } catch {
     embed.description = "Server did not respond with a normal response";
+    embed.color = 0xff0000;
     return embed;
   }
 };
