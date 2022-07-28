@@ -194,7 +194,7 @@ module.exports = {
       const publicid = nested("publicid");
       const res = await postSBID(user, publicid)
         .catch((err) => apiErr(err));
-      return response(contentResponse(res.text(), true));
+      return response(contentResponse(await res.text(), true));
     }
     // response
     const resResponse = await axiosResponse(result);
