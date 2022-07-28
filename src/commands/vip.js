@@ -57,16 +57,17 @@ module.exports = {
     name: "feature",
     description: "Grant features to a user",
     type: 1,
-    options: [userOptionRequired, {
-      name: "feature",
-      description: "feature to grant",
-      type: 3,
-      required: true,
-      choices: [
-        { name: "Chapter", value: "0" },
-        { name: "Filler", value: "1" }
-      ]
-    }]
+    options: [publicIDOptionOptional,
+      userOptionOptional, {
+        name: "feature",
+        description: "feature to grant",
+        type: 3,
+        required: true,
+        choices: [
+          { name: "Chapter", value: "0" },
+          { name: "Filler", value: "1" }
+        ]
+      }]
   }, {
     name: "lookup",
     description: "Look up Discord ID from SBID",
@@ -149,12 +150,24 @@ module.exports = {
       result = await vip.postAddTempVIP(SBID, videoID)
         .catch((err) => apiErr(err));
     } else if (cmdName === "feature") {
+      const publicid = nested("publicid") || "";
       const user = nested("user");
       const feature = nested("feature");
+      // if only feature
+      if (!publicid && !user) return response(noOptions);
+      // invalid publicID & no user
+      if (!userStrictCheck(publicid) && !userLinkCheck(publicid) && !user) return response(invalidPublicID);
+      // no publicID, we are only searching by SBID
       const SBID = await getSBID(user);
-      if (SBID === null) return response(noStoredID);
-      await vipLog(`${SBID} given feature ${feature}`);
-      result = await vip.addFeature(SBID, feature)
+      if (user && !publicid) {
+        if (!SBID) return response(noStoredID);
+      }
+      // lookup
+      const userID = (user && !publicid) ? SBID
+        : userStrictCheck(publicid) ? publicid
+          : userLinkExtract(publicid);
+      await vipLog(`${userID} given feature ${feature}`);
+      result = await vip.addFeature(userID, feature)
         .catch((err) => apiErr(err));
     } else if (cmdName === "lookup") {
       const SBID = nested("publicid");
