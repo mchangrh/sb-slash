@@ -1,7 +1,7 @@
 const { axiosResponse } = require("../util/formatResponse.js");
 const { notVIP, invalidVideoID, noStoredID } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
-const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired } = require("../util/commandOptions.js");
+const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired, publicIDOptionOptional,userOptionOptional } = require("../util/commandOptions.js");
 const { invalidPublicID } = require("../util/invalidResponse.js");
 const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
 const { checkVIP, getSBID, lookupSBID, postSBID } = require("../util/cfkv.js");
