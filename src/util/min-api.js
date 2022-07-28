@@ -97,6 +97,7 @@ const getBanStatus = (publicid) => {
   return fetch(url).then((res) => res.json());
 };
 const addFeature = (userID, feature) => {
+  const url = `${BASEURL}/feature`;
   const JSONBody = {
     userID,
     adminUserID: VIP_USER_ID,
