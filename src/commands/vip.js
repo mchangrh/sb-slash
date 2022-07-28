@@ -54,6 +54,20 @@ module.exports = {
       required: true
     }]
   }, {
+    name: "feature",
+    description: "Grant features to a user",
+    type: 1,
+    options: [userOptionRequired, {
+      name: "feature",
+      description: "feature to grant",
+      type: 3,
+      required: true,
+      choices: [
+        { name: "Chapter", value: "0" },
+        { name: "Filler", value: "1" }
+      ]
+    }]
+  }, {
     name: "lookup",
     description: "Look up Discord ID from SBID",
     type: 1,
@@ -133,6 +147,14 @@ module.exports = {
       if (SBID === null) return response(noStoredID);
       await vipLog(`${SBID} on ${videoID}`);
       result = await vip.postAddTempVIP(SBID, videoID)
+        .catch((err) => apiErr(err));
+    } else if (cmdName === "feature") {
+      const user = nested("user");
+      const feature = nested("feature");
+      const SBID = await getSBID(user);
+      if (SBID === null) return response(noStoredID);
+      await vipLog(`${SBID} given feature ${feature}`);
+      result = await vip.addFeature(SBID, feature)
         .catch((err) => apiErr(err));
     } else if (cmdName === "lookup") {
       const SBID = nested("publicid");

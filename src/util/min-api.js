@@ -96,6 +96,21 @@ const getBanStatus = (publicid) => {
   const url = `${BASEURL}/userInfo?publicUserID=${publicid}&value=banned`;
   return fetch(url).then((res) => res.json());
 };
+const addFeature = (userID, feature) => {
+  const JSONBody = {
+    userID,
+    adminUserID: VIP_USER_ID,
+    issuerUserID: VIP_USER_ID,
+    feature: Number(feature),
+    enabled: true
+  };
+  const req = {
+    body: JSON.stringify(JSONBody),
+    headers: { "content-type": "application/json;charset=UTF-8" },
+    method: "POST"
+  };
+  return fetch(url, req);
+};
 
 // response handler
 const statusTextMap = {
@@ -151,7 +166,8 @@ module.exports = {
     postAddTempVIP,
     deleteWarning,
     lockCategories,
-    getBanStatus
+    getBanStatus,
+    addFeature
   },
   responseHandler
 };
