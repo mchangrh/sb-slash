@@ -1,13 +1,11 @@
 const { axiosResponse } = require("../util/formatResponse.js");
-const { notVIP, invalidVideoID, noStoredID } = require("../util/invalidResponse.js");
+const { notVIP, invalidVideoID, noStoredID, invalidPublicID, noOptions } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
 const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired, publicIDOptionOptional,userOptionOptional } = require("../util/commandOptions.js");
-const { invalidPublicID } = require("../util/invalidResponse.js");
-const { userLinkCheck, userLinkExtract } = require("../util/validation.js");
+const { userLinkCheck, userLinkExtract, findVideoID, userStrictCheck } = require("../util/validation.js");
 const { checkVIP, getSBID, lookupSBID, postSBID } = require("../util/cfkv.js");
 const { actionRow, lockResponse, categoryComponent } = require("../util/lockCommon.js");
 const { log } = require("../util/log.js");
-const { findVideoID } = require("../util/validation.js");
 const { contentResponse, componentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
