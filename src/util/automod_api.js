@@ -9,5 +9,7 @@ const getUrl = (path, endpoint, options) => {
   return fetch(url);
 };
 
-exports.ml = (endpoint, options={}) => getUrl("ml", endpoint, options);
-exports.classify = (endpoint, options={}) => getUrl("classify", endpoint, options);
+module.exports = {
+  ml: (endpoint, options={}) => getUrl("ml", endpoint, options),
+  classify: (endpoint, options={}) => getUrl("classify", endpoint, options)
+};

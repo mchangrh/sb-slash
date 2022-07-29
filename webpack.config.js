@@ -13,6 +13,7 @@ module.exports = {
       loader: "babel-loader",
       exclude: /\/node_modules\//,
       options: {
+        sourceType: "unambiguous",
         presets: [[
           "@babel/preset-env",
           {

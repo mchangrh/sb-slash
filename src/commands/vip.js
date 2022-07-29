@@ -55,8 +55,8 @@ module.exports = {
     name: "feature",
     description: "Grant features to a user",
     type: 1,
-    options: [publicIDOptionOptional,
-      userOptionOptional, {
+    options: [publicIDOptionOptional, userOptionOptional,
+      {
         name: "feature",
         description: "feature to grant",
         type: 3,
