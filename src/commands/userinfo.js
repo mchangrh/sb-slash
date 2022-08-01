@@ -1,7 +1,7 @@
 const { formatUser, getLastSegmentTime } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
 const { invalidPublicID, noOptions, noStoredID } = require("../util/invalidResponse.js");
-const { getUserInfo, TIMEOUT } = require("../util/min-api.js");
+const { getVerboseUserInfo, TIMEOUT } = require("../util/min-api.js");
 const { userLinkCheck, userLinkExtract, userStrictCheck } = require("../util/validation.js");
 const { publicIDOptionOptional, userOptionOptional, hideOption, findOption } = require("../util/commandOptions.js");
 const { getSBID } = require("../util/cfkv.js");
@@ -37,7 +37,7 @@ module.exports = {
       : userStrictCheck(publicid) ? publicid
         : userLinkExtract(publicid);
     // fetch
-    const subreq = await Promise.race([getUserInfo(userID), scheduler.wait(TIMEOUT)]);
+    const subreq = await Promise.race([getVerboseUserInfo(userID), scheduler.wait(TIMEOUT)]);
     const successFunc = async (data) => {
       const timeSubmitted = await getLastSegmentTime(data.lastSegmentID);
       return response(componentResponse(
