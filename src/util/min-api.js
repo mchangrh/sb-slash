@@ -13,7 +13,7 @@ const getUserInfo = (publicid) =>
 
 const getVerboseUserInfo = (publicid) => {
   const values = ["userID","userName","minutesSaved","segmentCount","ignoredSegmentCount","viewCount","ignoredViewCount","warnings","reputation","vip","lastSegmentID","permissions"]
-  fetch(`${BASEURL}/userinfo?publicUserID=${publicid}&values=${JSON.stringify(values)}`)
+  return fetch(`${BASEURL}/userinfo?publicUserID=${publicid}&values=${JSON.stringify(values)}`)
 }
 
 const getUserInfoShowoff = (publicid) =>
