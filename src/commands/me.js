@@ -100,7 +100,7 @@ module.exports = {
         };
         return response(embedResponse(embed, false));
       } else if (cmdName === "userinfo") { // userinfo
-        const subreq = await Promise.race([api.getUserInfo(SBID), scheduler.wait(api.TIMEOUT)]);
+        const subreq = await Promise.race([api.getVerboseUserInfo(SBID), scheduler.wait(api.TIMEOUT)]);
         const result = await api.responseHandler(subreq);
         if (result.success) { // no request errors
           const timeSubmitted = await format.getLastSegmentTime(result.data.lastSegmentID);

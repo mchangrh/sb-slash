@@ -90,6 +90,7 @@ const formatUser = (result, submitted) => {
   const embed = emptyEmbed();
   embed.title = userName(result);
   embed.url = `https://sb.ltn.fi/userid/${result.userID}/`;
+  const canSubmit = result.permissions.filler
   embed.description = `**Submitted:** ${result.segmentCount.toLocaleString("en-US")}
   **Reputation:** ${result.reputation.toFixed(2)}
   **Segment Views:** ${result.viewCount.toLocaleString("en-US")}
@@ -97,6 +98,7 @@ const formatUser = (result, submitted) => {
   **Current Warnings:** ${result.warnings}
   **Ignored Submissions:** ${result.ignoredSegmentCount}
   **Ignored Views:** ${result.ignoredViewCount}
+  **Submission Permission:** ${canSubmit ? "✅" : "❌"}
   **Last Submission:** ${timeStamp(submitted)}
   \`${result.lastSegmentID}\`
   `;
