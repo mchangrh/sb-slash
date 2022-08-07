@@ -11,6 +11,7 @@ const videoIDNotFound = contentResponse("Sorry there doesn't seem to be any vide
 const noStoredID = contentResponse("Sorry, there don't seem to be any set userIDs for this Discord user");
 const usernameNotFound = contentResponse("Sorry, there doesn't seem to be any users with that username. The search **is** case-sensitive.");
 const segmentNotFound = contentResponse("Sorry, there doesn't seem to be any segments with that ID");
+const userNoSegments = contentResponse("Sorry, this user hasn't submitted any segments.");
 
 // timeout
 const timeoutResponse = contentResponse("Error: SponsorBlock server did not respond in time");
