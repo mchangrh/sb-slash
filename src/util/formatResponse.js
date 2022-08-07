@@ -98,10 +98,13 @@ const formatUser = (result, submitted) => {
   **Current Warnings:** ${result.warnings}
   **Ignored Submissions:** ${result.ignoredSegmentCount}
   **Ignored Views:** ${result.ignoredViewCount}
-  **Submission Permission:** ${canSubmit ? "✅" : "❌"}
-  **Last Submission:** ${timeStamp(submitted)}
-  \`${result.lastSegmentID}\`
-  `;
+  **Submission Permission:** ${canSubmit ? "✅" : "❌"}`;
+  if (submitted !== null) {
+    embed.description += `
+    **Last Submission:** ${timeStamp(submitted)}
+    \`${result.lastSegmentID}\`
+    `;
+  }
   if (result.vip) embed.color = 0x1abc9c;
   return embed;
 };
