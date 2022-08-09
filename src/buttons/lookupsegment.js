@@ -8,9 +8,9 @@ module.exports = {
   name: "lookupsegment",
   execute: async ({ interaction, response }) => {
     const prevContent = interaction.message.content || interaction.message.embeds[0].description;
-    const match = prevContent.match(/\*\*Last Submission:\*\* <t:\d+:R>\s+`([a-f0-9]{64,65})`/)
+    const match = prevContent.match(/\*\*Last Submission:\*\* <t:\d+:R>\s+`([a-f0-9]{64,65})`/);
     if (match === null) {
-      return response(userNoSegments)
+      return response(userNoSegments);
     }
     const segmentid = match[1];
     if (!segmentStrictCheck(segmentid)) return response(invalidSegment);
