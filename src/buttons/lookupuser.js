@@ -1,17 +1,18 @@
 const { formatUser, getLastSegmentTime } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
 const { invalidPublicID, timeoutResponse } = require("../util/invalidResponse.js");
-const { getUserInfo, responseHandler, TIMEOUT } = require("../util/min-api.js");
+const { getVerboseUserInfo, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { userStrictCheck } = require("../util/validation.js");
+const { contentResponse } = require("../util/discordResponse");
 
 module.exports = {
   name: "lookupuser",
   execute: async ({ interaction, response }) => {
     // return error if no description
-    const publicid = interaction.message?.embeds[0]?.description?.match(/(?:\*\*User ID:\*\*) `([a-f0-9]{64})`/)[1];
+    const publicid = interaction.message?.embeds[0]?.description?.match(/\*\*User ID:\*\* `([a-f0-9]{64})`/)[1];
     if (!userStrictCheck(publicid)) return response(invalidPublicID);
     // fetch
-    const subreq = await Promise.race([getUserInfo(publicid), scheduler.wait(TIMEOUT)]);
+    const subreq = await Promise.race([getVerboseUserInfo(publicid), scheduler.wait(TIMEOUT)]);
     const result = await responseHandler(subreq);
     // get last segment time
     if (result.success) { // no request errors

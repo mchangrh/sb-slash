@@ -20,7 +20,7 @@ module.exports = {
       const timeSubmitted = await getLastSegmentTime(data.lastSegmentID);
       return response(componentResponse(
         formatUser(data, timeSubmitted),
-        userComponents(SBID, false),
+        userComponents(SBID, timeSubmitted == null),
         true
       ));
     };

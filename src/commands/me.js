@@ -105,7 +105,7 @@ module.exports = {
         if (result.success) { // no request errors
           const timeSubmitted = await format.getLastSegmentTime(result.data.lastSegmentID);
           const embed = format.formatUser(result.data, timeSubmitted);
-          const components = userComponents(SBID, false);
+          const components = userComponents(SBID, timeSubmitted == null);
           return response(componentResponse(embed, components, hide));
         } else handleError(result);
       } else if (cmdName === "showoff") { // showoff

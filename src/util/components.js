@@ -1,6 +1,6 @@
 const SBBROWSERURL = "https://sb.ltn.fi";
 
-exports.userComponents = (publicid, ephemeral) => {
+exports.userComponents = (publicid, hideLookupButton) => {
   const components = [{
     type: 1,
     components: [{
@@ -16,7 +16,7 @@ exports.userComponents = (publicid, ephemeral) => {
     style: 1,
     custom_id: "lookupsegment"
   };
-  if (!ephemeral) components[0].components.push(lookupButton);
+  if (!hideLookupButton) components[0].components.push(lookupButton);
   return components;
 };
 

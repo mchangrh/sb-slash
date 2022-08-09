@@ -1,7 +1,7 @@
 const { formatClassifyInfo } = require("../util/formatResponse.js");
 const { segmentIDOption, segmentIDRequired } = require("../util/commandOptions.js");
 const { classify } = require("../util/automod_api.js");
-const { embedResponse } = require("../util/discordResponse.js");
+const { embedResponse, contentResponse } = require("../util/discordResponse.js");
 const { sendClassify } = require("../util/classify.js");
 const categoryChoices = [{
   name: "Sponsor", value: "sponsor"

@@ -1,7 +1,7 @@
 const { hideOption, findOption, videoIDRequired } = require("../util/commandOptions.js");
 const { shareUnsubmitted } = require("../util/formatResponse.js");
 const { contentResponse } = require("../util/discordResponse.js");
-const regex = new RegExp(/(?:https:\/\/bin\.mchang\.xyz\/b\/)(.+)/);
+const regex = new RegExp(/https:\/\/bin\.mchang\.xyz\/b\/(.+)/);
 
 module.exports = {
   name: "shareunsubmitted",
