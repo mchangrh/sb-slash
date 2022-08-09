@@ -8,7 +8,7 @@ const categoryEmoji = {
 };
 
 function merge(ranges) {
-  var result = [], last;
+  let result = [], last;
   ranges.forEach(function (r) {
     if (!last || r[0] > last[1])
       result.push(last = r);
@@ -52,11 +52,10 @@ function generateDisplay(videoID, data, spots) {
   // emoji map
   displayMap = displayMap.map((seg) => categoryEmoji[seg]).join("");
 
-  const flatten = merge(data.map((d) => d.segment)).reduce((acc, cur) => acc += (cur[1] - cur[0]), 0);
+  const flatten = merge(data.map((d) => d.segment)).reduce((acc, cur) => acc + (cur[1] - cur[0]), 0);
   const newDuration = secondsToTime(videoDuration - flatten);
   const oldDuration = secondsToTime(videoDuration);
-  const response = `[${videoID}](https://www.youtube.com/watch?v=${videoID}) | ${oldDuration} -> ${newDuration} \n${displayMap}`;
-  return response;
+  return `[${videoID}](https://www.youtube.com/watch?v=${videoID}) | ${oldDuration} -> ${newDuration} \n${displayMap}`;
 }
 
 module.exports = {

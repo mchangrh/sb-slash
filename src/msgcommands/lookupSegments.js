@@ -1,5 +1,5 @@
 const { findVideoID, findSegmentUUID } = require("../util/validation.js");
-const { videoIDNotFound } = require("../util/invalidResponse.js");
+const { videoIDNotFound, timeoutResponse } = require("../util/invalidResponse.js");
 const { getSearchSegments, getSegmentInfo, responseHandler, TIMEOUT } = require("../util/min-api.js");
 const { formatSearchSegments, segmentsNotFoundEmbed } = require("../util/formatResponse.js");
 const { searchSegmentsComponents } = require("../util/components.js");

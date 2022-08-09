@@ -98,12 +98,11 @@ const formatAutoModField = (aiResult, videoID, prob) => {
   const slicedText = aiResult.text.length >= 500 ? aiResult.text.slice(0, 500) + "..." : aiResult.text;
   const submitLink = `https://www.youtube.com/watch?v=${videoID}&t=${aiResult.start-2}s#segments=[{"segment":[${aiResult.start}, ${aiResult.end}],"category":"${topCategoryName}","actionType":"skip"}]`;
   const topCategory = `${EMOJI_MAP[topCategoryName]}: ${intPercent(aiResult.probability)}`;
-  const field = {
+  return {
     name: `${secondsToTime(aiResult.start)}-${secondsToTime(aiResult.end)} | Missed ${topCategory}`,
     value: `${probEmoji}
     ${tripleTick+slicedText+tripleTick}[submit](${encodeURI(submitLink)})`
   };
-  return field;
 };
 
 module.exports = {

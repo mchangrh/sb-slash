@@ -18,7 +18,7 @@ module.exports = {
     let videoID = findVideoID(findOption(interaction, "videoid"));
     const hide = findOption(interaction, "hide") ?? false;
     // check for video ID
-    actionType = findOption(interaction, "actiontype") || "";
+    const actionType = findOption(interaction, "actiontype") || "";
     if (!videoID) return response(invalidVideoID);
     // setup
     const embed = emptyVideoEmbed(videoID);

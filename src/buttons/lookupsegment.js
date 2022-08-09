@@ -3,6 +3,7 @@ const { formatSegment } = require("../util/formatResponse.js");
 const { segmentComponents } = require("../util/components.js");
 const { invalidSegment, segmentNotFound, timeoutResponse, userNoSegments } = require("../util/invalidResponse.js");
 const { getSegmentInfo, responseHandler, TIMEOUT } = require("../util/min-api.js");
+const { contentResponse } = require("../util/discordResponse");
 
 module.exports = {
   name: "lookupsegment",

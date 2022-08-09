@@ -12,9 +12,9 @@ const getUserInfo = (publicid) =>
   fetch(`${BASEURL}/userInfo?publicUserID=${publicid}`);
 
 const getVerboseUserInfo = (publicid) => {
-  const values = ["userID","userName","minutesSaved","segmentCount","ignoredSegmentCount","viewCount","ignoredViewCount","warnings","reputation","vip","lastSegmentID","permissions"]
-  return fetch(`${BASEURL}/userinfo?publicUserID=${publicid}&values=${JSON.stringify(values)}`)
-}
+  const values = ["userID","userName","minutesSaved","segmentCount","ignoredSegmentCount","viewCount","ignoredViewCount","warnings","reputation","vip","lastSegmentID","permissions"];
+  return fetch(`${BASEURL}/userinfo?publicUserID=${publicid}&values=${JSON.stringify(values)}`);
+};
 
 const getUserInfoShowoff = (publicid) =>
   fetch(`${BASEURL}/userInfo?publicUserID=${publicid}&values=["segmentCount", "viewCount", "minutesSaved", "userName", "vip"]`);

@@ -29,5 +29,6 @@ module.exports = {
   usernameNotFound,
   videoIDNotFound,
   noOptions,
-  notVIP
+  notVIP,
+  userNoSegments
 };

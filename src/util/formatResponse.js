@@ -90,7 +90,7 @@ const formatUser = (result, submitted) => {
   const embed = emptyEmbed();
   embed.title = userName(result);
   embed.url = `https://sb.ltn.fi/userid/${result.userID}/`;
-  const canSubmit = result.permissions.filler
+  const canSubmit = result.permissions.filler;
   embed.description = `**Submitted:** ${result.segmentCount.toLocaleString("en-US")}
   **Reputation:** ${result.reputation.toFixed(2)}
   **Segment Views:** ${result.viewCount.toLocaleString("en-US")}
@@ -99,7 +99,7 @@ const formatUser = (result, submitted) => {
   **Ignored Submissions:** ${result.ignoredSegmentCount}
   **Ignored Views:** ${result.ignoredViewCount}
   **Submission Permission:** ${canSubmit ? "✅" : "❌"}`;
-  if (submitted !== null) {
+  if (submitted != null) {
     embed.description += `
     **Last Submission:** ${timeStamp(submitted)}
     \`${result.lastSegmentID}\`
@@ -245,7 +245,7 @@ const formatSearchSegments = (videoID, parsed, buttonOverrides) => {
     const name = segment.UUID;
     embed.fields.push({
       name,
-      value: `${EMOJI_MAP[segment.category]} [${segment.category}](${videoTimeLink(videoID, startTime, name)}) | ${formatVote(segment)} | ${`👀 ${segment.views}`} | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
+      value: `${EMOJI_MAP[segment.category]} [${segment.category}](${videoTimeLink(videoID, startTime, name)}) | ${formatVote(segment)} | 👀 ${segment.views} | ${actionType(segment.actionType)} | ${segmentTimes(startTime, endTime)}`
     });
   }
   return embed;
@@ -426,8 +426,7 @@ const shareUnsubmitted = (debugObj, videoID) => {
     delete r.source;
     return r;
   });
-  const submitLink = `https://www.youtube.com/watch?v=${videoID}#segments=${JSON.stringify(segments)}`;
-  return submitLink;
+  return `https://www.youtube.com/watch?v=${videoID}#segments=${JSON.stringify(segments)}`;
 };
 
 const axiosResponse = async (result) => {
@@ -462,7 +461,7 @@ const formatAutomodInfo = (data) => {
   // sort
   dbStats = dbStats.sort((a,b) => b.value-a.value);
   // send result
-  const embed = {
+  return {
     ...emptyEmbed(),
     title: "Automod Database Stats",
     description: `**Total**: ${total}
@@ -474,7 +473,6 @@ const formatAutomodInfo = (data) => {
       value: "```"+columnify(dbStats, columnifyConfig)+"```"
     }]
   };
-  return embed;
 };
 
 const formatClassifyInfo = (data) => {
@@ -492,7 +490,7 @@ const formatClassifyInfo = (data) => {
   // sort
   dbStats = dbStats.sort((a,b) => b.value-a.value);
   // send result
-  const embed = {
+  return {
     ...emptyEmbed(),
     title: "Classify Database Stats",
     description: `**Total**: ${total}
@@ -503,7 +501,6 @@ const formatClassifyInfo = (data) => {
       value: "```"+columnify(dbStats, columnifyConfig)+"```"
     }]
   };
-  return embed;
 };
 
 module.exports = {

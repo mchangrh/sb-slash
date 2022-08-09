@@ -1,7 +1,7 @@
 const { hideOption, findOption } = require("../util/commandOptions.js");
 const { formatUnsubmitted } = require("../util/formatResponse.js");
 const { contentResponse, embedResponse } = require("../util/discordResponse.js");
-const regex = new RegExp(/(?:https:\/\/bin\.mchang\.xyz\/b\/)(.+)/);
+const regex = new RegExp(/https:\/\/bin\.mchang\.xyz\/b\/(.+)/);
 
 module.exports = {
   name: "formatunsubmitted",
@@ -14,7 +14,7 @@ module.exports = {
   }, hideOption],
   execute: async ({ interaction, response }) => {
     // get params from discord
-    let binID = findOption(interaction, "binid") || "";
+    let binID = findOption(interaction, "binid") ?? "";
     if (regex.test(binID)) binID = binID.match(regex)[1];
     const hide = findOption(interaction, "hide") ?? true;
     const url = `https://bin.mchang.xyz/b/${binID}`;
