@@ -1,7 +1,7 @@
 const { formatUser, getLastSegmentTime } = require("../util/formatResponse.js");
 const { userComponents } = require("../util/components.js");
 const { noStoredID } = require("../util/invalidResponse.js");
-const { getUserInfo, TIMEOUT } = require("../util/min-api.js");
+const { getVerboseUserInfo, TIMEOUT } = require("../util/min-api.js");
 const { getSBID } = require("../util/cfkv.js");
 const { handleResponse } = require("../util/handleResponse.js");
 const { componentResponse } = require("../util/discordResponse.js");
@@ -15,7 +15,7 @@ module.exports = {
     const SBID = await getSBID(targetID);
     if (!SBID) return response(noStoredID);
     // fetch
-    const subreq = await Promise.race([getUserInfo(SBID), scheduler.wait(TIMEOUT)]);
+    const subreq = await Promise.race([getVerboseUserInfo(SBID), scheduler.wait(TIMEOUT)]);
     const successFunc = async (data) => {
       const timeSubmitted = await getLastSegmentTime(data.lastSegmentID);
       return response(componentResponse(
