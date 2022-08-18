@@ -284,8 +284,8 @@ const formatStatus = async (res) => {
         inline: true
       }, {
         name: "hostname",
-        value: data.hostname,
-        inline: false
+        value: '`' + data.hostname + '`',
+        inline: true
       }
     );
   }
