@@ -282,6 +282,10 @@ const formatStatus = async (res) => {
         name: "1 min /status requests",
         value: data.statusRequests,
         inline: true
+      }, {
+        name: "hostname",
+        value: data.hostname,
+        inline: false
       }
     );
   }
