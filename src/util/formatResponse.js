@@ -284,7 +284,7 @@ const formatStatus = async (res) => {
         inline: true
       }, {
         name: "hostname",
-        value: '`' + data.hostname + '`',
+        value: "`" + data.hostname + "`",
         inline: true
       }
     );
@@ -422,6 +422,27 @@ const formatUnsubmitted = (debugObj) => {
   return embed;
 };
 
+const formatUnsubmittedTrunacted = (debugObj) => {
+  // filtered and remapped
+  const videoIDs = [];
+  for (const [key, value] of Object.entries(debugObj)) {
+    for (const segment of value) {
+      if (segment.source !== 1) continue;
+      videoIDs.push(key);
+    }
+  }
+  // dedupe videos
+  const deduped = [...new Set(videoIDs)];
+  const embed = {
+    ...emptyEmbed(),
+    title: "Unsubmitted Segments",
+    description: deduped.map((v) => `[${v}](https://youtu.be/${v})`).join("\n")
+  };
+  embed.description += `\n\n[Playlist](https://www.youtube.com/watch_videos?video_ids=${deduped.join(",")})`;
+  embed.footer = { text: "Shortened due to size of debug" };
+  return embed;
+};
+
 const shareUnsubmitted = (debugObj, videoID) => {
   const segments = debugObj[videoID];
   if (segments.length === 0) return false;
@@ -521,6 +542,7 @@ module.exports = {
   formatResponseTime,
   formatUserStats,
   formatUnsubmitted,
+  formatUnsubmittedTrunacted,
   axiosResponse,
   secondsToTime,
   formatAutomodInfo,

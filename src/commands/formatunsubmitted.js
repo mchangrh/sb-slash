@@ -1,5 +1,5 @@
 const { hideOption, findOption } = require("../util/commandOptions.js");
-const { formatUnsubmitted } = require("../util/formatResponse.js");
+const { formatUnsubmitted, formatUnsubmittedTrunacted } = require("../util/formatResponse.js");
 const { contentResponse, embedResponse } = require("../util/discordResponse.js");
 const regex = new RegExp(/https:\/\/bin\.mchang\.xyz\/b\/(.+)/);
 
@@ -25,9 +25,11 @@ module.exports = {
     try {
       const json = await result.json();
       const unsubmitted = json.config.unsubmittedSegments;
-      const hasUnsubmitted = Object.values(unsubmitted).filter((x) => x.length)?.length;
+      const hasUnsubmitted = Object.values(unsubmitted).reduce((a, b) => a + b?.length ?? 0);
       if (!hasUnsubmitted) return response(contentResponse("No unsubmitted segments"));
-      return response(embedResponse(formatUnsubmitted(unsubmitted), hide));
+      // send shorter response if possible that it might be too long
+      const embed = (hasUnsubmitted >= 30) ? formatUnsubmittedTrunacted(unsubmitted) : formatUnsubmitted(unsubmitted);
+      return response(embedResponse(embed, hide));
     } catch (error) {
       return response(contentResponse("bad json - error" + error));
     }
