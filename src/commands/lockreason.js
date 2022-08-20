@@ -8,7 +8,7 @@ const { embedResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "lockreason",
-  description: "retrieves video lock reason & lock uesrs",
+  description: "Retrieve video lock reason & lock users",
   options: [
     videoIDRequired,
     hideOption

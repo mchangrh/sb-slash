@@ -10,7 +10,7 @@ const { componentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "userinfo",
-  description: "retrieves user info",
+  description: "Retrieve user info",
   options: [
     publicIDOptionOptional,
     userOptionOptional,

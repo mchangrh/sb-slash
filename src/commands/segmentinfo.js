@@ -9,7 +9,7 @@ const { componentResponse } = require("../util/discordResponse.js");
 
 module.exports = {
   name: "segmentinfo",
-  description: "retrieves segment info",
+  description: "Retrieve segment info",
   options: [
     segmentIDRequired,
     hideOption

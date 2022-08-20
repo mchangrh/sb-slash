@@ -8,7 +8,7 @@ const { handleResponse } = require("../util/handleResponse.js");
 
 module.exports = {
   name: "userstats",
-  description: "retrieves user statistics",
+  description: "Retrieve user statistics",
   options: [
     publicIDOptionRequired,
     {
