@@ -6,16 +6,16 @@ const { contentResponse, embedResponse } = require("../util/discordResponse.js")
 
 module.exports = {
   name: "userid",
-  description: "get ID from username",
+  description: "Get ID from username",
   options: [
     {
       name: "username",
-      description: "username",
+      description: "Username",
       type: 3,
       required: true
     }, {
       name: "exact",
-      description: "search for exact username",
+      description: "Search for exact username",
       type: 5,
       required: false
     }, hideOption

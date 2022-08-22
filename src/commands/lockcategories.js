@@ -7,7 +7,7 @@ const { embedResponse, contentResponse } = require("../util/discordResponse.js")
 
 module.exports = {
   name: "lockcategories",
-  description: "retrieves video lock categories",
+  description: "Retrieve video lock categories",
   options: [
     videoIDRequired,
     hideOption,
