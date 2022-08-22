@@ -365,8 +365,11 @@ const formatUserStats = (publicID, data, sort, piechart) => {
   for (const [key, value] of Object.entries(data.actionTypeCount)) {
     typeData.push({key, value, a:percentage(value)});
   }
-  // sort categorydata
-  if (sort) categoryData = categoryData.sort((a,b) => b.value-a.value);
+  // sort categorydata and typedata
+  if (sort) {
+    categoryData = categoryData.sort((a,b) => b.value-a.value);
+    typeData = typeData.sort((a,b) => b.value-a.value);
+  }
   // send result
   const embed = {
     ...emptyEmbed(),
