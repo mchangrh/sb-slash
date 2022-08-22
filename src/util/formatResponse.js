@@ -425,7 +425,7 @@ const formatUnsubmitted = (debugObj) => {
   return embed;
 };
 
-const formatUnsubmittedTrunacted = (debugObj) => {
+const formatUnsubmittedTruncated = (debugObj) => {
   // filtered and remapped
   const videoIDs = [];
   for (const [key, value] of Object.entries(debugObj)) {
@@ -545,7 +545,7 @@ module.exports = {
   formatResponseTime,
   formatUserStats,
   formatUnsubmitted,
-  formatUnsubmittedTrunacted,
+  formatUnsubmittedTruncated,
   axiosResponse,
   secondsToTime,
   formatAutomodInfo,
