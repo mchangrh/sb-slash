@@ -358,7 +358,7 @@ const formatUserStats = (publicID, data, sort, piechart) => {
     }
   };
   let categoryData = [];
-  const typeData = [];
+  let typeData = [];
   for (const [key, value] of Object.entries(data.categoryCount)) {
     categoryData.push({key, value, a:percentage(value)});
   }
