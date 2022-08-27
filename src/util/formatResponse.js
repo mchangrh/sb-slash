@@ -320,7 +320,7 @@ const formatResponseTime = (data) => {
     });
     const maxTime = Math.max(...processTimes, ...responseTimes, ...skipResponseTimes);
     embed.color = (maxTime > 1000) ? 0xff0000 : (maxTime > 500) ? 0xff7f00 : 0x00ff00;
-    const time = (x) => (x >= 1000 ? "💀 " : "") + formatTime(x);
+    const time = (x) => (x >= 1000 ? "💀 " : x >= 500 ? "⚠️" : "") + formatTime(x);
     processTimes = processTimes.map(time);
     responseTimes = responseTimes.map(time);
     skipResponseTimes = skipResponseTimes.map(time);
