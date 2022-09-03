@@ -75,7 +75,7 @@ const totalPages = (total) => {
   return rem === 0 ? quo-1 : Math.floor(quo);
 };
 
-const actionType = (type) => { return { "mute": "🔇", "skip": "⏭️", "full": "♾️", "poi": "📌" }[type]; };
+const actionType = (type) => { return { "mute": "🔇", "skip": "⏭️", "full": "♾️", "poi": "📌", "chapter": "🏷️" }[type]; };
 
 const segmentTimes = (start, end) =>
   (start == end)
