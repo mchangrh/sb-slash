@@ -454,7 +454,7 @@ const shareUnsubmitted = (debugObj, videoID) => {
     delete r.source;
     return r;
   });
-  return `https://www.youtube.com/watch?v=${videoID}#segments=${JSON.stringify(segments)}`;
+  return `https://www.youtube.com/watch?v=${videoID}#segments=${JSON.stringify(segments)}&utm_medium=social`;
 };
 
 const axiosResponse = async (result) => {
