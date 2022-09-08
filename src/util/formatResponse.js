@@ -257,6 +257,7 @@ const formatStatus = async (res) => {
     title: "SponsorBlock Server Status",
     url: "https://status.sponsor.ajay.app/"
   };
+  const transformHostname = (hostname) => "`" + hostname.replace(/sb-server-deployment-/,"") + "`";
   if (!res.ok) {
     embed.description = `Server Unavailable: ${res.status} ${res.statusText}`;
   } else {
@@ -284,7 +285,7 @@ const formatStatus = async (res) => {
         inline: true
       }, {
         name: "hostname",
-        value: "`" + data.hostname + "`",
+        value: transformHostname(data.hostname),
         inline: true
       }
     );
