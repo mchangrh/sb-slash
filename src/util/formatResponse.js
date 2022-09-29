@@ -276,8 +276,12 @@ const formatStatus = async (res) => {
         value: data.db,
         inline: true
       }, {
-        name: "Process Time",
+        name: "DB Process Time",
         value: `${data.processTime} ms`,
+        inline: true
+      }, {
+        name: "Redis Process Time",
+        value: `${data.redisProcessTime} ms`,
         inline: true
       }, {
         name: "1 min /status requests",
