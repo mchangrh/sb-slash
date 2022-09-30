@@ -44,10 +44,6 @@ const searchSegmentOptions = [
     name: "ignored",
     description: "include ignored segments (hidden or downvoted)",
     type: BOOLEAN
-  }, {
-    name: "json",
-    description: "return response as JSON",
-    type: BOOLEAN
   },
   hideOption
 ];
