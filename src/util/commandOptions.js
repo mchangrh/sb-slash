@@ -86,7 +86,6 @@ const categoryOption = {
   required: true,
   choices: categoryChoices
 };
-
 const actionTypeOption = {
   name: "actiontype",
   description: "actiontype to fetch",
@@ -96,6 +95,14 @@ const actionTypeOption = {
     { name: "skip", value: "skip" },
     { name: "mute", value: "mute" }
   ]
+};
+const languageRequired = {
+  name: "language",
+  description: "Language to fetch",
+  type: 3,
+  required: true,
+  min_length: 2,
+  max_length: 2
 };
 
 module.exports = {
@@ -112,5 +119,6 @@ module.exports = {
   uuidOption,
   categoryOption,
   actionTypeOption,
+  languageRequired,
   findOption
 };

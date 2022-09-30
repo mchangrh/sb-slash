@@ -45,3 +45,10 @@ exports.checkVIP = async (dUser) => {
     return vipCache === VIP_NONCE && dID;
   }
 };
+exports.getLang = async (lang) => {
+  const url = new URL(apiURL + "/language" + "?auth=" + MONGO_AUTH);
+  url.searchParams.append("lang", lang);
+  const result = await fetch(url);
+  if (result.ok) return (await result.json());
+  else return [];
+};
