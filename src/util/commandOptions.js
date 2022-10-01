@@ -98,11 +98,9 @@ const actionTypeOption = {
 };
 const languageRequired = {
   name: "language",
-  description: "Language to fetch",
+  description: "language to fetch",
   type: 3,
-  required: true,
-  min_length: 2,
-  max_length: 2
+  required: true
 };
 
 module.exports = {
