@@ -5,6 +5,9 @@ const typesString = `&actionTypes=${JSON.stringify(TYPES)}`;
 const getSkipSegments = (videoID, categoryParam) =>
   fetch(`${BASEURL}/skipSegments?videoID=${videoID}&${categoryParam}${typesString}`);
 
+const getSkipSegmentsByHash = (hash, categoryParam) =>
+  fetch(`${BASEURL}/skipSegments/${hash}?${categoryParam}${typesString}`);
+
 const getSearchSegments = (videoID, page, filterParam) =>
   fetch(`${BASEURL}/searchSegments?videoID=${videoID}${typesString}&page=${page}${filterParam}`);
 
@@ -155,6 +158,7 @@ module.exports = {
   TIMEOUT: 2500,
   getResponseTime,
   getSkipSegments,
+  getSkipSegmentsByHash,
   getSearchSegments,
   getUserInfo,
   getVerboseUserInfo,
