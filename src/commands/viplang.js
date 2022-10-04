@@ -1,4 +1,5 @@
 const { languageRequired, findOption } = require("../util/commandOptions.js");
+const { notVIP } = require("../util/invalidResponse.js");
 const { checkVIP, getLang } = require("../util/cfkv.js");
 const { contentResponse } = require("../util/discordResponse.js");
 
