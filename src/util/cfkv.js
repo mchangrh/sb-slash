@@ -46,7 +46,8 @@ exports.checkVIP = async (dUser) => {
   }
 };
 exports.getLang = async (lang) => {
-  const url = new URL(apiURL + "/language" + "?auth=" + MONGO_AUTH);
+  const url = new URL(apiURL + "/language");
+  url.searchParams.append("auth", MONGO_AUTH);
   url.searchParams.append("lang", lang);
   const result = await fetch(url);
   if (result.ok) return (await result.json());
