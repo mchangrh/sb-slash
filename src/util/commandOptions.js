@@ -97,7 +97,7 @@ const actionTypeOption = {
   ]
 };
 const languageRequired = {
-  name: "language",
+  name: "lang",
   description: "language to fetch",
   type: 3,
   required: true

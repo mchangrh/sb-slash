@@ -1,9 +1,9 @@
 const { axiosResponse } = require("../util/formatResponse.js");
 const { notVIP, invalidVideoID, noStoredID, invalidPublicID, noOptions } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
-const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired, publicIDOptionOptional,userOptionOptional,languageRequired } = require("../util/commandOptions.js");
+const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired, publicIDOptionOptional,userOptionOptional } = require("../util/commandOptions.js");
 const { userLinkCheck, userLinkExtract, findVideoID, userStrictCheck } = require("../util/validation.js");
-const { checkVIP, getSBID, lookupSBID, postSBID, getLang } = require("../util/cfkv.js");
+const { checkVIP, getSBID, lookupSBID, postSBID } = require("../util/cfkv.js");
 const { actionRow, lockResponse, categoryComponent } = require("../util/lockCommon.js");
 const { log } = require("../util/log.js");
 const { contentResponse, componentResponse } = require("../util/discordResponse.js");
@@ -95,11 +95,6 @@ module.exports = {
     description: "Add user to /me database",
     type: 1,
     options: [ userOptionRequired, publicIDOptionRequired]
-  }, {
-    name: "language",
-    description: "Look up VIPs with language",
-    type: 1,
-    options: [ languageRequired ]
   }],
   execute: async ({ interaction, response }) => {
     // check that user is VIP
@@ -211,15 +206,6 @@ module.exports = {
       const res = await postSBID(user, publicid)
         .catch((err) => apiErr(err));
       return response(contentResponse(await res.text(), true));
-    } else if (cmdName === "language") {
-      const language = nested("language");
-      const res = await getLang(language)
-        .catch((err) => apiErr(err));
-      // remove non-pingable users
-      const users = res
-        .filter((user) => user?.ping !== false)
-        .map((user) => `<@!${user}>`).join("\n");
-      return response(contentResponse(users, false));
     }
     // response
     const resResponse = await axiosResponse(result);
