@@ -1,5 +1,12 @@
-const { languageRequired } = require("../util/commandOptions.js");
-const { getLang } = require("../util/cfkv.js");
+const { languageRequired, findOption } = require("../util/commandOptions.js");
+const { checkVIP, getLang } = require("../util/cfkv.js");
+const { contentResponse } = require("../util/discordResponse.js");
+
+const apiErr = (error) => {
+  // eslint-disable-next-line no-console
+  console.log(error);
+  throw "api error";
+};
 
 module.exports = {
   name: "viplang",
@@ -12,7 +19,7 @@ module.exports = {
     const dUser = interaction?.member;
     const isVIP = await checkVIP(dUser);
     if (!isVIP) return response(notVIP);
-    const language = nested("lang");
+    const language = findOption(interaction, "lang");
     const res = await getLang(language)
       .catch((err) => apiErr(err));
     // remove non-pingable users
