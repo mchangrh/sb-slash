@@ -19,6 +19,17 @@ const contentResponse = (content, hide = true) => {
   return result;
 };
 
+const pingResponse = (content, hide = true, ping = false) => {
+  const result = response(hide);
+  if (!ping) {
+    result.data.allowed_mentions = {
+      parse: []
+    };
+  }
+  result.data.content = content;
+  return result;
+};
+
 const componentResponse = (embed, components, hide = true) => {
   const result = response(hide);
   result.data.embeds = [embed];
@@ -29,5 +40,6 @@ const componentResponse = (embed, components, hide = true) => {
 module.exports = {
   embedResponse,
   contentResponse,
+  pingResponse,
   componentResponse
 };

@@ -6,7 +6,7 @@ const commands = [
   "lockcategories", "lockreason", "searchsegments",
   "status", "responsetime",
   "github", "invite", "logo",
-  "vip",
+  "vip", "viplang",
   "formatunsubmitted", "automod", "classify", "shareunsubmitted", "previewvideo"
 ];
 const buttons = [

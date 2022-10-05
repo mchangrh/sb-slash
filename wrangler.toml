@@ -1,8 +1,8 @@
 name = "sb-slash"
-type = "webpack"
 account_id = "d5ccf1d783709bbdc23fc29786f38736"
 workers_dev = true
-webpack_config = "webpack.config.js"
+main = "dist/main.js"
+node_compat = true
 kv_namespaces = [
   { binding = "USERS", id="1ad3c273d35c47ccb0b1178aef25bb91" }
 ]
@@ -10,3 +10,6 @@ compatibility_date = "2022-02-17"
 
 [env.dev]
 name = "sb-slash-dev"
+
+[build]
+command = "npm run pack"
