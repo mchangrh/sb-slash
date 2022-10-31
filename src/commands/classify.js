@@ -13,7 +13,7 @@ const categoryChoices = [{
 
 const options = [{
   name: "get",
-  description: "Get caregory suggestion",
+  description: "Get category suggestion",
   type: 1,
   options: [segmentIDOption, {
     name: "batch",
