@@ -536,6 +536,30 @@ const formatClassifyInfo = (data) => {
   };
 };
 
+const formatSus = (data) => {
+  if (!data.found) return {
+    ...emptyEmbed(),
+    title: "user not on sus list"
+  };
+  const filterFlag = Math.floor((data.flagged_segments / data.filtered_segments) * 100);
+  const totalFlag = Math.floor((data.flagged_segments / data.total_segments) * 100);
+  const emojiFlag = (percent) => (percent >= 90) ? percent + "% 🛑"
+    : (percent >= 50) ? percent + "% ⚠️"
+      : percent + "%";
+  return {
+    ...emptyEmbed(),
+    title: "sus check",
+    description: `sus: ${emojiFlag(filterFlag)} | ${emojiFlag(totalFlag)}`,
+    fields: [{
+      name: "filtered flagged",
+      value: `${data.flagged_segments} / ${data.filtered_segments} (${filterFlag}%)`
+    }, {
+      name: "total flagged",
+      value: `${data.flagged_segments} / ${data.total_segments} (${totalFlag}%)`
+    }]
+  };
+};
+
 module.exports = {
   formatShowoff,
   formatSegment,
@@ -558,5 +582,6 @@ module.exports = {
   segmentsNotFoundEmbed,
   emptyEmbed,
   emptyVideoEmbed,
-  shareUnsubmitted
+  shareUnsubmitted,
+  formatSus
 };

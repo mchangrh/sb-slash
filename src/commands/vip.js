@@ -1,4 +1,4 @@
-const { axiosResponse } = require("../util/formatResponse.js");
+const { axiosResponse, formatSus } = require("../util/formatResponse.js");
 const { notVIP, invalidVideoID, noStoredID, invalidPublicID, noOptions } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
 const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired, publicIDOptionOptional,userOptionOptional } = require("../util/commandOptions.js");
@@ -6,7 +6,8 @@ const { userLinkCheck, userLinkExtract, findVideoID, userStrictCheck } = require
 const { checkVIP, getSBID, lookupSBID, postSBID } = require("../util/cfkv.js");
 const { actionRow, lockResponse, categoryComponent } = require("../util/lockCommon.js");
 const { log } = require("../util/log.js");
-const { contentResponse, componentResponse } = require("../util/discordResponse.js");
+const { contentResponse, componentResponse, embedResponse } = require("../util/discordResponse.js");
+const { isSus } = require("../util/sus-api.js");
 
 module.exports = {
   name: "vip",
@@ -55,17 +56,16 @@ module.exports = {
     name: "feature",
     description: "Grant features to a user",
     type: 1,
-    options: [publicIDOptionOptional, userOptionOptional,
-      {
-        name: "feature",
-        description: "feature to grant",
-        type: 3,
-        required: true,
-        choices: [
-          { name: "Chapter", value: "0" },
-          { name: "Filler", value: "1" }
-        ]
-      }]
+    options: [{
+      name: "feature",
+      description: "feature to grant",
+      type: 3,
+      required: true,
+      choices: [
+        { name: "Chapter", value: "0" },
+        { name: "Filler", value: "1" }
+      ]
+    }, publicIDOptionOptional, userOptionOptional ]
   }, {
     name: "lookup",
     description: "Look up Discord ID from SBID",
@@ -95,6 +95,11 @@ module.exports = {
     description: "Add user to /me database",
     type: 1,
     options: [ userOptionRequired, publicIDOptionRequired]
+  }, {
+    name: "suslist",
+    description: "Check user against private sus list",
+    type: 1,
+    options: [ publicIDOptionRequired ]
   }],
   execute: async ({ interaction, response }) => {
     // check that user is VIP
@@ -197,15 +202,21 @@ module.exports = {
       return response(componentResponse(embed, actionRow(categoryComponent), true));
     } else if (cmdName === "banstatus") {
       const publicid = nested("publicid");
-      const res = await vip.getBanStatus(publicid)
+      result = await vip.getBanStatus(publicid)
         .catch((err) => apiErr(err));
-      return response(contentResponse(res.banned ? "🔨 Banned" : "Not Banned"));
+      return response(contentResponse(result.banned ? "🔨 Banned" : "Not Banned"));
     } else if (cmdName === "adduser") {
       const user = nested("user");
       const publicid = nested("publicid");
-      const res = await postSBID(user, publicid)
+      result = await postSBID(user, publicid)
         .catch((err) => apiErr(err));
-      return response(contentResponse(await res.text(), true));
+      return response(contentResponse(await result.text(), true));
+    } else if (cmdName === "suslist") {
+      const publicid = nested("publicid");
+      result = await isSus(publicid)
+        .catch((err) => apiErr(err));
+      const data = await result.json();
+      return response(embedResponse(formatSus(data)));
     }
     // response
     const resResponse = await axiosResponse(result);
