@@ -195,7 +195,7 @@ const formatLockReason = (videoID, result) => {
     const categories = active.map((lock) => EMOJI_MAP[lock.category]);
     embed.fields = [{
       name: `${categories.join("")} | ${active[0]?.userName ?? active[0].userID}`,
-      value: active[0]?.reason ?? "-"
+      value: active[0]?.reason?.length ? active[0]?.reason : "-"
     }];
   } else {
     // filter out lock duplicates
