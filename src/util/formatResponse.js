@@ -125,6 +125,9 @@ const formatSegment = (result) => {
   **Video Duration:** ${secondsToTime(result.videoDuration)}
   **User ID:** \`${result.userID}\`
   `;
+  if (result.actionType === "chapter") {
+    embed.description += `**Chapter Name:** ${result.description}`;
+  }
   return embed;
 };
 
