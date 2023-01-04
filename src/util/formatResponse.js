@@ -95,8 +95,8 @@ const formatUser = (result, submitted) => {
   **Segment Views:** ${result.viewCount.toLocaleString("en-US")}
   **Time Saved:** ${minutesReadable(result.minutesSaved)}
   **Current Warnings:** ${result.warnings}
-  **Ignored Submissions:** ${result.ignoredSegmentCount}
-  **Ignored Views:** ${result.ignoredViewCount}`;
+  **Ignored Submissions:** ${result.ignoredSegmentCount.toLocaleString("en-US")}
+  **Ignored Views:** ${result.ignoredViewCount.toLocaleString("en-US")}`;
   if (submitted != null) {
     embed.description += `
     **Last Submission:** ${timeStamp(submitted)}
