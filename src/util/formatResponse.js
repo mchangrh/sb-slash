@@ -547,6 +547,10 @@ const formatSus = (data) => {
   const emojiFlag = (percent) => (percent >= 90) ? percent + "% 🛑"
     : (percent >= 50) ? percent + "% ⚠️"
       : percent + "%";
+  const flagTypes = Object.entries(data.bot_types).map(([type, flags]) => {
+    const percent = Math.floor((flags / data.flagged_segments) * 100);
+    return `**${type}**: ${flags}/${data.flagged_segments} (${percent}%)`;
+  }).join("\n");
   return {
     ...emptyEmbed(),
     title: "sus check",
@@ -557,6 +561,9 @@ const formatSus = (data) => {
     }, {
       name: "total flagged",
       value: `${data.flagged_segments} / ${data.total_segments} (${totalFlag}%)`
+    }, {
+      name: "flag types",
+      value: flagTypes
     }]
   };
 };
