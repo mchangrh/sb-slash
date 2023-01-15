@@ -1,7 +1,7 @@
 const { axiosResponse, formatSus } = require("../util/formatResponse.js");
 const { notVIP, invalidVideoID, noStoredID, invalidPublicID, noOptions } = require("../util/invalidResponse.js");
 const { vip } = require("../util/min-api.js");
-const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired, publicIDOptionOptional,userOptionOptional } = require("../util/commandOptions.js");
+const { videoIDRequired, uuidOption, userOptionRequired, categoryOption, publicIDOptionRequired, publicIDOptionOptional,userOptionOptional, hideOption } = require("../util/commandOptions.js");
 const { userLinkCheck, userLinkExtract, findVideoID, userStrictCheck } = require("../util/validation.js");
 const { checkVIP, getSBID, lookupSBID, postSBID } = require("../util/cfkv.js");
 const { actionRow, lockResponse, categoryComponent } = require("../util/lockCommon.js");
@@ -99,7 +99,7 @@ module.exports = {
     name: "suslist",
     description: "Check user against private sus list",
     type: 1,
-    options: [ publicIDOptionRequired ]
+    options: [ publicIDOptionRequired, hideOption ]
   }],
   execute: async ({ interaction, response }) => {
     // check that user is VIP
@@ -213,10 +213,11 @@ module.exports = {
       return response(contentResponse(await result.text(), true));
     } else if (cmdName === "suslist") {
       const publicid = nested("publicid");
+      const hide = nested("hide") ?? true;
       result = await isSus(publicid)
         .catch((err) => apiErr(err));
       const data = await result.json();
-      return response(embedResponse(formatSus(data)));
+      return response(embedResponse(formatSus(data), hide));
     }
     // response
     const resResponse = await axiosResponse(result);
