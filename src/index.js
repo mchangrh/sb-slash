@@ -14,7 +14,8 @@ const buttons = [
   "searchsegments_next", "searchsegments_prev",
   "lock_submit", "lock_category_select", "lock_type_select", "lock_reason",
   "automod_done", "automod_reject", "automod_skip", "automod_accept", "automod_deny",
-  "classify_done", "classify_reject", "classify_skip", "classify_vip", "classify_ignore", "classify_flag"
+  "classify_done", "classify_reject", "classify_skip", "classify_vip", "classify_ignore", "classify_flag",
+  "suslist_ban"
 ];
 const messageCmd = {
   "Lookup Segments": "lookupSegments",

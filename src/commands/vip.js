@@ -6,8 +6,9 @@ const { userLinkCheck, userLinkExtract, findVideoID, userStrictCheck } = require
 const { checkVIP, getSBID, lookupSBID, postSBID } = require("../util/cfkv.js");
 const { actionRow, lockResponse, categoryComponent } = require("../util/lockCommon.js");
 const { log } = require("../util/log.js");
-const { contentResponse, componentResponse, embedResponse } = require("../util/discordResponse.js");
+const { contentResponse, componentResponse } = require("../util/discordResponse.js");
 const { isSus } = require("../util/sus-api.js");
+const { susListComponents } = require("../util/suslist.js");
 
 module.exports = {
   name: "vip",
@@ -217,7 +218,7 @@ module.exports = {
       result = await isSus(publicid)
         .catch((err) => apiErr(err));
       const data = await result.json();
-      return response(embedResponse(formatSus(data), hide));
+      return response(componentResponse(formatSus(data, publicid), susListComponents, hide));
     }
     // response
     const resResponse = await axiosResponse(result);

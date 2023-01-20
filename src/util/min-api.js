@@ -120,6 +120,10 @@ const addFeature = (userID, feature) => {
   };
   return fetch(url, req);
 };
+const susBan = (userID) => {
+  const url = `${BASEURL}/shadowBanUser?adminUserID=${VIP_USER_ID}&userID=${userID}&enabled=true&unHideOldSubmissions=true`;
+  return fetch(url, { method: "POST"});
+};
 
 // response handler
 const statusTextMap = {
@@ -178,7 +182,8 @@ module.exports = {
     deleteWarning,
     lockCategories,
     getBanStatus,
-    addFeature
+    addFeature,
+    susBan
   },
   responseHandler
 };

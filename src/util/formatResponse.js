@@ -537,13 +537,14 @@ const formatClassifyInfo = (data) => {
   };
 };
 
-const formatSus = (data) => {
+const formatSus = (data, sbID) => {
   if (!data.found) return {
     ...emptyEmbed(),
     title: "user not on sus list"
   };
   const filterFlag = Math.floor((data.flagged_segments / data.filtered_segments) * 100);
   const totalFlag = Math.floor((data.flagged_segments / data.total_segments) * 100);
+  const isSus = filterFlag >= 90 && totalFlag >= 90;
   const emojiFlag = (percent) => (percent >= 90) ? percent + "% 🛑"
     : (percent >= 50) ? percent + "% ⚠️"
       : percent + "%";
@@ -553,7 +554,7 @@ const formatSus = (data) => {
   }).join("\n");
   return {
     ...emptyEmbed(),
-    title: "sus check",
+    title: "sus check" + (isSus ? " 🛑" : ""),
     description: `sus: ${emojiFlag(filterFlag)} | ${emojiFlag(totalFlag)}`,
     fields: [{
       name: "filtered flagged",
@@ -564,7 +565,11 @@ const formatSus = (data) => {
     }, {
       name: "flag types",
       value: flagTypes
-    }]
+    }],
+    timestamp: new Date().toISOString(),
+    footer: {
+      text: sbID
+    }
   };
 };
 
