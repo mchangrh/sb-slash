@@ -8,7 +8,7 @@ const { actionRow, lockResponse, categoryComponent } = require("../util/lockComm
 const { log } = require("../util/log.js");
 const { contentResponse, componentResponse } = require("../util/discordResponse.js");
 const { isSus } = require("../util/sus-api.js");
-const { susListComponents } = require("../util/suslist.js");
+const { bannedComponents, susListComponents } = require("../util/suslist.js");
 
 module.exports = {
   name: "vip",
@@ -218,7 +218,9 @@ module.exports = {
       result = await isSus(publicid)
         .catch((err) => apiErr(err));
       const data = await result.json();
-      return response(componentResponse(formatSus(data, publicid), susListComponents, hide));
+      const isBanned = await vip.getBanStatus(publicid);
+      const components = isBanned.banned ? bannedComponents :  susListComponents;
+      return response(componentResponse(formatSus(data, publicid), components, hide));
     }
     // response
     const resResponse = await axiosResponse(result);

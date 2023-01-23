@@ -9,6 +9,19 @@ const susListComponents = [{
   }]
 }];
 
+const bannedComponents = [{
+  type: 1,
+  components: [{
+    type: 2,
+    label: "User Already Banned",
+    disabled: true,
+    style: 2,
+    custom_id: "suslist_null",
+    emoji: { name: "🔨" }
+  }]
+}];
+
 module.exports = {
-  susListComponents
+  susListComponents,
+  bannedComponents
 };
