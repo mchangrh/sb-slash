@@ -544,8 +544,8 @@ const formatSus = (data, sbID) => {
   };
   const filterFlag = Math.floor((data.flagged_segments / data.filtered_segments) * 100);
   const totalFlag = Math.floor((data.flagged_segments / data.total_segments) * 100);
-  const isSus = filterFlag >= 90 && totalFlag >= 90;
-  const emojiFlag = (percent) => (percent >= 90) ? percent + "% 🛑"
+  const isSus = filterFlag >= 80 && totalFlag >= 80;
+  const emojiFlag = (percent) => (percent >= 80) ? percent + "% 🛑"
     : (percent >= 50) ? percent + "% ⚠️"
       : percent + "%";
   const flagTypes = Object.entries(data.bot_types).map(([type, flags]) => {

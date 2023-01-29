@@ -121,7 +121,7 @@ const addFeature = (userID, feature) => {
   return fetch(url, req);
 };
 const susBan = (userID) => {
-  const url = `${BASEURL}/shadowBanUser?adminUserID=${VIP_USER_ID}&userID=${userID}&enabled=true&unHideOldSubmissions=true`;
+  const url = `${BASEURL}/shadowBanUser?adminUserID=${VIP_USER_ID}&userID=${userID}&enabled=true&unHideOldSubmissions=true&type=2`;
   return fetch(url, { method: "POST"});
 };
 
