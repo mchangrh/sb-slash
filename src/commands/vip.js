@@ -10,6 +10,13 @@ const { contentResponse, componentResponse } = require("../util/discordResponse.
 const { isSus } = require("../util/sus-api.js");
 const { bannedComponents, susListComponents } = require("../util/suslist.js");
 
+const pingOption = {
+  name: "ping",
+  description: "Ping user",
+  type: 5,
+  required: false
+};
+
 module.exports = {
   name: "vip",
   description: "VIP-only commands",
@@ -71,7 +78,7 @@ module.exports = {
     name: "lookup",
     description: "Look up Discord ID from SBID",
     type: 1,
-    options: [ publicIDOptionRequired ]
+    options: [ publicIDOptionRequired, pingOption ]
   }, {
     name: "unwarn",
     description: "Remove warning from a user",
@@ -176,12 +183,14 @@ module.exports = {
     } else if (cmdName === "lookup") {
       const SBID = nested("publicid");
       const dID = await lookupSBID(SBID);
+      const ping = nested("ping");
+      const mentions = ping ? { users: [dID] } : { parse: [] };
       return response({
         type: 4,
         data: {
-          content: dID ? `<@!${dID}>` : "Not found",
-          allowed_mentions: { parse: [] },
-          flags: 64
+          content: dID ? `<@${dID}>` : "Not found",
+          allowed_mentions: mentions,
+          flags: ping ? 0 : 64
         }
       });
     } else if (cmdName === "unwarn") {
