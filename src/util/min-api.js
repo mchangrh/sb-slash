@@ -1,6 +1,7 @@
 const BASEURL = "https://sponsor.ajay.app/api";
-const { TYPES } = require("sb-category-type");
+const { TYPES, CATEGORY_NAMES } = require("sb-category-type");
 const typesString = `&actionTypes=${JSON.stringify(TYPES)}`;
+const categoryString = `&categories=${JSON.stringify(CATEGORY_NAMES)}`;
 
 const getSkipSegments = (videoID, categoryParam) =>
   fetch(`${BASEURL}/skipSegments?videoID=${videoID}&${categoryParam}${typesString}`);
@@ -32,7 +33,7 @@ const getLockCategories = (videoID, actionType) =>
   fetch(`${BASEURL}/lockCategories?videoID=${videoID}&actionType=${actionType}`);
 
 const getLockReason = (videoID) =>
-  fetch(`${BASEURL}/lockReason?videoID=${videoID}`);
+  fetch(`${BASEURL}/lockReason?videoID=${videoID}${categoryString}${typesString}`);
 
 const getStatus = () =>
   fetch(`${BASEURL}/status`);
