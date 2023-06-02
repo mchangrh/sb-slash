@@ -566,7 +566,7 @@ const formatSus = (data, sbID) => {
       name: "flag types",
       value: flagTypes
     }],
-    timestamp: new Date().toISOString(),
+    timestamp: (data.last_updated ? new Date(data.last_updated * 1000) : new Date()).toISOString(),
     footer: {
       text: sbID
     }
