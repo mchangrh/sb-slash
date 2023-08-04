@@ -71,7 +71,8 @@ module.exports = {
       required: true,
       choices: [
         { name: "Chapter", value: "0" },
-        { name: "Filler", value: "1" }
+        { name: "Filler", value: "1" },
+        { name: "DeArrow Titles", value: "2" }
       ]
     }, publicIDOptionOptional, userOptionOptional ]
   }, {
