@@ -1,7 +1,7 @@
 // SB, sb-slash testing
 const VIPROLES = ["755511470305050715", "930314535963861092"];
 
-const apiURL = "https://mongo.mchang.xyz/sb-slash";
+const apiURL = "https://mongo.ash.mmpc.me/sb-slash";
 
 const userAPIURL = new URL(apiURL + "/user" + "?auth=" + MONGO_AUTH);
 

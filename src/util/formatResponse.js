@@ -312,7 +312,7 @@ const formatResponseTime = (data) => {
   // preformatting
   const embed = {
     title: "SB Server Response Graph",
-    url: "https://graph.sb.mchang.xyz",
+    url: "https://graph.sb.blabdu.de",
     description: "Last | 5 Minute Average | 15 Minute Average"
   };
   try {
@@ -392,7 +392,7 @@ const formatUserStats = (publicID, data, sort, piechart) => {
   });
   if (piechart) {
     const rand = Math.random().toString(16).substring(2,6);
-    embed.image = { url: `https://img.sb.mchang.xyz/pie?userID=${publicID}&value=${rand}` };
+    embed.image = { url: `https://img.sb.blabdu.de/pie?userID=${publicID}&value=${rand}` };
   }
   return embed;
 };

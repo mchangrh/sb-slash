@@ -5,7 +5,7 @@ const commands = [
   "segmentinfo", "userid",
   "lockcategories", "lockreason", "searchsegments",
   "status", "responsetime",
-  "github", "invite", "logo",
+  "github", "invite",
   "vip", "viplang",
   "formatunsubmitted", "automod", "classify", "shareunsubmitted", "previewvideo"
 ];

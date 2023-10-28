@@ -1,7 +1,7 @@
 # sb-slash
 Retrieve [SponsorBlock](https://github.com/ajayyy/SponsorBlock) segments and user info with slash commands, buttons and message commands.
 
-[Invite](https://slash.sb.mchang.xyz/invite)
+[Invite](https://slash.sb.blabdu.de/invite)
 
 ## slash commands
 ```

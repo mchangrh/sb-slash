@@ -42,7 +42,7 @@ const getUserStats = (userID) =>
   fetch(`${BASEURL}/userStats?publicUserID=${userID}&fetchCategoryStats=true&fetchActionTypeStats=true`);
 
 const getResponseTime = () => {
-  const url = "https://status.sb.mchang.xyz/all";
+  const url = "https://status.sb.blabdu.de/all";
   return fetch(url).then((res) => res.json());
 };
 

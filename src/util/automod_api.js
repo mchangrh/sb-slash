@@ -1,4 +1,4 @@
-const ML_URL = "https://ml.sb.mchang.xyz";
+const ML_URL = "https://ml.sb.blabdu.de";
 
 const getUrl = (path, endpoint, options) => {
   const url = new URL(`${ML_URL}/${path}/${endpoint}?auth=${ML_AUTH}`);
