@@ -15,19 +15,19 @@ const uaArray = {
 exports.parseUserAgent = (userAgent) => {
   const ua = userAgent.toLowerCase();
   if (ua.startsWith(uaArray.chromium)) {
-    return `<:chromium:882089632731369522>/${versionRegex(ua, uaArray.chromium)}`;
+    return `<:chromium:1270521580161732629>/${versionRegex(ua, uaArray.chromium)}`;
   } else if (ua.startsWith(uaArray.edge)) {
-    return `<:edge:882089632471347292>/${versionRegex(ua, uaArray.edge)}`;
+    return `<:edge:1270522404052930560>/${versionRegex(ua, uaArray.edge)}`;
   } else if (ua.startsWith(uaArray.firefox)) {
-    return `<:firefox:882089632777523200>/${versionRegex(ua, uaArray.firefox)}`;
+    return `<:firefox:1270521540181757962>/${versionRegex(ua, uaArray.firefox)}`;
   } else if (ua.startsWith(uaArray.vanced)) {
-    return `<:vanced:882089632555216916>/${versionRegex(ua, uaArray.vanced)}`;
+    return `<:vanced:1270521638357565521>/${versionRegex(ua, uaArray.vanced)}`;
   } else if (ua.startsWith(uaArray.mpv)) {
-    return `<:mpv:882089632681058374>/${versionRegex(ua, uaArray.mpv)}`;
+    return `<:mpv:1270521562864418816>/${versionRegex(ua, uaArray.mpv)}`;
   } else if (ua.startsWith(uaArray.node)) {
-    return `Node/${versionRegex(ua, uaArray.node)}`;
+    return `<node:1270522693078225077>/${versionRegex(ua, uaArray.node)}`;
   } else if (/[a-z]{32}\/v[\d.]+/.test(ua)) {
-    return `<:chromium:882089632731369522> -like/${versionRegex(ua, "")}`;
+    return `<:chromium:1270521580161732629> -like/${versionRegex(ua, "")}`;
   } else {
     return ua || "none";
   }
