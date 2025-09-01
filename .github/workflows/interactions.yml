@@ -5,10 +5,9 @@ jobs:
   update-interactions:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install deps
-        run: npm ci
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4.1.0
+      - run: pnpm i
       - name: Update interactions
         env:
           CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
