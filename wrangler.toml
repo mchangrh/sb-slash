@@ -1,8 +1,7 @@
 name = "sb-slash"
 account_id = "d5ccf1d783709bbdc23fc29786f38736"
 workers_dev = true
-main = "dist/main.js"
-node_compat = true
+main = "src/index.js"
 kv_namespaces = [
   { binding = "USERS", id="1ad3c273d35c47ccb0b1178aef25bb91" }
 ]

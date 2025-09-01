@@ -38,14 +38,11 @@
     "sb-category-type": "1.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.12",
-    "@babel/preset-env": "^7.20.2",
-    "babel-loader": "^9.1.2",
-    "core-js": "^3.27.1",
-    "deep-equal": "^2.2.0",
-    "dotenv": "^16.0.3",
-    "eslint": "^8.31.0",
-    "slash-commands": "^1.5.0",
-    "webpack-cli": "^5.0.1"
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.34.0",
+    "dotenv": "^17.2.1",
+    "eslint": "^9.34.0",
+    "globals": "^16.3.0",
+    "slash-commands": "^1.5.0"
   }
 }
