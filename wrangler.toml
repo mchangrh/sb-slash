@@ -9,6 +9,3 @@ compatibility_date = "2022-02-17"
 
 [env.dev]
 name = "sb-slash-dev"
-
-[build]
-command = "npm run pack"

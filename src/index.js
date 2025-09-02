@@ -1,29 +1,9 @@
 const { verifyKey } = require("discord-interactions");
-const commands = [
-  "userinfo", "showoff", "userstats", "me",
-  "skipsegments",
-  "segmentinfo", "userid",
-  "lockcategories", "lockreason", "searchsegments",
-  "status", "responsetime",
-  "github", "invite",
-  "vip", "viplang",
-  "formatunsubmitted", "automod", "classify", "shareunsubmitted", "previewvideo"
-];
-const buttons = [
-  "lookupuser", "lookupsegment",
-  "searchsegments_next", "searchsegments_prev",
-  "lock_submit", "lock_category_select", "lock_type_select", "lock_reason",
-  "automod_done", "automod_reject", "automod_skip", "automod_accept", "automod_deny",
-  "classify_done", "classify_reject", "classify_skip", "classify_vip", "classify_ignore", "classify_flag",
-  "suslist_ban"
-];
-const messageCmd = {
-  "Lookup Segments": "lookupSegments",
-  "Open in sb.ltn.fi": "openinsbltnfi"
-};
-const userCmd = {
-  "Lookup userinfo": "userinfo"
-};
+
+const { commands } = require("./util/_commands.js");
+const { buttons } = require("./util/_buttons.js");
+const { messageCommands } = require("./util/_messagecmd.js");
+const { userCommands } = require("./util/_usercmd.js");
 
 // Util to send a JSON response
 const jsonResponse = (obj) => new Response(JSON.stringify(obj), {
@@ -65,17 +45,17 @@ const handleInteraction = async ({ request, wait }) => {
   try {
     if (body.type == 2) { // handle commands
       const commandName = body.data.name;
-      if (Object.keys(userCmd).includes(commandName)) { // check in userCmd list
+      if (Object.keys(userCommands).includes(commandName)) { // check in userCmd list
+        const command = userCommands[commandName];
         // load and execute
-        const command = require(`./usercommands/${userCmd[commandName]}.js`);
         return await command.execute({ interaction: body, response: jsonResponse, wait });
-      } else if (Object.keys(messageCmd).includes(commandName)) { // check in messageCmd list
+      } else if (Object.keys(messageCommands).includes(commandName)) { // check in messageCmd list
         // load and execute
-        const command = require(`./msgcommands/${messageCmd[commandName]}.js`);
+        const command = messageCommands[commandName];
         return await command.execute({ interaction: body, response: jsonResponse, wait });
-      } else if (commands.find((e) => e === commandName)) { // check in commands list
+      } else if (Object.keys(commands).includes(commandName)) { // check in commands list
         // load and execute
-        const command = require(`./commands/${commandName}.js`);
+        const command = commands[commandName];
         return await command.execute({ interaction: body, response: jsonResponse, wait });
       } else { // command not found, 404
         return new Response(null, { status: 404 });
@@ -86,7 +66,7 @@ const handleInteraction = async ({ request, wait }) => {
       if (!buttons.find((e) => e === buttonName))
         return new Response(null, { status: 404 });
       // load and execute
-      const button = require(`./buttons/${buttonName}.js`);
+      const button = buttons[buttonName];
       return await button.execute({ interaction: body, response: jsonResponse, wait });
     } else { // if not ping, button or message send 501
       return new Response(null, { status: 501 });
