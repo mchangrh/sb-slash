@@ -573,6 +573,27 @@ const formatSus = (data, sbID) => {
   };
 };
 
+const formatTrueVotes = (segmentid, data) => {
+  return {
+    ...emptyEmbed(),
+    title: "True Votes",
+    url: `https://sb.ltn.fi/uuid/${segmentid}/`,
+    fields: [{
+      name: "Current votes",
+      value: data.current_votes.toString(),
+      inline: true
+    }, {
+      name: "True Votes",
+      value: data.true_votes.toString(),
+      inline: true
+    }, {
+      name: "Ignored Votes",
+      value: (data.ignored_votes ?? 0).toString(),
+      inline: true
+    }]
+  };
+};
+
 module.exports = {
   formatShowoff,
   formatSegment,
@@ -596,5 +617,6 @@ module.exports = {
   emptyEmbed,
   emptyVideoEmbed,
   shareUnsubmitted,
-  formatSus
+  formatSus,
+  formatTrueVotes
 };

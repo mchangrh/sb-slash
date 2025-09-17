@@ -20,6 +20,7 @@ const userinfo = require("../commands/userinfo.js");
 const userstats = require("../commands/userstats.js");
 const vip = require("../commands/vip.js");
 const viplang = require("../commands/viplang.js");
+const truevotes = require("../commands/truevotes.js");
 
 module.exports = {
   commands: {
@@ -44,6 +45,7 @@ module.exports = {
     userinfo,
     userstats,
     vip,
-    viplang
+    viplang,
+    truevotes
   }
 };
