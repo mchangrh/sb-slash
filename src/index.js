@@ -63,7 +63,7 @@ const handleInteraction = async ({ request, wait }) => {
     } else if (body.type == 3) { // handle buttons
       // Locate button data
       const buttonName = body.data.custom_id;
-      if (!buttons.find((e) => e === buttonName))
+      if (!Object.keys(buttons).includes(buttonName))
         return new Response(null, { status: 404 });
       // load and execute
       const button = buttons[buttonName];
